@@ -4,3 +4,10 @@
 .Ruserdata
 /.quarto/
 docs
+.CondaPkg/
+
+mnist_train.csv
+Icon?
+*.jls
+catboost_info/
+.vscode/
