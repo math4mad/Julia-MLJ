@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Course Title"
+  title: "Julia MLJ"
   sidebar:
     background: primary
     # logo: "images/logo.png"
@@ -11,18 +11,21 @@ website:
     align: center
     tools:
       - icon: github
-        href: https://github.com/Pakillo/quarto-course-website-template
+        href: https://github.com/math4mad/Julia-MLJ
         text: GitHub
     style: docked
     contents:
       - href: index.qmd
         text: Home
+      - href: getting-started.qmd
+        text: getting-stared
+      - href: 24-classfication-comparison.qmd
+        text: classfication-comparsion
       - href: schedule.qmd
         text: Schedule
       - href: materials.qmd
         text: Materials
-      - href: https://github.com/Pakillo/quarto-course-website-template/discussions
-        text: Forum
+      
 
 format:
   html:
