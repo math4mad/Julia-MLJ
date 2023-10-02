@@ -2,9 +2,65 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Course Title",
+    "title": "Julia MLJ",
     "section": "",
     "text": "Course info & details here"
+  },
+  {
+    "objectID": "24-classfication-comparison.html",
+    "href": "24-classfication-comparison.html",
+    "title": "several classfication model comparison",
+    "section": "",
+    "text": "import MLJ:predict,predict_mode\n    using  MLJ,GLMakie,DataFrames,Random\n    Random.seed!(1222)\n\nTaskLocalRNG()"
+  },
+  {
+    "objectID": "24-classfication-comparison.html#load-package",
+    "href": "24-classfication-comparison.html#load-package",
+    "title": "several classfication model comparison",
+    "section": "",
+    "text": "import MLJ:predict,predict_mode\n    using  MLJ,GLMakie,DataFrames,Random\n    Random.seed!(1222)\n\nTaskLocalRNG()"
+  },
+  {
+    "objectID": "24-classfication-comparison.html#make-data",
+    "href": "24-classfication-comparison.html#make-data",
+    "title": "several classfication model comparison",
+    "section": "2. make data",
+    "text": "2. make data\n\n    function circle_data()\n    X, y = make_circles(400; noise=0.1, factor=0.3)\n    df = DataFrame(X)\n    df.y = y\n    return df\n    end\n    function moons_data()\n        X, y = make_moons(400; noise=0.1)\n        df = DataFrame(X)\n        df.y = y\n        return df\n    end\n    function blob_data()\n        X, y = make_blobs(400, 2; centers=2, cluster_std=[1.0, 2.0])\n        df = DataFrame(X)\n        df.y = y\n        return df\n    end\n    #cat=df1.y|&gt;levels|&gt;unique\n    colors=[:green, :purple]\n\n2-element Vector{Symbol}:\n :green\n :purple"
+  },
+  {
+    "objectID": "24-classfication-comparison.html#define-function",
+    "href": "24-classfication-comparison.html#define-function",
+    "title": "several classfication model comparison",
+    "section": "3. define function",
+    "text": "3. define function\n\nfunction plot_origin_data(df)\n    fig=Figure()\n    ax=Axis(fig[1,1])\n    local cat=df.y|&gt;levels|&gt;unique\n    \n    local colors=[:green, :purple]\n    for (i,c) in enumerate(cat)\n        d=df[y.==c,:]\n        scatter!(ax, d[:,1],d[:,2],color=(colors[i],0.6))\n        #@show d\n    end\n    fig\nend\n\nnums=100\nfunction boundary_data(df,;n=nums)\n    n1=n2=n\n    xlow,xhigh=extrema(df[:,:x1])\n    ylow,yhigh=extrema(df[:,:x2])\n    tx = LinRange(xlow,xhigh,n1)\n    ty = LinRange(ylow,yhigh,n2)\n    x_test = mapreduce(collect, hcat, Iterators.product(tx, ty));\n    x_test=MLJ.table(x_test')\n    return tx,ty,x_test\nend\n\nfunction plot_desc_boudary(fig,ytest,i;df=df1,row=1)\n        tx,ty,xs,ys, xtest=boundary_data(df)\n        local ax=Axis(fig[row,i],title=\"$(names[i])\")\n\n        contourf!(ax, tx,ty,ytest,levels=length(cat),colormap=:phase)\n\n        for (i,c) in enumerate(cat)\n            d=df[y.==c,:]\n            scatter!(ax, d[:,1],d[:,2],color=(colors[i],0.6))\n        end\n        hidedecorations!(ax)\nend\n\nplot_desc_boudary (generic function with 1 method)"
+  },
+  {
+    "objectID": "24-classfication-comparison.html#define-machine-learning-models",
+    "href": "24-classfication-comparison.html#define-machine-learning-models",
+    "title": "several classfication model comparison",
+    "section": "4. define machine learning models",
+    "text": "4. define machine learning models\n\n    using CatBoost.MLJCatBoostInterface\n    SVC = @load SVC pkg=LIBSVM   \n    KNNClassifier = @load KNNClassifier pkg=NearestNeighborModels\n    DecisionTreeClassifier = @load DecisionTreeClassifier pkg=DecisionTree\n    RandomForestClassifier = @load RandomForestClassifier pkg=DecisionTree\n    CatBoostClassifier = @load CatBoostClassifier pkg=CatBoost\n    BayesianLDA = @load BayesianLDA pkg=MultivariateStats\n    Booster = @load AdaBoostStumpClassifier pkg=DecisionTree\n    \n    models=[KNNClassifier,DecisionTreeClassifier,RandomForestClassifier,CatBoostClassifier,BayesianLDA,SVC]\n    names=[\"KNN\",\"DecisionTree\",\"RandomForest\",\"CatBoost\",\"BayesianLDA\",\"SVC\"]\n\n\n\n    function _fit(df::DataFrame,m)\n    X,y=df[:,1:2],df[:,3]\n    _,_,xtest=boundary_data(df;n=nums)\n    local predict= m==MLJLIBSVMInterface.SVC  ? MLJ.predict : MLJ.predict_mode \n    model=m()\n   mach = machine(model, X, y)|&gt;fit!\n   yhat=predict(mach, xtest)\n   ytest=yhat|&gt;Array|&gt;d-&gt;reshape(d,nums,nums)\n   return  ytest\nend\n\n\n\nfunction plot_desc_boudary(fig,ytest,i;df=df1,row=1)\n    tx,ty,_=boundary_data(df)\n    local y=df.y\n    local ax=Axis(fig[row,i],title=\"$(names[i])\")\n    cat=y|&gt;levels|&gt;unique\n    contourf!(ax, tx,ty,ytest,levels=length(cat),colormap=:redsblues)\n\n    for (i,c) in enumerate(cat)\n        d=df[y.==c,:]\n        scatter!(ax, d[:,1],d[:,2],color=(colors[i],0.6))\n    end\n    hidedecorations!(ax)\n    \n\nend\n\nfunction plot_comparsion(testdata,df;row=1)\n    \n    for (i,data) in enumerate(testdata)\n        plot_desc_boudary(fig,data,i;df=df,row=row)\n    end\n    fig\nend\n\nimport MLJLIBSVMInterface ✔\nimport NearestNeighborModels ✔\nimport MLJDecisionTreeInterface ✔\nimport MLJDecisionTreeInterface ✔\nimport CatBoost ✔\nimport MLJMultivariateStatsInterface ✔\nimport MLJDecisionTreeInterface ✔\n\n\n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n\n\nplot_comparsion (generic function with 2 methods)\n\n\n\nfig=Figure(resolution=(2100,1000))\nfunction plot_comparsion(testdata,df,row=1)\n    \n    for i in eachindex(testdata)\n        plot_desc_boudary(fig,testdata[i],i;df=df,row=row)\n    end\n    fig\nend\n\n\n\ndf1=circle_data()\n\nytest1=[_fit(df1,m) for (i,m) in enumerate(models)]\n\ndf2=moons_data()\nytest2=[_fit(df2,m) for (i,m) in enumerate(models)]\n\ndf3=blob_data()\nytest3=[_fit(df3,m) for (i,m) in enumerate(models)]\n\ndfs=[df2,df1,df3]\nytests=[ytest2,ytest1,ytest3]\n\nfig=Figure(resolution=(2100,1000))\n\nfor (df, data,i)  in zip(dfs,ytests,[1,2,3])\n    plot_comparsion(data,df;row=i)\nend\n\nfig\n\n[ Info: Training machine(KNNClassifier(K = 5, …), …).\n[ Info: Training machine(DecisionTreeClassifier(max_depth = -1, …), …).\n[ Info: Training machine(RandomForestClassifier(max_depth = -1, …), …).\n[ Info: Training machine(CatBoostClassifier(iterations = 1000, …), …).\n[ Info: Training machine(BayesianLDA(method = gevd, …), …).\n[ Info: Training machine(SVC(kernel = RadialBasis, …), …).\n[ Info: Training machine(KNNClassifier(K = 5, …), …).\n[ Info: Training machine(DecisionTreeClassifier(max_depth = -1, …), …).\n[ Info: Training machine(RandomForestClassifier(max_depth = -1, …), …).\n[ Info: Training machine(CatBoostClassifier(iterations = 1000, …), …).\n[ Info: Training machine(BayesianLDA(method = gevd, …), …).\n[ Info: Training machine(SVC(kernel = RadialBasis, …), …).\n[ Info: Training machine(KNNClassifier(K = 5, …), …).\n[ Info: Training machine(DecisionTreeClassifier(max_depth = -1, …), …).\n[ Info: Training machine(RandomForestClassifier(max_depth = -1, …), …).\n[ Info: Training machine(CatBoostClassifier(iterations = 1000, …), …).\n[ Info: Training machine(BayesianLDA(method = gevd, …), …).\n[ Info: Training machine(SVC(kernel = RadialBasis, …), …)."
+  },
+  {
+    "objectID": "getting-started.html",
+    "href": "getting-started.html",
+    "title": "getting started with MLJ",
+    "section": "",
+    "text": "import MLJ:evaluate\n    using MLJ,DataFrames\n    iris=load_iris()|&gt;DataFrame\n    display(first(iris,10))\n\n10×5 DataFrame\n\n\n\nRow\nsepal_length\nsepal_width\npetal_length\npetal_width\ntarget\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\nCat…\n\n\n\n\n1\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n2\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n3\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n4\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n5\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n6\n5.4\n3.9\n1.7\n0.4\nsetosa\n\n\n7\n4.6\n3.4\n1.4\n0.3\nsetosa\n\n\n8\n5.0\n3.4\n1.5\n0.2\nsetosa\n\n\n9\n4.4\n2.9\n1.4\n0.2\nsetosa\n\n\n10\n4.9\n3.1\n1.5\n0.1\nsetosa"
+  },
+  {
+    "objectID": "getting-started.html#loading-package-and-data",
+    "href": "getting-started.html#loading-package-and-data",
+    "title": "getting started with MLJ",
+    "section": "",
+    "text": "import MLJ:evaluate\n    using MLJ,DataFrames\n    iris=load_iris()|&gt;DataFrame\n    display(first(iris,10))\n\n10×5 DataFrame\n\n\n\nRow\nsepal_length\nsepal_width\npetal_length\npetal_width\ntarget\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\nCat…\n\n\n\n\n1\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n2\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n3\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n4\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n5\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n6\n5.4\n3.9\n1.7\n0.4\nsetosa\n\n\n7\n4.6\n3.4\n1.4\n0.3\nsetosa\n\n\n8\n5.0\n3.4\n1.5\n0.2\nsetosa\n\n\n9\n4.4\n2.9\n1.4\n0.2\nsetosa\n\n\n10\n4.9\n3.1\n1.5\n0.1\nsetosa"
+  },
+  {
+    "objectID": "getting-started.html#build-decisiontree-model",
+    "href": "getting-started.html#build-decisiontree-model",
+    "title": "getting started with MLJ",
+    "section": "2. build DecisionTree model",
+    "text": "2. build DecisionTree model\n\n    y, X = unpack(iris, ==(:target); rng=123);\n    Tree = @load DecisionTreeClassifier pkg=DecisionTree\n    tree = Tree()\n    evaluate(tree, X, y, resampling=CV(shuffle=true),\n                 measures=[log_loss, accuracy],\n                 verbosity=0)\n\n[ Info: For silent loading, specify `verbosity=0`. \n\n\nimport MLJDecisionTreeInterface ✔\n\n\n\nPerformanceEvaluation object with these fields:\n  model, measure, operation, measurement, per_fold,\n  per_observation, fitted_params_per_fold,\n  report_per_fold, train_test_rows, resampling, repeats\nExtract:\n┌──────────────────────┬──────────────┬─────────────┬─────────┬─────────────────\n│ measure              │ operation    │ measurement │ 1.96*SE │ per_fold       ⋯\n├──────────────────────┼──────────────┼─────────────┼─────────┼─────────────────\n│ LogLoss(             │ predict      │ 1.92        │ 1.9     │ [2.22e-16, 1.4 ⋯\n│   tol = 2.22045e-16) │              │             │         │                ⋯\n│ Accuracy()           │ predict_mode │ 0.947       │ 0.0528  │ [1.0, 0.96, 1. ⋯\n└──────────────────────┴──────────────┴─────────────┴─────────┴─────────────────\n                                                                1 column omitted"
   },
   {
     "objectID": "materials.html",
