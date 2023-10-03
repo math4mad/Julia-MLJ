@@ -7,73 +7,213 @@
     "text": "Course info & details here"
   },
   {
-    "objectID": "24-classfication-comparison.html",
-    "href": "24-classfication-comparison.html",
+    "objectID": "category/classification/24-classfication-comparison.html",
+    "href": "category/classification/24-classfication-comparison.html",
     "title": "several classfication model comparison",
     "section": "",
-    "text": "import MLJ:predict,predict_mode\n    using  MLJ,GLMakie,DataFrames,Random\n    Random.seed!(1222)\n\nTaskLocalRNG()"
+    "text": "Code\n    import MLJ:predict,predict_mode\n    using  MLJ,GLMakie,DataFrames,Random\n    Random.seed!(1222)\n\n\nTaskLocalRNG()"
   },
   {
-    "objectID": "24-classfication-comparison.html#load-package",
-    "href": "24-classfication-comparison.html#load-package",
+    "objectID": "category/classification/24-classfication-comparison.html#load-package",
+    "href": "category/classification/24-classfication-comparison.html#load-package",
     "title": "several classfication model comparison",
     "section": "",
-    "text": "import MLJ:predict,predict_mode\n    using  MLJ,GLMakie,DataFrames,Random\n    Random.seed!(1222)\n\nTaskLocalRNG()"
+    "text": "Code\n    import MLJ:predict,predict_mode\n    using  MLJ,GLMakie,DataFrames,Random\n    Random.seed!(1222)\n\n\nTaskLocalRNG()"
   },
   {
-    "objectID": "24-classfication-comparison.html#make-data",
-    "href": "24-classfication-comparison.html#make-data",
+    "objectID": "category/classification/24-classfication-comparison.html#make-data",
+    "href": "category/classification/24-classfication-comparison.html#make-data",
     "title": "several classfication model comparison",
     "section": "2. make data",
-    "text": "2. make data\n\n    function circle_data()\n    X, y = make_circles(400; noise=0.1, factor=0.3)\n    df = DataFrame(X)\n    df.y = y\n    return df\n    end\n    function moons_data()\n        X, y = make_moons(400; noise=0.1)\n        df = DataFrame(X)\n        df.y = y\n        return df\n    end\n    function blob_data()\n        X, y = make_blobs(400, 2; centers=2, cluster_std=[1.0, 2.0])\n        df = DataFrame(X)\n        df.y = y\n        return df\n    end\n    #cat=df1.y|&gt;levels|&gt;unique\n    colors=[:green, :purple]\n\n2-element Vector{Symbol}:\n :green\n :purple"
+    "text": "2. make data\n\n\nCode\n    function circle_data()\n    X, y = make_circles(400; noise=0.1, factor=0.3)\n    df = DataFrame(X)\n    df.y = y\n    return df\n    end\n    function moons_data()\n        X, y = make_moons(400; noise=0.1)\n        df = DataFrame(X)\n        df.y = y\n        return df\n    end\n    function blob_data()\n        X, y = make_blobs(400, 2; centers=2, cluster_std=[1.0, 2.0])\n        df = DataFrame(X)\n        df.y = y\n        return df\n    end\n    #cat=df1.y|&gt;levels|&gt;unique\n    colors=[:green, :purple]\n\n\n2-element Vector{Symbol}:\n :green\n :purple"
   },
   {
-    "objectID": "24-classfication-comparison.html#define-function",
-    "href": "24-classfication-comparison.html#define-function",
+    "objectID": "category/classification/24-classfication-comparison.html#define-function",
+    "href": "category/classification/24-classfication-comparison.html#define-function",
     "title": "several classfication model comparison",
     "section": "3. define function",
-    "text": "3. define function\n\nfunction plot_origin_data(df)\n    fig=Figure()\n    ax=Axis(fig[1,1])\n    local cat=df.y|&gt;levels|&gt;unique\n    \n    local colors=[:green, :purple]\n    for (i,c) in enumerate(cat)\n        d=df[y.==c,:]\n        scatter!(ax, d[:,1],d[:,2],color=(colors[i],0.6))\n        #@show d\n    end\n    fig\nend\n\nnums=100\nfunction boundary_data(df,;n=nums)\n    n1=n2=n\n    xlow,xhigh=extrema(df[:,:x1])\n    ylow,yhigh=extrema(df[:,:x2])\n    tx = LinRange(xlow,xhigh,n1)\n    ty = LinRange(ylow,yhigh,n2)\n    x_test = mapreduce(collect, hcat, Iterators.product(tx, ty));\n    x_test=MLJ.table(x_test')\n    return tx,ty,x_test\nend\n\nfunction plot_desc_boudary(fig,ytest,i;df=df1,row=1)\n        tx,ty,xs,ys, xtest=boundary_data(df)\n        local ax=Axis(fig[row,i],title=\"$(names[i])\")\n\n        contourf!(ax, tx,ty,ytest,levels=length(cat),colormap=:phase)\n\n        for (i,c) in enumerate(cat)\n            d=df[y.==c,:]\n            scatter!(ax, d[:,1],d[:,2],color=(colors[i],0.6))\n        end\n        hidedecorations!(ax)\nend\n\nplot_desc_boudary (generic function with 1 method)"
+    "text": "3. define function\n\n\nCode\nfunction plot_origin_data(df)\n    fig=Figure()\n    ax=Axis(fig[1,1])\n    local cat=df.y|&gt;levels|&gt;unique\n    \n    local colors=[:green, :purple]\n    for (i,c) in enumerate(cat)\n        d=df[y.==c,:]\n        scatter!(ax, d[:,1],d[:,2],color=(colors[i],0.6))\n        #@show d\n    end\n    fig\nend\n\nnums=100\nfunction boundary_data(df,;n=nums)\n    n1=n2=n\n    xlow,xhigh=extrema(df[:,:x1])\n    ylow,yhigh=extrema(df[:,:x2])\n    tx = LinRange(xlow,xhigh,n1)\n    ty = LinRange(ylow,yhigh,n2)\n    x_test = mapreduce(collect, hcat, Iterators.product(tx, ty));\n    x_test=MLJ.table(x_test')\n    return tx,ty,x_test\nend\n\nfunction plot_desc_boudary(fig,ytest,i;df=df1,row=1)\n        tx,ty,xs,ys, xtest=boundary_data(df)\n        local ax=Axis(fig[row,i],title=\"$(names[i])\")\n\n        contourf!(ax, tx,ty,ytest,levels=length(cat),colormap=:phase)\n\n        for (i,c) in enumerate(cat)\n            d=df[y.==c,:]\n            scatter!(ax, d[:,1],d[:,2],color=(colors[i],0.6))\n        end\n        hidedecorations!(ax)\nend\n\n\nplot_desc_boudary (generic function with 1 method)"
   },
   {
-    "objectID": "24-classfication-comparison.html#define-machine-learning-models",
-    "href": "24-classfication-comparison.html#define-machine-learning-models",
+    "objectID": "category/classification/24-classfication-comparison.html#define-machine-learning-models",
+    "href": "category/classification/24-classfication-comparison.html#define-machine-learning-models",
     "title": "several classfication model comparison",
     "section": "4. define machine learning models",
-    "text": "4. define machine learning models\n\n    using CatBoost.MLJCatBoostInterface\n    SVC = @load SVC pkg=LIBSVM   \n    KNNClassifier = @load KNNClassifier pkg=NearestNeighborModels\n    DecisionTreeClassifier = @load DecisionTreeClassifier pkg=DecisionTree\n    RandomForestClassifier = @load RandomForestClassifier pkg=DecisionTree\n    CatBoostClassifier = @load CatBoostClassifier pkg=CatBoost\n    BayesianLDA = @load BayesianLDA pkg=MultivariateStats\n    Booster = @load AdaBoostStumpClassifier pkg=DecisionTree\n    \n    models=[KNNClassifier,DecisionTreeClassifier,RandomForestClassifier,CatBoostClassifier,BayesianLDA,SVC]\n    names=[\"KNN\",\"DecisionTree\",\"RandomForest\",\"CatBoost\",\"BayesianLDA\",\"SVC\"]\n\n\n\n    function _fit(df::DataFrame,m)\n    X,y=df[:,1:2],df[:,3]\n    _,_,xtest=boundary_data(df;n=nums)\n    local predict= m==MLJLIBSVMInterface.SVC  ? MLJ.predict : MLJ.predict_mode \n    model=m()\n   mach = machine(model, X, y)|&gt;fit!\n   yhat=predict(mach, xtest)\n   ytest=yhat|&gt;Array|&gt;d-&gt;reshape(d,nums,nums)\n   return  ytest\nend\n\n\n\nfunction plot_desc_boudary(fig,ytest,i;df=df1,row=1)\n    tx,ty,_=boundary_data(df)\n    local y=df.y\n    local ax=Axis(fig[row,i],title=\"$(names[i])\")\n    cat=y|&gt;levels|&gt;unique\n    contourf!(ax, tx,ty,ytest,levels=length(cat),colormap=:redsblues)\n\n    for (i,c) in enumerate(cat)\n        d=df[y.==c,:]\n        scatter!(ax, d[:,1],d[:,2],color=(colors[i],0.6))\n    end\n    hidedecorations!(ax)\n    \n\nend\n\nfunction plot_comparsion(testdata,df;row=1)\n    \n    for (i,data) in enumerate(testdata)\n        plot_desc_boudary(fig,data,i;df=df,row=row)\n    end\n    fig\nend\n\nimport MLJLIBSVMInterface ✔\nimport NearestNeighborModels ✔\nimport MLJDecisionTreeInterface ✔\nimport MLJDecisionTreeInterface ✔\nimport CatBoost ✔\nimport MLJMultivariateStatsInterface ✔\nimport MLJDecisionTreeInterface ✔\n\n\n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n\n\nplot_comparsion (generic function with 2 methods)\n\n\n\nfig=Figure(resolution=(2100,1000))\nfunction plot_comparsion(testdata,df,row=1)\n    \n    for i in eachindex(testdata)\n        plot_desc_boudary(fig,testdata[i],i;df=df,row=row)\n    end\n    fig\nend\n\n\n\ndf1=circle_data()\n\nytest1=[_fit(df1,m) for (i,m) in enumerate(models)]\n\ndf2=moons_data()\nytest2=[_fit(df2,m) for (i,m) in enumerate(models)]\n\ndf3=blob_data()\nytest3=[_fit(df3,m) for (i,m) in enumerate(models)]\n\ndfs=[df2,df1,df3]\nytests=[ytest2,ytest1,ytest3]\n\nfig=Figure(resolution=(2100,1000))\n\nfor (df, data,i)  in zip(dfs,ytests,[1,2,3])\n    plot_comparsion(data,df;row=i)\nend\n\nfig\n\n[ Info: Training machine(KNNClassifier(K = 5, …), …).\n[ Info: Training machine(DecisionTreeClassifier(max_depth = -1, …), …).\n[ Info: Training machine(RandomForestClassifier(max_depth = -1, …), …).\n[ Info: Training machine(CatBoostClassifier(iterations = 1000, …), …).\n[ Info: Training machine(BayesianLDA(method = gevd, …), …).\n[ Info: Training machine(SVC(kernel = RadialBasis, …), …).\n[ Info: Training machine(KNNClassifier(K = 5, …), …).\n[ Info: Training machine(DecisionTreeClassifier(max_depth = -1, …), …).\n[ Info: Training machine(RandomForestClassifier(max_depth = -1, …), …).\n[ Info: Training machine(CatBoostClassifier(iterations = 1000, …), …).\n[ Info: Training machine(BayesianLDA(method = gevd, …), …).\n[ Info: Training machine(SVC(kernel = RadialBasis, …), …).\n[ Info: Training machine(KNNClassifier(K = 5, …), …).\n[ Info: Training machine(DecisionTreeClassifier(max_depth = -1, …), …).\n[ Info: Training machine(RandomForestClassifier(max_depth = -1, …), …).\n[ Info: Training machine(CatBoostClassifier(iterations = 1000, …), …).\n[ Info: Training machine(BayesianLDA(method = gevd, …), …).\n[ Info: Training machine(SVC(kernel = RadialBasis, …), …)."
+    "text": "4. define machine learning models\n\n\nCode\n    using CatBoost.MLJCatBoostInterface\n    SVC = @load SVC pkg=LIBSVM   \n    KNNClassifier = @load KNNClassifier pkg=NearestNeighborModels\n    DecisionTreeClassifier = @load DecisionTreeClassifier pkg=DecisionTree\n    RandomForestClassifier = @load RandomForestClassifier pkg=DecisionTree\n    CatBoostClassifier = @load CatBoostClassifier pkg=CatBoost\n    BayesianLDA = @load BayesianLDA pkg=MultivariateStats\n    Booster = @load AdaBoostStumpClassifier pkg=DecisionTree\n    \n    models=[KNNClassifier,DecisionTreeClassifier,RandomForestClassifier,CatBoostClassifier,BayesianLDA,SVC]\n    names=[\"KNN\",\"DecisionTree\",\"RandomForest\",\"CatBoost\",\"BayesianLDA\",\"SVC\"]\n   function _fit(df::DataFrame,m)\n    X,y=df[:,1:2],df[:,3]\n    _,_,xtest=boundary_data(df;n=nums)\n    local predict= m==MLJLIBSVMInterface.SVC  ? MLJ.predict : MLJ.predict_mode \n    model=m()\n   mach = machine(model, X, y)|&gt;fit!\n   yhat=predict(mach, xtest)\n   ytest=yhat|&gt;Array|&gt;d-&gt;reshape(d,nums,nums)\n   return  ytest\nend\n\n\n\nfunction plot_desc_boudary(fig,ytest,i;df=df1,row=1)\n    tx,ty,_=boundary_data(df)\n    local y=df.y\n    local ax=Axis(fig[row,i],title=\"$(names[i])\")\n    cat=y|&gt;levels|&gt;unique\n    contourf!(ax, tx,ty,ytest,levels=length(cat),colormap=:redsblues)\n\n    for (i,c) in enumerate(cat)\n        d=df[y.==c,:]\n        scatter!(ax, d[:,1],d[:,2],color=(colors[i],0.6))\n    end\n    hidedecorations!(ax)\n    \n\nend\n\nfunction plot_comparsion(testdata,df;row=1)\n    \n    for (i,data) in enumerate(testdata)\n        plot_desc_boudary(fig,data,i;df=df,row=row)\n    end\n    fig\nend\n\n\n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: For silent loading, specify `verbosity=0`. \n\n\nimport MLJLIBSVMInterface ✔\nimport NearestNeighborModels ✔\nimport MLJDecisionTreeInterface ✔\nimport MLJDecisionTreeInterface ✔\nimport CatBoost ✔\nimport MLJMultivariateStatsInterface ✔\nimport MLJDecisionTreeInterface ✔\n\n\nplot_comparsion (generic function with 1 method)\n\n\n\n\nCode\nfig=Figure(resolution=(2100,1000))\nfunction plot_comparsion(testdata,df,row=1)\n    \n    for i in eachindex(testdata)\n        plot_desc_boudary(fig,testdata[i],i;df=df,row=row)\n    end\n    fig\nend\n\n\n\ndf1=circle_data()\n\nytest1=[_fit(df1,m) for (i,m) in enumerate(models)]\n\ndf2=moons_data()\nytest2=[_fit(df2,m) for (i,m) in enumerate(models)]\n\ndf3=blob_data()\nytest3=[_fit(df3,m) for (i,m) in enumerate(models)]\n\ndfs=[df2,df1,df3]\nytests=[ytest2,ytest1,ytest3]\n\nfig=Figure(resolution=(2100,1000))\n\nfor (df, data,i)  in zip(dfs,ytests,[1,2,3])\n    plot_comparsion(data,df;row=i)\nend\n\nfig\n\n\n[ Info: Training machine(KNNClassifier(K = 5, …), …).\n[ Info: Training machine(DecisionTreeClassifier(max_depth = -1, …), …).\n[ Info: Training machine(RandomForestClassifier(max_depth = -1, …), …).\n[ Info: Training machine(CatBoostClassifier(iterations = 1000, …), …).\n[ Info: Training machine(BayesianLDA(method = gevd, …), …).\n[ Info: Training machine(SVC(kernel = RadialBasis, …), …).\n[ Info: Training machine(KNNClassifier(K = 5, …), …).\n[ Info: Training machine(DecisionTreeClassifier(max_depth = -1, …), …).\n[ Info: Training machine(RandomForestClassifier(max_depth = -1, …), …).\n[ Info: Training machine(CatBoostClassifier(iterations = 1000, …), …).\n[ Info: Training machine(BayesianLDA(method = gevd, …), …).\n[ Info: Training machine(SVC(kernel = RadialBasis, …), …).\n[ Info: Training machine(KNNClassifier(K = 5, …), …).\n[ Info: Training machine(DecisionTreeClassifier(max_depth = -1, …), …).\n[ Info: Training machine(RandomForestClassifier(max_depth = -1, …), …).\n[ Info: Training machine(CatBoostClassifier(iterations = 1000, …), …).\n[ Info: Training machine(BayesianLDA(method = gevd, …), …).\n[ Info: Training machine(SVC(kernel = RadialBasis, …), …)."
   },
   {
-    "objectID": "getting-started.html",
-    "href": "getting-started.html",
-    "title": "getting started with MLJ",
-    "section": "",
-    "text": "import MLJ:evaluate\n    using MLJ,DataFrames\n    iris=load_iris()|&gt;DataFrame\n    display(first(iris,10))\n\n10×5 DataFrame\n\n\n\nRow\nsepal_length\nsepal_width\npetal_length\npetal_width\ntarget\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\nCat…\n\n\n\n\n1\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n2\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n3\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n4\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n5\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n6\n5.4\n3.9\n1.7\n0.4\nsetosa\n\n\n7\n4.6\n3.4\n1.4\n0.3\nsetosa\n\n\n8\n5.0\n3.4\n1.5\n0.2\nsetosa\n\n\n9\n4.4\n2.9\n1.4\n0.2\nsetosa\n\n\n10\n4.9\n3.1\n1.5\n0.1\nsetosa"
-  },
-  {
-    "objectID": "getting-started.html#loading-package-and-data",
-    "href": "getting-started.html#loading-package-and-data",
-    "title": "getting started with MLJ",
-    "section": "",
-    "text": "import MLJ:evaluate\n    using MLJ,DataFrames\n    iris=load_iris()|&gt;DataFrame\n    display(first(iris,10))\n\n10×5 DataFrame\n\n\n\nRow\nsepal_length\nsepal_width\npetal_length\npetal_width\ntarget\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\nCat…\n\n\n\n\n1\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n2\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n3\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n4\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n5\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n6\n5.4\n3.9\n1.7\n0.4\nsetosa\n\n\n7\n4.6\n3.4\n1.4\n0.3\nsetosa\n\n\n8\n5.0\n3.4\n1.5\n0.2\nsetosa\n\n\n9\n4.4\n2.9\n1.4\n0.2\nsetosa\n\n\n10\n4.9\n3.1\n1.5\n0.1\nsetosa"
-  },
-  {
-    "objectID": "getting-started.html#build-decisiontree-model",
-    "href": "getting-started.html#build-decisiontree-model",
-    "title": "getting started with MLJ",
-    "section": "2. build DecisionTree model",
-    "text": "2. build DecisionTree model\n\n    y, X = unpack(iris, ==(:target); rng=123);\n    Tree = @load DecisionTreeClassifier pkg=DecisionTree\n    tree = Tree()\n    evaluate(tree, X, y, resampling=CV(shuffle=true),\n                 measures=[log_loss, accuracy],\n                 verbosity=0)\n\n[ Info: For silent loading, specify `verbosity=0`. \n\n\nimport MLJDecisionTreeInterface ✔\n\n\n\nPerformanceEvaluation object with these fields:\n  model, measure, operation, measurement, per_fold,\n  per_observation, fitted_params_per_fold,\n  report_per_fold, train_test_rows, resampling, repeats\nExtract:\n┌──────────────────────┬──────────────┬─────────────┬─────────┬─────────────────\n│ measure              │ operation    │ measurement │ 1.96*SE │ per_fold       ⋯\n├──────────────────────┼──────────────┼─────────────┼─────────┼─────────────────\n│ LogLoss(             │ predict      │ 1.92        │ 1.9     │ [2.22e-16, 1.4 ⋯\n│   tol = 2.22045e-16) │              │             │         │                ⋯\n│ Accuracy()           │ predict_mode │ 0.947       │ 0.0528  │ [1.0, 0.96, 1. ⋯\n└──────────────────────┴──────────────┴─────────────┴─────────┴─────────────────\n                                                                1 column omitted"
-  },
-  {
-    "objectID": "materials.html",
-    "href": "materials.html",
-    "title": "Course Materials",
+    "objectID": "category/materials.html",
+    "href": "category/materials.html",
+    "title": "dataset list",
     "section": "",
     "text": "Datasets\nSlides"
   },
   {
-    "objectID": "schedule.html",
-    "href": "schedule.html",
+    "objectID": "category/regression/3-cricket-chirp-rate.html",
+    "href": "category/regression/3-cricket-chirp-rate.html",
+    "title": "3-cricket-chirp-rate",
+    "section": "",
+    "text": "source1\nsource2\nsourc3\n\n\n雪树蟋蟀的鸣叫实际是大腿摩擦发出的声音, 经过数据收集,发现鸣叫的频率和环境温度正相关.\n\n经过线性拟合得到的函数为:C(t)=4.25t-157.8"
+  },
+  {
+    "objectID": "category/regression/3-cricket-chirp-rate.html#load-pacakge",
+    "href": "category/regression/3-cricket-chirp-rate.html#load-pacakge",
+    "title": "3-cricket-chirp-rate",
+    "section": "1. load pacakge",
+    "text": "1. load pacakge\n\n\nCode\nimport FileIO:load\nimport MLJ:fit!,match,predict,table,fitted_params\nusing GLMakie, CSV,DataFrames,MLJ,FileIO\nimg=load(\"./data/snowy-cricket.jpg\");"
+  },
+  {
+    "objectID": "category/regression/3-cricket-chirp-rate.html#process-data",
+    "href": "category/regression/3-cricket-chirp-rate.html#process-data",
+    "title": "3-cricket-chirp-rate",
+    "section": "2. process data",
+    "text": "2. process data\n\n\nCode\ndf=CSV.File(\"./data/CricketChirps.csv\") |&gt; DataFrame |&gt; dropmissing;\nX=MLJ.table(reshape(df[:,1],7,1))\ny=Vector(df[:,2])\n\ntest_X=range(extrema(df[:,1])...,50)\ntest_X=MLJ.table(reshape(test_X,50,1))\ncols=names(df)\n\n\n2-element Vector{String}:\n \"Temperature\"\n \"Chirps\""
+  },
+  {
+    "objectID": "category/regression/3-cricket-chirp-rate.html#mlj-workflow",
+    "href": "category/regression/3-cricket-chirp-rate.html#mlj-workflow",
+    "title": "3-cricket-chirp-rate",
+    "section": "3. MLJ workflow",
+    "text": "3. MLJ workflow\n\n3.1 fitting model\n\n\nCode\n    LinearRegressor = @load LinearRegressor pkg=MLJLinearModels\n    mach = fit!(machine(LinearRegressor(), X, y))\n    report(mach)\n\n\nimport MLJLinearModels ✔\n\n\n[ Info: For silent loading, specify `verbosity=0`. \n┌ Warning: The number and/or types of data arguments do not match what the specified model\n│ supports. Suppress this type check by specifying `scitype_check_level=0`.\n│ \n│ Run `@doc MLJLinearModels.LinearRegressor` to learn more about your model's requirements.\n│ \n│ Commonly, but non exclusively, supervised models are constructed using the syntax\n│ `machine(model, X, y)` or `machine(model, X, y, w)` while most other models are\n│ constructed with `machine(model, X)`.  Here `X` are features, `y` a target, and `w`\n│ sample or class weights.\n│ \n│ In general, data in `machine(model, data...)` is expected to satisfy\n│ \n│     scitype(data) &lt;: MLJ.fit_data_scitype(model)\n│ \n│ In the present case:\n│ \n│ scitype(data) = Tuple{Table{AbstractVector{Continuous}}, AbstractVector{Count}}\n│ \n│ fit_data_scitype(model) = Tuple{Table{&lt;:AbstractVector{&lt;:Continuous}}, AbstractVector{Continuous}}\n└ @ MLJBase ~/.julia/packages/MLJBase/fEiP2/src/machines.jl:230\n[ Info: Training machine(LinearRegressor(fit_intercept = true, …), …).\n┌ Info: Solver: MLJLinearModels.Analytical\n│   iterative: Bool false\n└   max_inner: Int64 200\n\n\n\n\n3.2 plot fitting curve\n\n\nCode\nyhat=predict(mach,test_X).|&gt;(d-&gt;round(d,digits=2))\nfunction plot_fitting_curve(df,yhat)\n    X=df[:,1]\n    test_X=range(extrema(df[:,1])...,50)\n    cols=names(df)\n    fig=Figure()\n    ax=Axis(fig[1:3,1:3];xlabel=\"$(cols[1])\",ylabel=\"$(cols[2])\",title=\"cricket-chirp\")\n    ax2 = Axis(fig[2,4],title=\"snowy-tree-cricket\")\n    scatter!(ax, X,y,markersize=16,color=(:red,0.8))\n    lines!(ax, test_X,yhat,color=:blue)\n    image!(ax2,img)\n    hidespines!(ax2)\n    hidedecorations!(ax2)\n    fig\nend\nplot_fitting_curve(df,yhat)"
+  },
+  {
+    "objectID": "category/regression/1-salary-linear-reg.html",
+    "href": "category/regression/1-salary-linear-reg.html",
+    "title": "1-salary-linear-reg",
+    "section": "",
+    "text": "explore YearsExperience and Salary relationship\n\n\ndataset: kaggle salary dataset\n数据类型需要做转换: to_ScienceType(d)=coerce(d,:YearsExperience=&gt;Continuous,:Salary=&gt;Continuous)\nusing MLJLinearModels.jl 🔗"
+  },
+  {
+    "objectID": "category/regression/1-salary-linear-reg.html#load-package",
+    "href": "category/regression/1-salary-linear-reg.html#load-package",
+    "title": "1-salary-linear-reg",
+    "section": "1. load package",
+    "text": "1. load package\n\n\nCode\n    include(\"../utils.jl\")\n    import MLJ:fit!,fitted_params\n    using GLMakie,MLJ,CSV,DataFrames"
+  },
+  {
+    "objectID": "category/regression/1-salary-linear-reg.html#process-data",
+    "href": "category/regression/1-salary-linear-reg.html#process-data",
+    "title": "1-salary-linear-reg",
+    "section": "2. process data",
+    "text": "2. process data\n\nload(csv)-&gt;dataframe ==&gt;sciencetype ==&gt;MLJ table\n\n\n\n\nCode\ndf=CSV.File(\"./data/salary_dataset.csv\") |&gt; DataFrame |&gt; dropmissing;\nfirst(df,5)\n\n\n5×3 DataFrame\n\n\n\nRow\nColumn1\nYearsExperience\nSalary\n\n\n\nInt64\nFloat64\nFloat64\n\n\n\n\n1\n0\n1.2\n39344.0\n\n\n2\n1\n1.4\n46206.0\n\n\n3\n2\n1.6\n37732.0\n\n\n4\n3\n2.1\n43526.0\n\n\n5\n4\n2.3\n39892.0\n\n\n\n\n\n\n\n\n\n\nCode\nto_ScienceType(d)=coerce(d,:YearsExperience=&gt;Continuous,:Salary=&gt;Continuous)\nnew_df=to_ScienceType(df)\nfirst(new_df,5)\n\n\n5×3 DataFrame\n\n\n\nRow\nColumn1\nYearsExperience\nSalary\n\n\n\nInt64\nFloat64\nFloat64\n\n\n\n\n1\n0\n1.2\n39344.0\n\n\n2\n1\n1.4\n46206.0\n\n\n3\n2\n1.6\n37732.0\n\n\n4\n3\n2.1\n43526.0\n\n\n5\n4\n2.3\n39892.0\n\n\n\n\n\n\n\n\n\n\nCode\n X=MLJ.table(reshape(new_df[:,2],30,1))\n y=Vector(new_df[:,3])\n show(y)\n\n\n[39344.0, 46206.0, 37732.0, 43526.0, 39892.0, 56643.0, 60151.0, 54446.0, 64446.0, 57190.0, 63219.0, 55795.0, 56958.0, 57082.0, 61112.0, 67939.0, 66030.0, 83089.0, 81364.0, 93941.0, 91739.0, 98274.0, 101303.0, 113813.0, 109432.0, 105583.0, 116970.0, 112636.0, 122392.0, 121873.0]"
+  },
+  {
+    "objectID": "category/regression/1-salary-linear-reg.html#mlj-workflow",
+    "href": "category/regression/1-salary-linear-reg.html#mlj-workflow",
+    "title": "1-salary-linear-reg",
+    "section": "3. MLJ workflow",
+    "text": "3. MLJ workflow\n\n3.1 load model\n\n  LinearRegressor = @load LinearRegressor pkg=MLJLinearModels\n  model=LinearRegressor()\n  mach = MLJ.fit!(machine(model,X,y))\n  fp=MLJ.fitted_params(mach)  #学习的模型参数\n\n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: Training machine(LinearRegressor(fit_intercept = true, …), …).\n┌ Info: Solver: MLJLinearModels.Analytical\n│   iterative: Bool false\n└   max_inner: Int64 200\n\n\nimport MLJLinearModels ✔\n\n\n(coefs = [:x1 =&gt; 9449.962321455077],\n intercept = 24848.203966523164,)\n\n\n\n\n3.2 build linear function\n\n\nCode\n    a=fp.coefs[1,1][2]\n    b=fp.intercept\n    line_func(t)=a*t+b\n\n\nline_func (generic function with 1 method)"
+  },
+  {
+    "objectID": "category/regression/1-salary-linear-reg.html#plot-results",
+    "href": "category/regression/1-salary-linear-reg.html#plot-results",
+    "title": "1-salary-linear-reg",
+    "section": "4. plot results",
+    "text": "4. plot results\n\n\nCode\nxs=range(extrema(new_df[:,2])...,200)\nfig=Figure()\nax=Axis(fig[1,1];xlabel=\"YearsExperience\",ylabel=\"Salary\")\nlines!(ax,xs,line_func.(xs);label=\"fit-line\",linewidth=3)\nscatter!(ax,new_df[:,2],new_df[:,3];label=\"data\",marker_style...)\naxislegend(ax)\nfig"
+  },
+  {
+    "objectID": "category/regression/2-ecommerce-linear-reg.html",
+    "href": "category/regression/2-ecommerce-linear-reg.html",
+    "title": "2-ecommerce-linear-reg",
+    "section": "",
+    "text": "通过上网浏览时间预测年花费\n\n\ndataset: kaggle ecommerce dataset\nmodel\nusing MLJLinearModels.jl 🔗"
+  },
+  {
+    "objectID": "category/regression/2-ecommerce-linear-reg.html#load-package",
+    "href": "category/regression/2-ecommerce-linear-reg.html#load-package",
+    "title": "2-ecommerce-linear-reg",
+    "section": "1. load package",
+    "text": "1. load package\n\n\nCode\nimport MLJ:predict\nusing GLMakie, MLJ,CSV,DataFrames,StatsBase"
+  },
+  {
+    "objectID": "category/regression/2-ecommerce-linear-reg.html#process-data",
+    "href": "category/regression/2-ecommerce-linear-reg.html#process-data",
+    "title": "2-ecommerce-linear-reg",
+    "section": "2. process data",
+    "text": "2. process data\n\n\nCode\nstr=\"Ecommerce-Customers\"   \ndf=CSV.File(\"./data/Ecommerce-Customers.csv\") |&gt; DataFrame |&gt; dropmissing;\nselect!(df,4:8)\nX=df[:,1:4]|&gt;Matrix|&gt;MLJ.table\ny=Vector(df[:,5])\nfirst(df,5)\n\n\n5×5 DataFrame\n\n\n\nRow\nAvg. Session Length\nTime on App\nTime on Website\nLength of Membership\nYearly Amount Spent\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\nFloat64\n\n\n\n\n1\n34.4973\n12.6557\n39.5777\n4.08262\n587.951\n\n\n2\n31.9263\n11.1095\n37.269\n2.66403\n392.205\n\n\n3\n33.0009\n11.3303\n37.1106\n4.10454\n487.548\n\n\n4\n34.3056\n13.7175\n36.7213\n3.12018\n581.852\n\n\n5\n33.3307\n12.7952\n37.5367\n4.44631\n599.406"
+  },
+  {
+    "objectID": "category/regression/2-ecommerce-linear-reg.html#plot-corrleation-of-variables",
+    "href": "category/regression/2-ecommerce-linear-reg.html#plot-corrleation-of-variables",
+    "title": "2-ecommerce-linear-reg",
+    "section": "3. plot corrleation of variables",
+    "text": "3. plot corrleation of variables\n\n\nCode\naxs = []\nlabel=names(df)|&gt;Array\ncolors = [:orange, :lightgreen, :purple,:lightblue,:red,:green]\n\nfig = Figure(resolution=(1400, 1400))\nax=Axis(fig[1,1])\n\nfunction plot_diag(i)\n\n    ax = Axis(fig[i, i])\n    push!(axs, ax)\n    density!(ax, df[:, i]; color=(colors[i], 0.5),\n            strokewidth=1.25, strokecolor=colors[i])\nend\n\n\nfunction plot_cor(i, j)\n    ax = Axis(fig[i, j])\n    scatter!(ax, df[:, i], df[:, j]; color=colors[j])\nend\n\n\nfunction plot_pair()\n    [(i == j ? plot_diag(i) : plot_cor(i, j)) for i in 1:5, j in 1:5]\nend\n\nfunction add_xy_label()\n    for i in 1:5\n        Axis(fig[5, i], xlabel=label[i],)\n        Axis(fig[i, 1], ylabel=label[i],)\n    end\nend\n\nfunction main()\n\n    plot_pair()\n    add_xy_label()\n    return fig\nend\n\nmain()"
+  },
+  {
+    "objectID": "category/regression/2-ecommerce-linear-reg.html#plot-pair-variabless-cov-and-cor-matrix",
+    "href": "category/regression/2-ecommerce-linear-reg.html#plot-pair-variabless-cov-and-cor-matrix",
+    "title": "2-ecommerce-linear-reg",
+    "section": "4. plot pair variables’s cov and cor matrix",
+    "text": "4. plot pair variables’s cov and cor matrix\n\n\nCode\ndf_cov = df|&gt;Matrix|&gt;cov.|&gt; d -&gt; round(d, digits=3)\ndf_cor = df|&gt;Matrix|&gt;cor.|&gt; d -&gt; round(d, digits=3)\n\nfunction plot_cov_cor()\n    fig = Figure(resolution=(2200, 800))\n    ax1 = Axis(fig[1, 1]; xticks=(1:5, label), yticks=(1:5, label), title=\"ecommerce cov matrix\",yreversed=true)\n    ax3 = Axis(fig[1, 3], xticks=(1:5, label), yticks=(1:5, label), title=\"ecommerce cor matrix\",yreversed=true)\n\n    hm = heatmap!(ax1, df_cov)\n    Colorbar(fig[1, 2], hm)\n    [text!(ax1, x, y; text=string(df_cov[x, y]), color=:white, fontsize=18, align=(:center, :center)) for x in 1:5, y in 1:5]\n\n    hm2 = heatmap!(ax3, df_cor)\n    Colorbar(fig[1, 4], hm2)\n    [text!(ax3, x, y; text=string(df_cor[x, y]), color=:white, fontsize=18, align=(:center, :center)) for x in 1:5, y in 1:5]\n\n    fig\nend\n\nplot_cov_cor()"
+  },
+  {
+    "objectID": "category/regression/2-ecommerce-linear-reg.html#mlj-workflow",
+    "href": "category/regression/2-ecommerce-linear-reg.html#mlj-workflow",
+    "title": "2-ecommerce-linear-reg",
+    "section": "5. MLJ workflow",
+    "text": "5. MLJ workflow\n\n5.1 load model\n\n\nCode\n  LinearRegressor = @load LinearRegressor pkg=MLJLinearModels\n  model=LinearRegressor()\n  mach = MLJ.fit!(machine(model,X,y))\n  fitted_params(mach)\n\n\nimport MLJLinearModels ✔\n\n\n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: Training machine(LinearRegressor(fit_intercept = true, …), …).\n┌ Info: Solver: MLJLinearModels.Analytical\n│   iterative: Bool false\n└   max_inner: Int64 200\n\n\n(coefs = [:x1 =&gt; 25.734271084705085, :x2 =&gt; 38.709153810834366, :x3 =&gt; 0.43673883559434407, :x4 =&gt; 61.57732375487839],\n intercept = -1051.5942553006273,)\n\n\n\n\n5.2 predict\n\n\nCode\n  y_hat =predict(mach, X)\n  \"rmsd\"=&gt;rmsd(y,y_hat)\n\n\n\"rmsd\" =&gt; 9.923256785022247\n\n\n\n\n5.3 plot residuals\n\n\nCode\nresid=y_hat.=y\nstem(resid)"
+  },
+  {
+    "objectID": "category/getting-started.html",
+    "href": "category/getting-started.html",
+    "title": "getting started with MLJ",
+    "section": "",
+    "text": "import MLJ:evaluate\n    using MLJ,DataFrames\n    iris=load_iris()|&gt;DataFrame\n    display(first(iris,10))\n\n10×5 DataFrame\n\n\n\nRow\nsepal_length\nsepal_width\npetal_length\npetal_width\ntarget\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\nCat…\n\n\n\n\n1\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n2\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n3\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n4\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n5\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n6\n5.4\n3.9\n1.7\n0.4\nsetosa\n\n\n7\n4.6\n3.4\n1.4\n0.3\nsetosa\n\n\n8\n5.0\n3.4\n1.5\n0.2\nsetosa\n\n\n9\n4.4\n2.9\n1.4\n0.2\nsetosa\n\n\n10\n4.9\n3.1\n1.5\n0.1\nsetosa"
+  },
+  {
+    "objectID": "category/getting-started.html#loading-package-and-data",
+    "href": "category/getting-started.html#loading-package-and-data",
+    "title": "getting started with MLJ",
+    "section": "",
+    "text": "import MLJ:evaluate\n    using MLJ,DataFrames\n    iris=load_iris()|&gt;DataFrame\n    display(first(iris,10))\n\n10×5 DataFrame\n\n\n\nRow\nsepal_length\nsepal_width\npetal_length\npetal_width\ntarget\n\n\n\nFloat64\nFloat64\nFloat64\nFloat64\nCat…\n\n\n\n\n1\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n2\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n3\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n4\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n5\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n6\n5.4\n3.9\n1.7\n0.4\nsetosa\n\n\n7\n4.6\n3.4\n1.4\n0.3\nsetosa\n\n\n8\n5.0\n3.4\n1.5\n0.2\nsetosa\n\n\n9\n4.4\n2.9\n1.4\n0.2\nsetosa\n\n\n10\n4.9\n3.1\n1.5\n0.1\nsetosa"
+  },
+  {
+    "objectID": "category/getting-started.html#build-decisiontree-model",
+    "href": "category/getting-started.html#build-decisiontree-model",
+    "title": "getting started with MLJ",
+    "section": "2. build DecisionTree model",
+    "text": "2. build DecisionTree model\n\n    y, X = unpack(iris, ==(:target); rng=123);\n    Tree = @load DecisionTreeClassifier pkg=DecisionTree\n    tree = Tree()\n    evaluate(tree, X, y, resampling=CV(shuffle=true),\n                 measures=[log_loss, accuracy],\n                 verbosity=0)\n\n[ Info: For silent loading, specify `verbosity=0`. \n\n\nimport MLJDecisionTreeInterface ✔\n\n\n\nPerformanceEvaluation object with these fields:\n  model, measure, operation, measurement, per_fold,\n  per_observation, fitted_params_per_fold,\n  report_per_fold, train_test_rows, resampling, repeats\nExtract:\n┌──────────────────────┬──────────────┬─────────────┬─────────┬─────────────────\n│ measure              │ operation    │ measurement │ 1.96*SE │ per_fold       ⋯\n├──────────────────────┼──────────────┼─────────────┼─────────┼─────────────────\n│ LogLoss(             │ predict      │ 3.12        │ 1.48    │ [2.88, 1.44, 5 ⋯\n│   tol = 2.22045e-16) │              │             │         │                ⋯\n│ Accuracy()           │ predict_mode │ 0.913       │ 0.041   │ [0.92, 0.96, 0 ⋯\n└──────────────────────┴──────────────┴─────────────┴─────────┴─────────────────\n                                                                1 column omitted"
+  },
+  {
+    "objectID": "category/classification/1-catboost-claffification.html",
+    "href": "category/classification/1-catboost-claffification.html",
+    "title": "1-catboost-classfication",
+    "section": "",
+    "text": "dataset\n\n\n\ndataset 参见 clustering-exercises dataset"
+  },
+  {
+    "objectID": "category/classification/1-catboost-claffification.html#load-package",
+    "href": "category/classification/1-catboost-claffification.html#load-package",
+    "title": "1-catboost-classfication",
+    "section": "1. load package",
+    "text": "1. load package\n\n\nCode\ninclude(\"../utils.jl\")\nimport Plots:scatter!,contourf\nimport MLJ:predict,predict_mode,measures\nusing Plots, MLJ, CSV, DataFrames\nusing CatBoost.MLJCatBoostInterface"
+  },
+  {
+    "objectID": "category/classification/1-catboost-claffification.html#load-data",
+    "href": "category/classification/1-catboost-claffification.html#load-data",
+    "title": "1-catboost-classfication",
+    "section": "2. load data",
+    "text": "2. load data\n\n\nCode\n  df=load_csv(\"basic1\")\n  cat=df[:,:color]|&gt;levels|&gt;length # 类别\n  ytrain, Xtrain =  unpack(df, ==(:color), rng=123);\n  first(df,10)\n\n\n10×3 DataFrame\n\n\n\nRow\nx\ny\ncolor\n\n\n\nFloat64\nFloat64\nInt64\n\n\n\n\n1\n79.4083\n152.834\n0\n\n\n2\n98.0463\n186.911\n0\n\n\n3\n240.579\n48.4737\n1\n\n\n4\n109.687\n277.946\n0\n\n\n5\n249.626\n229.753\n1\n\n\n6\n100.785\n281.983\n0\n\n\n7\n235.33\n109.54\n1\n\n\n8\n262.352\n64.5746\n1\n\n\n9\n76.5589\n204.296\n0\n\n\n10\n245.558\n134.502\n1"
+  },
+  {
+    "objectID": "category/classification/1-catboost-claffification.html#mlj-workflow",
+    "href": "category/classification/1-catboost-claffification.html#mlj-workflow",
+    "title": "1-catboost-classfication",
+    "section": "3. MLJ workflow",
+    "text": "3. MLJ workflow\n\n3.1 fitting model\n\n\nCode\n    catboost = CatBoostClassifier(iterations=2,learning_rate=0.20)\n    mach = machine(catboost, Xtrain, ytrain;scitype_check_level=0)|&gt;fit!\n    tx,ty,xtest=boundary_data(df)  # boudary data and xtest \n    ytest = predict_mode(mach, xtest)[:,1]|&gt;Array\n\n\n[ Info: Training machine(CatBoostClassifier(iterations = 2, …), …).\n\n\n40000-element Vector{Int64}:\n 0\n 0\n 0\n 0\n 0\n 0\n 0\n 0\n 0\n 0\n 0\n 0\n 0\n ⋮\n 3\n 3\n 3\n 3\n 3\n 3\n 3\n 3\n 3\n 3\n 3\n 3\n\n\n\n\n3.2 plot results\n\n\nCode\ncontourf(tx,ty,ytest,levels=cat,color=cgrad(:redsblues),alpha=0.7)\np1=scatter!(df[:,:x],df[:,:y],group=df[:,:color],label=false,ms=3,alpha=0.3)"
+  },
+  {
+    "objectID": "category/schedule.html",
+    "href": "category/schedule.html",
     "title": "Schedule",
     "section": "",
     "text": "Example schedule:\n\n\n\n\n\n\n\n\n\nMorning\nAfternoon\n\n\n\n\nL\nIntro + Data manipulation\ngit / GitHub\n\n\nM\nGeneralised Linear Models\nData visualisation\n\n\nX\nMixed models / GAM / Bayes\nFunctional programming + Students work\n\n\nJ\nMultivariate analyses\nReproducible workflows\n\n\nV\nUsing R as GIS + Students work\nProject presentations"
+  },
+  {
+    "objectID": "category/dataset/index.html",
+    "href": "category/dataset/index.html",
+    "title": "dataset index list",
+    "section": "",
+    "text": "“intor of dataset”\n1"
   }
 ]

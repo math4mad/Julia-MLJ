@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Julia MLJ - Julia MLJ</title>
+<title>Julia MLJ - 3-cricket-chirp-rate</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,24 +20,58 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -71,7 +105,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../category/regression/1-salary-linear-reg.html">Regression</a></li><li class="breadcrumb-item"><a href="../../category/regression/3-cricket-chirp-rate.html">3-cricket-chirp-rate</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -86,7 +120,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Julia MLJ</a> 
+      <a href="../../">Julia MLJ</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/math4mad/Julia-MLJ" rel="" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
 </div>
@@ -101,13 +135,13 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./category/getting-started.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/getting-started.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">getting-stared</span></a>
   </div>
 </li>
@@ -122,19 +156,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./category/regression/1-salary-linear-reg.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/regression/1-salary-linear-reg.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1-salary-linear-reg</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./category/regression/2-ecommerce-linear-reg.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/regression/2-ecommerce-linear-reg.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2-ecommerce-linear-reg</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./category/regression/3-cricket-chirp-rate.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/regression/3-cricket-chirp-rate.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">3-cricket-chirp-rate</span></a>
   </div>
 </li>
@@ -151,13 +185,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./category/classification/1-catboost-claffification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/classification/1-catboost-claffification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1-catboost-classfication</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./category/classification/24-classfication-comparison.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/classification/24-classfication-comparison.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">several classfication model comparison</span></a>
   </div>
 </li>
@@ -165,19 +199,19 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./category/schedule.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/schedule.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./category/materials.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/materials.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Materials</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./category/dataset/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../category/dataset/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dataset Intorduction</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -186,7 +220,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./category/dataset/intro-1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/dataset/intro-1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">dataset introduction</span></a>
   </div>
 </li>
@@ -198,14 +232,26 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#load-pacakge" id="toc-load-pacakge" class="nav-link active" data-scroll-target="#load-pacakge">1. load pacakge</a></li>
+  <li><a href="#process-data" id="toc-process-data" class="nav-link" data-scroll-target="#process-data">2. process data</a></li>
+  <li><a href="#mlj-workflow" id="toc-mlj-workflow" class="nav-link" data-scroll-target="#mlj-workflow">3. MLJ workflow</a>
+  <ul class="collapse">
+  <li><a href="#fitting-model" id="toc-fitting-model" class="nav-link" data-scroll-target="#fitting-model">3.1 fitting model</a></li>
+  <li><a href="#plot-fitting-curve" id="toc-plot-fitting-curve" class="nav-link" data-scroll-target="#plot-fitting-curve">3.2 plot fitting curve</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Julia MLJ</h1>
+<h1 class="title">3-cricket-chirp-rate</h1>
 </div>
 
 
@@ -220,9 +266,122 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Course info &amp; details here</p>
+<div class="{.callout-note,title=&quot;简介&quot;}">
+<ul>
+<li><p><a href="http://www.probability.ca/jeff/teaching/1617/sta130/lecturenotes/notesCposthand.pdf">source1</a></p></li>
+<li><p><a href="https://rdrr.io/rforge/Lock5Data/man/CricketChirps.html#heading-3">source2</a></p></li>
+<li><p><a href="https://www.britannica.com/animal/snowy-tree-cricket">sourc3</a></p></li>
+</ul>
+<blockquote class="blockquote">
+<p>雪树蟋蟀的鸣叫实际是大腿摩擦发出的声音, 经过数据收集,发现鸣叫的频率和环境温度正相关.</p>
+</blockquote>
+<p>经过线性拟合得到的函数为:<code>C(t)=4.25t-157.8</code></p>
+</div>
+<section id="load-pacakge" class="level2">
+<h2 class="anchored" data-anchor-id="load-pacakge">1. load pacakge</h2>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">FileIO</span>:load</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">MLJ</span>:fit!,match,predict,table,fitted_params</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GLMakie</span>, <span class="bu">CSV</span>,<span class="bu">DataFrames</span>,<span class="bu">MLJ</span>,<span class="bu">FileIO</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>img<span class="op">=</span><span class="fu">load</span>(<span class="st">"./data/snowy-cricket.jpg"</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="process-data" class="level2">
+<h2 class="anchored" data-anchor-id="process-data">2. process data</h2>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span>CSV.<span class="fu">File</span>(<span class="st">"./data/CricketChirps.csv"</span>) <span class="op">|&gt;</span> DataFrame <span class="op">|&gt;</span> dropmissing;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X<span class="op">=</span>MLJ.<span class="fu">table</span>(<span class="fu">reshape</span>(df[<span class="op">:</span>,<span class="fl">1</span>],<span class="fl">7</span>,<span class="fl">1</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span><span class="fu">Vector</span>(df[<span class="op">:</span>,<span class="fl">2</span>])</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>test_X<span class="op">=</span><span class="fu">range</span>(<span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="fl">1</span>])<span class="op">...</span>,<span class="fl">50</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>test_X<span class="op">=</span>MLJ.<span class="fu">table</span>(<span class="fu">reshape</span>(test_X,<span class="fl">50</span>,<span class="fl">1</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>cols<span class="op">=</span><span class="fu">names</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>2-element Vector{String}:
+ "Temperature"
+ "Chirps"</code></pre>
+</div>
+</div>
+</section>
+<section id="mlj-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="mlj-workflow">3. MLJ workflow</h2>
+<section id="fitting-model" class="level3">
+<h3 class="anchored" data-anchor-id="fitting-model">3.1 fitting model</h3>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    LinearRegressor <span class="op">=</span> <span class="pp">@load</span> LinearRegressor pkg<span class="op">=</span>MLJLinearModels</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    mach <span class="op">=</span> <span class="fu">fit!</span>(<span class="fu">machine</span>(<span class="fu">LinearRegressor</span>(), X, y))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">report</span>(mach)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>import MLJLinearModels ✔</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[ Info: For silent loading, specify `verbosity=0`. 
+┌ Warning: The number and/or types of data arguments do not match what the specified model
+│ supports. Suppress this type check by specifying `scitype_check_level=0`.
+│ 
+│ Run `@doc MLJLinearModels.LinearRegressor` to learn more about your model's requirements.
+│ 
+│ Commonly, but non exclusively, supervised models are constructed using the syntax
+│ `machine(model, X, y)` or `machine(model, X, y, w)` while most other models are
+│ constructed with `machine(model, X)`.  Here `X` are features, `y` a target, and `w`
+│ sample or class weights.
+│ 
+│ In general, data in `machine(model, data...)` is expected to satisfy
+│ 
+│     scitype(data) &lt;: MLJ.fit_data_scitype(model)
+│ 
+│ In the present case:
+│ 
+│ scitype(data) = Tuple{Table{AbstractVector{Continuous}}, AbstractVector{Count}}
+│ 
+│ fit_data_scitype(model) = Tuple{Table{&lt;:AbstractVector{&lt;:Continuous}}, AbstractVector{Continuous}}
+└ @ MLJBase ~/.julia/packages/MLJBase/fEiP2/src/machines.jl:230
+[ Info: Training machine(LinearRegressor(fit_intercept = true, …), …).
+┌ Info: Solver: MLJLinearModels.Analytical
+│   iterative: Bool false
+└   max_inner: Int64 200</code></pre>
+</div>
+</div>
+</section>
+<section id="plot-fitting-curve" class="level3">
+<h3 class="anchored" data-anchor-id="plot-fitting-curve">3.2 plot fitting curve</h3>
+<div class="cell" data-execution_count="4">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>yhat<span class="op">=</span><span class="fu">predict</span>(mach,test_X)<span class="op">.|&gt;</span>(<span class="fu">d-&gt;round</span>(d,digits<span class="op">=</span><span class="fl">2</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_fitting_curve</span>(df,yhat)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>df[<span class="op">:</span>,<span class="fl">1</span>]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    test_X<span class="op">=</span><span class="fu">range</span>(<span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="fl">1</span>])<span class="op">...</span>,<span class="fl">50</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    cols<span class="op">=</span><span class="fu">names</span>(df)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    fig<span class="op">=</span><span class="fu">Figure</span>()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span><span class="fu">Axis</span>(fig[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>];xlabel<span class="op">=</span><span class="st">"</span><span class="sc">$</span>(cols[<span class="fl">1</span>])<span class="st">"</span>,ylabel<span class="op">=</span><span class="st">"</span><span class="sc">$</span>(cols[<span class="fl">2</span>])<span class="st">"</span>,title<span class="op">=</span><span class="st">"cricket-chirp"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    ax2 <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">2</span>,<span class="fl">4</span>],title<span class="op">=</span><span class="st">"snowy-tree-cricket"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scatter!</span>(ax, X,y,markersize<span class="op">=</span><span class="fl">16</span>,color<span class="op">=</span>(<span class="op">:</span>red,<span class="fl">0.8</span>))</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(ax, test_X,yhat,color<span class="op">=:</span>blue)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">image!</span>(ax2,img)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hidespines!</span>(ax2)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hidedecorations!</span>(ax2)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    fig</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_fitting_curve</span>(df,yhat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<p><img src="3-cricket-chirp-rate_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
