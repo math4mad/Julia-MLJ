@@ -1,0 +1,61 @@
+---
+title: "2-svm-diabetes-classfication"
+code-fold: true
+---
+
+:::{.callout-note title="介绍"}
+ - 参考博客文章:[`diagnose-diabetes-with-svm`](https://www.section.io/engineering-education/diagnose-diabetes-with-svm/)
+
+ - SVM(支持向量机)通过引入 `kernelfunction`,使得模型的分类灵活性大大增强,可以解决更多问题.在`julia`中可以通过在[`LIBSVM.jl`](https://docs.juliahub.com/LIBSVM/3eWAI/0.5.0/) 引入 `kernel function` 实现, 参见 文档: [`Support Vector Machine`](https://juliagaussianprocesses.github.io/KernelFunctions.jl/stable/examples/support-vector-machine/)
+ - `MLJ.jl` 通过包装接口也提供相似功能
+ - 响应变量需要转换类型 `to_ScienceType(d)=coerce(d,:Outcome=> Multiclass)`
+::: 
+
+## 1. load package
+```{julia}
+include("../utils.jl")
+import MLJ: fit!, predict
+using CSV,DataFrames,Random
+using MLJ
+using Plots
+using KernelFunctions
+```
+
+## 2. process data
+```{julia}
+ df=load_csv("diabetes")
+ to_ScienceType(d)=coerce(d,:Outcome=> Multiclass)
+ df=to_ScienceType(df)
+ first(df,5)|>display
+ y, X =  unpack(df, ==(:Outcome), rng=123);
+ (Xtrain, Xtest), (ytrain, ytest)  = partition((X, y), 0.7, multi=true,  rng=123)
+display(schema(X))
+```
+
+## 3. MLJ workflow
+### 3.1 defin model
+```{julia}
+SVC = @load SVC pkg=LIBSVM
+#define kernel function,evaulate  kernelfunctions methods
+kernels=[PolynomialKernel(; degree=2, c=1), 
+         SqExponentialKernel(),
+         NeuralNetworkKernel(),
+         LinearKernel(;c=1.0)
+]
+
+svc_mdls = [SVC(;kernel=k) for  k in kernels]
+svcs = [machine(model, Xtrain, ytrain;scitype_check_level=0) for model in svc_mdls]
+[fit!(svc) for svc in svcs]
+```
+
+### 3.2  predict test
+```{julia}
+for (idx, str) in enumerate(["Polynomial ","Gaussian","NeuralNetwork","Linear"])
+    local yhat=predict(svcs[idx],Xtest)
+    local acc=accuracy(yhat,ytest) 
+    @info "$(str) kernel predict accuracy"=>acc   
+end
+
+```
+
+

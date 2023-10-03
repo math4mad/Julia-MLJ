@@ -1,0 +1,11 @@
+{
+  "hash": "52ee409ed7d782881d7e821a91419e3e",
+  "result": {
+    "markdown": "---\ntitle: \"5-bostonhousing-mixturemodel-regression\"\ncode-fold: true\n---\n\n::: {.callout-note title=\"简介\"}\n-  利用 Boston houseing 属性预测房价, 变量可能会存在交互作用\n-  所以考虑使用混合模型\n:::\n\n## 1. load package\n\n::: {.cell execution_count=1}\n``` {.julia .cell-code}\nimport MLJ:predict\nusing MLJ\n```\n:::\n\n\n## 2. load data\n\n::: {.cell execution_count=2}\n``` {.julia .cell-code}\nX, y= @load_boston;\n```\n:::\n\n\n## 3. MLJ workflow\n### 3.1 define model\n\n::: {.cell execution_count=3}\n``` {.julia .cell-code}\nmodelType= @load GaussianMixtureRegressor pkg = \"BetaML\"\ngmr= modelType()\n\n(fitResults, cache, report) = MLJ.fit(gmr, 1, X, y);\n```\n\n::: {.cell-output .cell-output-stdout}\n```\nimport BetaML ✔\nIter. 1:\tVar. of the post  21.74887448784977 \t  Log-likelihood -21687.09917379566\n```\n:::\n\n::: {.cell-output .cell-output-stderr}\n```\n[ Info: For silent loading, specify `verbosity=0`. \n```\n:::\n:::\n\n\n### 3.2  results\n\n::: {.cell execution_count=4}\n``` {.julia .cell-code}\ny_res= predict(gmr, fitResults, X)\nrmse(y_res,y)\n```\n\n::: {.cell-output .cell-output-display execution_count=17}\n```\n7.9566567641159605\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "5-boston-housing-mixture-regression_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

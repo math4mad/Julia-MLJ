@@ -1,0 +1,36 @@
+---
+title: "5-bostonhousing-mixturemodel-regression"
+code-fold: true
+---
+
+::: {.callout-note title="简介"}
+-  利用 Boston houseing 属性预测房价, 变量可能会存在交互作用
+-  所以考虑使用混合模型
+:::
+
+## 1. load package
+```{julia}
+import MLJ:predict
+using MLJ
+```
+
+## 2. load data
+```{julia}
+X, y= @load_boston;
+```
+
+## 3. MLJ workflow
+### 3.1 define model
+```{julia}
+modelType= @load GaussianMixtureRegressor pkg = "BetaML"
+gmr= modelType()
+
+(fitResults, cache, report) = MLJ.fit(gmr, 1, X, y);
+
+```
+
+### 3.2  results
+```{julia}
+y_res= predict(gmr, fitResults, X)
+rmse(y_res,y)
+```
