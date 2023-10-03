@@ -1,0 +1,68 @@
+---
+title: "3-cricket-chirp-rate"
+code-fold: true
+---
+
+:::{.callout-note,title="简介"}
+ - [source1](http://www.probability.ca/jeff/teaching/1617/sta130/lecturenotes/notesCposthand.pdf)
+
+- [source2](https://rdrr.io/rforge/Lock5Data/man/CricketChirps.html#heading-3)
+- [sourc3](https://www.britannica.com/animal/snowy-tree-cricket)
+  
+>雪树蟋蟀的鸣叫实际是大腿摩擦发出的声音, 经过数据收集,发现鸣叫的频率和环境温度正相关.
+
+经过线性拟合得到的函数为:`C(t)=4.25t-157.8`
+
+:::
+
+
+## 1. load pacakge
+```{julia}
+import FileIO:load
+import MLJ:fit!,match,predict,table,fitted_params
+using GLMakie, CSV,DataFrames,MLJ,FileIO
+img=load("./data/snowy-cricket.jpg");
+```
+
+## 2. process data
+```{julia}
+df=CSV.File("./data/CricketChirps.csv") |> DataFrame |> dropmissing;
+X=MLJ.table(reshape(df[:,1],7,1))
+y=Vector(df[:,2])
+
+test_X=range(extrema(df[:,1])...,50)
+test_X=MLJ.table(reshape(test_X,50,1))
+cols=names(df)
+```
+
+## 3. MLJ  workflow
+### 3.1 fitting model
+```{julia}
+    LinearRegressor = @load LinearRegressor pkg=MLJLinearModels
+    mach = fit!(machine(LinearRegressor(), X, y))
+    report(mach)
+    
+```
+
+### 3.2 plot fitting curve
+```{julia}
+yhat=predict(mach,test_X).|>(d->round(d,digits=2))
+function plot_fitting_curve(df,yhat)
+    X=df[:,1]
+    test_X=range(extrema(df[:,1])...,50)
+    cols=names(df)
+    fig=Figure()
+    ax=Axis(fig[1:3,1:3];xlabel="$(cols[1])",ylabel="$(cols[2])",title="cricket-chirp")
+    ax2 = Axis(fig[2,4],title="snowy-tree-cricket")
+    scatter!(ax, X,y,markersize=16,color=(:red,0.8))
+    lines!(ax, test_X,yhat,color=:blue)
+    image!(ax2,img)
+    hidespines!(ax2)
+    hidedecorations!(ax2)
+    fig
+end
+plot_fitting_curve(df,yhat)
+```
+
+
+

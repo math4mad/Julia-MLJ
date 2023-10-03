@@ -1,5 +1,6 @@
 ---
-title: "several  classfication model comparison"
+title: "several classfication model comparison"
+code-fold: true
 ---
 
 ## 1. load package

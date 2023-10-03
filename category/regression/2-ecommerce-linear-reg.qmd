@@ -1,0 +1,130 @@
+---
+title: "2-ecommerce-linear-reg"
+code-fold: true
+---
+
+:::{.callout-note,title="简介"}
+  >  通过上网浏览时间预测年花费
+
+
+  1. dataset: [`kaggle ecommerce dataset`](https://www.kaggle.com/datasets/kolawale/focusing-on-mobile-app-or-website)
+   
+  2. [model](https://www.kaggle.com/code/mohammedibrahim784/e-commerce-dataset-linear-regression-model)
+   
+  3. using  `MLJLinearModels.jl` [🔗](https://github.com/alan-turing-institute/MLJLinearModels.jl)
+:::
+
+## 1. load package
+```{julia}
+import MLJ:predict
+using GLMakie, MLJ,CSV,DataFrames,StatsBase
+```
+
+## 2. process data
+```{julia}
+#| echo: true
+#| code-fold: show
+str="Ecommerce-Customers"   
+df=CSV.File("./data/Ecommerce-Customers.csv") |> DataFrame |> dropmissing;
+select!(df,4:8)
+X=df[:,1:4]|>Matrix|>MLJ.table
+y=Vector(df[:,5])
+first(df,5)
+```
+
+## 3. plot corrleation of variables
+```{julia}
+axs = []
+label=names(df)|>Array
+colors = [:orange, :lightgreen, :purple,:lightblue,:red,:green]
+
+fig = Figure(resolution=(1400, 1400))
+ax=Axis(fig[1,1])
+
+function plot_diag(i)
+
+    ax = Axis(fig[i, i])
+    push!(axs, ax)
+    density!(ax, df[:, i]; color=(colors[i], 0.5),
+            strokewidth=1.25, strokecolor=colors[i])
+end
+
+
+function plot_cor(i, j)
+    ax = Axis(fig[i, j])
+    scatter!(ax, df[:, i], df[:, j]; color=colors[j])
+end
+
+
+function plot_pair()
+    [(i == j ? plot_diag(i) : plot_cor(i, j)) for i in 1:5, j in 1:5]
+end
+
+function add_xy_label()
+    for i in 1:5
+        Axis(fig[5, i], xlabel=label[i],)
+        Axis(fig[i, 1], ylabel=label[i],)
+    end
+end
+
+function main()
+
+    plot_pair()
+    add_xy_label()
+    return fig
+end
+
+main()
+```
+
+
+## 4. plot pair variables's cov and cor matrix
+
+```{julia}
+df_cov = df|>Matrix|>cov.|> d -> round(d, digits=3)
+df_cor = df|>Matrix|>cor.|> d -> round(d, digits=3)
+
+function plot_cov_cor()
+    fig = Figure(resolution=(2200, 800))
+    ax1 = Axis(fig[1, 1]; xticks=(1:5, label), yticks=(1:5, label), title="ecommerce cov matrix",yreversed=true)
+    ax3 = Axis(fig[1, 3], xticks=(1:5, label), yticks=(1:5, label), title="ecommerce cor matrix",yreversed=true)
+
+    hm = heatmap!(ax1, df_cov)
+    Colorbar(fig[1, 2], hm)
+    [text!(ax1, x, y; text=string(df_cov[x, y]), color=:white, fontsize=18, align=(:center, :center)) for x in 1:5, y in 1:5]
+
+    hm2 = heatmap!(ax3, df_cor)
+    Colorbar(fig[1, 4], hm2)
+    [text!(ax3, x, y; text=string(df_cor[x, y]), color=:white, fontsize=18, align=(:center, :center)) for x in 1:5, y in 1:5]
+
+    fig
+end
+
+plot_cov_cor()
+
+```
+
+
+## 5.  MLJ  workflow
+### 5.1  load model
+```{julia}
+
+  LinearRegressor = @load LinearRegressor pkg=MLJLinearModels
+  model=LinearRegressor()
+  mach = MLJ.fit!(machine(model,X,y))
+  fitted_params(mach)
+```
+
+### 5.2  predict 
+```{julia}
+  y_hat =predict(mach, X)
+  "rmsd"=>rmsd(y,y_hat)
+  
+```
+### 5.3 plot residuals
+```{julia}
+resid=y_hat.=y
+stem(resid)
+
+```
+

@@ -1,0 +1,81 @@
+---
+title: "1-salary-linear-reg"
+code-fold: true
+---
+
+:::{.callout-note,title="简介"}
+  > explore `YearsExperience` and  `Salary` relationship
+
+  1. dataset: [`kaggle salary dataset`](https://www.kaggle.com/datasets/abhishek14398/salary-dataset-simple-linear-regression)
+   
+  2. 数据类型需要做转换: `to_ScienceType(d)=coerce(d,:YearsExperience=>Continuous,:Salary=>Continuous)`
+  3. using  `MLJLinearModels.jl` [🔗](https://github.com/alan-turing-institute/MLJLinearModels.jl)
+:::
+
+## 1. load package
+```{julia}
+    include("../utils.jl")
+    import MLJ:fit!,fitted_params
+    using GLMakie,MLJ,CSV,DataFrames
+```
+## 2. process data
+
+::: {.panel-tabset}
+# `load(csv)->dataframe` ==>
+```{julia}
+#| echo: true
+#| code-fold: show
+    
+df=CSV.File("./data/salary_dataset.csv") |> DataFrame |> dropmissing;
+first(df,5)
+```
+
+
+# `sciencetype` ==> 
+```{julia}
+to_ScienceType(d)=coerce(d,:YearsExperience=>Continuous,:Salary=>Continuous)
+new_df=to_ScienceType(df)
+first(new_df,5)
+```
+
+#  `MLJ table`
+```{julia}
+ X=MLJ.table(reshape(new_df[:,2],30,1))
+ y=Vector(new_df[:,3])
+ show(y)
+```
+:::
+
+## 3. MLJ workflow
+### 3.1  load model
+```{julia}
+#| code-fold : false
+  LinearRegressor = @load LinearRegressor pkg=MLJLinearModels
+  model=LinearRegressor()
+  mach = MLJ.fit!(machine(model,X,y))
+  fp=MLJ.fitted_params(mach)  #学习的模型参数
+```
+
+### 3.2 build linear function 
+```{julia}
+    a=fp.coefs[1,1][2]
+    b=fp.intercept
+    line_func(t)=a*t+b
+```
+
+## 4. plot results
+
+```{julia}
+xs=range(extrema(new_df[:,2])...,200)
+fig=Figure()
+ax=Axis(fig[1,1];xlabel="YearsExperience",ylabel="Salary")
+lines!(ax,xs,line_func.(xs);label="fit-line",linewidth=3)
+scatter!(ax,new_df[:,2],new_df[:,3];label="data",marker_style...)
+axislegend(ax)
+fig
+```
+
+
+
+
+

@@ -17,14 +17,18 @@ website:
     contents:
       - href: index.qmd
         text: Home
-      - href: getting-started.qmd
+      - href: category/getting-started.qmd
         text: getting-stared
-      - href: 24-classfication-comparison.qmd
-        text: classfication-comparsion
-      - href: schedule.qmd
+      - section: "Regression"
+        contents:  category/regression/*.qmd
+      - section: "Classfication"
+        contents: category/classification/*.qmd
+      - href: category/schedule.qmd
         text: Schedule
-      - href: materials.qmd
+      - href: category/materials.qmd
         text: Materials
+      - section: "Dataset Intorduction"
+        contents: category/dataset/*.qmd
       
 
 format:

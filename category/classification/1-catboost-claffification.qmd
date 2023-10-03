@@ -1,0 +1,42 @@
+---
+title: "1-catboost-classfication"
+code-fold: true
+---
+
+:::{.callout-note title="dataset"}
+ dataset 参见 [`clustering-exercises dataset `](https://www.kaggle.com/datasets/joonasyoon/clustering-exercises)
+:::
+
+## 1. load package
+```{julia}
+include("../utils.jl")
+import Plots:scatter!,contourf
+import MLJ:predict,predict_mode,measures
+using Plots, MLJ, CSV, DataFrames
+using CatBoost.MLJCatBoostInterface
+```
+
+## 2. load data
+```{julia}
+  df=load_csv("basic1")
+  cat=df[:,:color]|>levels|>length # 类别
+  ytrain, Xtrain =  unpack(df, ==(:color), rng=123);
+  first(df,10)
+```
+
+## 3. MLJ  workflow
+### 3.1 fitting model
+```{julia}
+    catboost = CatBoostClassifier(iterations=2,learning_rate=0.20)
+    mach = machine(catboost, Xtrain, ytrain;scitype_check_level=0)|>fit!
+    tx,ty,xtest=boundary_data(df)  # boudary data and xtest 
+    ytest = predict_mode(mach, xtest)[:,1]|>Array
+```
+
+### 3.2 plot results
+```{julia}
+contourf(tx,ty,ytest,levels=cat,color=cgrad(:redsblues),alpha=0.7)
+p1=scatter!(df[:,:x],df[:,:y],group=df[:,:color],label=false,ms=3,alpha=0.3)
+```
+
+

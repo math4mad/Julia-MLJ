@@ -1,5 +1,5 @@
 ---
-title: "Course Materials"
+title: "dataset list"
 ---
 
 [Datasets](data/)
