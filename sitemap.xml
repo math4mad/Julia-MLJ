@@ -2,46 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/index.html</loc>
-    <lastmod>2023-10-03T09:11:40.170Z</lastmod>
+    <lastmod>2023-10-03T16:04:24.605Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/dataset/intro-1.html</loc>
-    <lastmod>2023-10-03T09:11:39.430Z</lastmod>
+    <lastmod>2023-10-03T16:04:23.941Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/math4mad/Julia-MLJ/category/classification/24-classfication-comparison.html</loc>
-    <lastmod>2023-10-03T09:11:38.618Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/math4mad/Julia-MLJ/category/materials.html</loc>
-    <lastmod>2023-10-03T09:11:33.649Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/math4mad/Julia-MLJ/category/regression/3-cricket-chirp-rate.html</loc>
-    <lastmod>2023-10-03T09:11:32.637Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/math4mad/Julia-MLJ/category/regression/1-salary-linear-reg.html</loc>
-    <lastmod>2023-10-03T09:11:30.825Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/math4mad/Julia-MLJ/category/regression/2-ecommerce-linear-reg.html</loc>
-    <lastmod>2023-10-03T09:11:32.069Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/math4mad/Julia-MLJ/category/getting-started.html</loc>
-    <lastmod>2023-10-03T09:11:33.289Z</lastmod>
+    <loc>https://github.com/math4mad/Julia-MLJ/category/classification/2-diabetes-svm-classficiation.html</loc>
+    <lastmod>2023-10-03T16:04:23.225Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/classification/1-catboost-claffification.html</loc>
-    <lastmod>2023-10-03T09:11:37.765Z</lastmod>
+    <lastmod>2023-10-03T16:04:21.912Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/math4mad/Julia-MLJ/category/getting-started.html</loc>
+    <lastmod>2023-10-03T16:04:17.724Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/math4mad/Julia-MLJ/category/regression/4-german-creditcard-logistics-reg.html</loc>
+    <lastmod>2023-10-03T16:04:16.672Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/math4mad/Julia-MLJ/category/regression/5-boston-housing-mixture-regression.html</loc>
+    <lastmod>2023-10-03T16:04:15.168Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/math4mad/Julia-MLJ/category/regression/1-salary-linear-reg.html</loc>
+    <lastmod>2023-10-03T16:04:14.304Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/math4mad/Julia-MLJ/category/regression/2-ecommerce-linear-reg.html</loc>
+    <lastmod>2023-10-03T16:04:15.908Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/math4mad/Julia-MLJ/category/regression/3-cricket-chirp-rate.html</loc>
+    <lastmod>2023-10-03T16:04:17.212Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/math4mad/Julia-MLJ/category/materials.html</loc>
+    <lastmod>2023-10-03T16:04:18.048Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/math4mad/Julia-MLJ/category/classification/24-classfication-comparison.html</loc>
+    <lastmod>2023-10-03T16:04:22.632Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/schedule.html</loc>
-    <lastmod>2023-10-03T09:11:39.030Z</lastmod>
+    <lastmod>2023-10-03T16:04:23.577Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/dataset/index.html</loc>
-    <lastmod>2023-10-03T09:11:39.806Z</lastmod>
+    <lastmod>2023-10-03T16:04:24.277Z</lastmod>
   </url>
 </urlset>
