@@ -1,0 +1,11 @@
+{
+  "hash": "26e8dcbd83b4fc308ae835f7378b114e",
+  "result": {
+    "markdown": "---\ntitle: \"7-latexify-test\"\ncode-fold: true\n---\n\n::: {.cell execution_count=1}\n``` {.julia .cell-code}\nusing Latexify,Markdown,Symbolics\n\n@variables x\nexpr=latexify(3x^3 + 2x - 5)\n\nMarkdown.parse(\"\"\"$(expr)\"\"\")\n```\n\n::: {.cell-output .cell-output-display execution_count=4}\n\\begin{equation} -5 + 2 x + 3 x^{3} \\end{equation}\n\n:::\n:::\n\n\n",
+    "supporting": [
+      "7-test-latexify_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
