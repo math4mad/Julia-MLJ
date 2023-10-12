@@ -1,0 +1,79 @@
+---
+title: "6-compare of BetalML models"
+code-fold: true
+---
+
+:::{.callout-note,title="简介"}
+使用 `BetaMLjl` 库 on  `german-creditcard` dataset  
+
+- ref :[german-creditcard](https://online.stat.psu.edu/stat857/node/215/)
+- 类型转换:`coerce(d,autotype(d, (:few_to_finite, :discrete_to_continuous)))`
+- `BetaML`是`julia`中另一个大型的机器学习库,参考文档:[`BetaML Doc`](https://sylvaticus.github.io/BetaML.jl/stable/)
+:::
+
+## 1. load package
+```{julia}
+include("../utils.jl")
+import MLJ:predict,predict_mode
+import BetaML
+using DataFrames,MLJ,CSV,MLJModelInterface,GLMakie
+using CatBoost.MLJCatBoostInterface
+```
+
+## 2. load data
+```{julia}
+   Xtrain, Xtest, ytrain, ytest,cat= load_german_creditcard();
+```
+
+## 3. define models
+
+```{julia}
+function define_models()
+
+        modelType1= @load NeuralNetworkClassifier pkg = "BetaML"
+
+        layers= [BetaML.DenseLayer(19,8,f=BetaML.relu),BetaML.DenseLayer(8,8,f=BetaML.relu),BetaML.DenseLayer(8,2,f=BetaML.relu),BetaML.VectorFunctionLayer(2,f=BetaML.softmax)];
+        nn_model= modelType1(layers=layers,opt_alg=BetaML.ADAM())
+
+        modelType2= @load DecisionTreeClassifier pkg = "BetaML" verbosity=0
+        dt_model= modelType2()
+
+        modelType3= @load KernelPerceptron pkg = "BetaML"
+        kp_model= modelType3()
+
+
+        modelType4= @load LinearPerceptron pkg = "BetaML"
+        lp_model= modelType4()
+
+        modelType5= @load Pegasos pkg = "BetaML" verbosity=0
+        peg_model=modelType5()
+
+
+        modelType6= @load RandomForestClassifier pkg = "BetaML" verbosity=0
+        rf_model=modelType6()
+
+        
+        cat_model=CatBoostClassifier(iterations=5)
+
+        models=[nn_model,dt_model,kp_model,lp_model,peg_model,rf_model,cat_model]
+        models_name=["nn","dt","kp","lp","peg","rf","cat"]
+        return models,models_name
+    end
+
+    models,models_name=define_models()
+```
+
+## 4. train model
+```{julia}
+function train_model()
+    for (idx,model) in enumerate(models[1:6])
+        local (fitResults, cache, report) = MLJ.fit(model, 0, Xtrain,ytrain);
+        local est_classes= predict_mode(model, fitResults, Xtest)
+        local acc=accuracy(ytest,est_classes)|>d->round(d, digits=3)
+        @info "$(models_name[idx])===>$(acc)"
+    end
+end
+
+train_model()
+```
+

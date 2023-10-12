@@ -19,13 +19,7 @@ using DataFrames,MLJ,CSV,MLJModelInterface,GLMakie
 
 ## 2. data procsssing
 ```{julia}
-to_ScienceType(d)=coerce(d,autotype(d, :few_to_finite))
-df=load_csv("german_creditcard")|>to_ScienceType
-first(df,5)|>display
-y, X=  unpack(df, ==(:Creditability));
-cat=levels(y)
-X=X[:,1:end-1]  # 去除最后一列变量
-(Xtrain, Xtest), (ytrain, ytest) = partition((X, y), 0.8, rng=123, multi=true);
+Xtrain, Xtest, ytrain, ytest,cat= load_german_creditcard();
 ```
 
 ## 3. MLJ workflow

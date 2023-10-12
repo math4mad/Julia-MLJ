@@ -11,3 +11,6 @@ Icon?
 *.jls
 catboost_info/
 .vscode/
+/_freeze/
+
+

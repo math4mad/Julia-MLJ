@@ -1,0 +1,13 @@
+---
+title: "7-latexify-test"
+code-fold: true
+---
+
+```{julia}
+using Latexify,Markdown,Symbolics
+
+@variables x
+expr=latexify(3x^3 + 2x - 5)
+
+Markdown.parse("""$(expr)""")
+```
