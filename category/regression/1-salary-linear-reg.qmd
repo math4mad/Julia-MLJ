@@ -3,7 +3,7 @@ title: "1-salary-linear-reg"
 code-fold: true
 ---
 
-:::{.callout-note,title="简介"}
+:::{.callout-note title="简介"}
   > explore `YearsExperience` and  `Salary` relationship
 
   1. dataset: [`kaggle salary dataset`](https://www.kaggle.com/datasets/abhishek14398/salary-dataset-simple-linear-regression)
