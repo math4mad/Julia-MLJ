@@ -92,9 +92,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -185,6 +182,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../category/regression/5-boston-housing-mixture-regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5-bostonhousing-mixturemodel-regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/6-compare of BetalML method.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6-compare of BetalML models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/7-test-latexify.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7-latexify-test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/8-iris-logistics-reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8-iris-logistics-reg</span></a>
   </div>
 </li>
       </ul>
@@ -309,192 +324,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="2">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">to_ScienceType</span>(d)<span class="op">=</span><span class="fu">coerce</span>(d,<span class="fu">autotype</span>(d, <span class="op">:</span>few_to_finite))</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span><span class="fu">load_csv</span>(<span class="st">"german_creditcard"</span>)<span class="op">|&gt;</span>to_ScienceType</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(df,<span class="fl">5</span>)<span class="op">|&gt;</span>display</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>y, X<span class="op">=</span>  <span class="fu">unpack</span>(df, <span class="op">==</span>(<span class="op">:</span>Creditability));</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>cat<span class="op">=</span><span class="fu">levels</span>(y)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>X<span class="op">=</span>X[<span class="op">:</span>,<span class="fl">1</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>]  <span class="co"># 去除最后一列变量</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>(Xtrain, Xtest), (ytrain, ytest) <span class="op">=</span> <span class="fu">partition</span>((X, y), <span class="fl">0.8</span>, rng<span class="op">=</span><span class="fl">123</span>, multi<span class="op">=</span><span class="cn">true</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Xtrain, Xtest, ytrain, ytest,cat<span class="op">=</span> <span class="fu">load_german_creditcard</span>();</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display">
-<div><div style="float: left;"><span>5×21 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
-<table class="data-frame table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header header">
-<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Creditability</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Account Balance</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Duration of Credit (month)</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Payment Status of Previous Credit</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Purpose</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Credit Amount</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Value Savings/Stocks</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Length of current employment</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Instalment per cent</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Sex &amp; Marital Status</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Guarantors</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Duration in Current address</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Most valuable available asset</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Age (years)</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Concurrent Credits</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Type of apartment</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">No of Credits at this Bank</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Occupation</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">No of dependents</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Telephone</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Foreign Worker</th>
-</tr>
-<tr class="odd subheader headerLastRow">
-<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">18</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: right;">1049</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">21</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">2</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">9</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: right;">2799</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">36</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">3</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">12</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">9</td>
-<td style="text-align: right;">841</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">23</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">4</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">12</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: right;">2122</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">39</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">5</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">12</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: right;">2171</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">38</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 </div>
 </section>
 <section id="mlj-workflow" class="level2">
@@ -546,11 +377,11 @@ Evaluating over 64 metamodels:   0%[&gt;                        ]  ETA: N/A┌ W
 │ 
 │ In the present case:
 │ 
-│ scitype(data) = Tuple{Table{Union{AbstractVector{Count}, AbstractVector{OrderedFactor{33}}, AbstractVector{OrderedFactor{10}}, AbstractVector{OrderedFactor{5}}, AbstractVector{OrderedFactor{53}}, AbstractVector{OrderedFactor{3}}, AbstractVector{OrderedFactor{4}}, AbstractVector{OrderedFactor{2}}}}, AbstractVector{OrderedFactor{2}}}
+│ scitype(data) = Tuple{Table{Union{AbstractVector{Continuous}, AbstractVector{OrderedFactor{33}}, AbstractVector{OrderedFactor{10}}, AbstractVector{OrderedFactor{5}}, AbstractVector{OrderedFactor{53}}, AbstractVector{OrderedFactor{3}}, AbstractVector{OrderedFactor{4}}, AbstractVector{OrderedFactor{2}}}}, AbstractVector{OrderedFactor{2}}}
 │ 
 │ fit_data_scitype(model) = Tuple{Table{&lt;:AbstractVector{&lt;:Continuous}}, AbstractVector{&lt;:Finite}}
 └ @ MLJBase ~/.julia/packages/MLJBase/fEiP2/src/machines.jl:230
-Evaluating over 64 metamodels:   2%[&gt;                        ]  ETA: 0:00:01Evaluating over 64 metamodels:   3%[&gt;                        ]  ETA: 0:00:01Evaluating over 64 metamodels:   5%[=&gt;                       ]  ETA: 0:00:01Evaluating over 64 metamodels:   6%[=&gt;                       ]  ETA: 0:00:01Evaluating over 64 metamodels:   8%[=&gt;                       ]  ETA: 0:00:01Evaluating over 64 metamodels:   9%[==&gt;                      ]  ETA: 0:00:01Evaluating over 64 metamodels:  11%[==&gt;                      ]  ETA: 0:00:01Evaluating over 64 metamodels:  12%[===&gt;                     ]  ETA: 0:00:01Evaluating over 64 metamodels:  14%[===&gt;                     ]  ETA: 0:00:01Evaluating over 64 metamodels:  16%[===&gt;                     ]  ETA: 0:00:01Evaluating over 64 metamodels:  17%[====&gt;                    ]  ETA: 0:00:01Evaluating over 64 metamodels:  19%[====&gt;                    ]  ETA: 0:00:01Evaluating over 64 metamodels:  20%[=====&gt;                   ]  ETA: 0:00:01Evaluating over 64 metamodels:  22%[=====&gt;                   ]  ETA: 0:00:01Evaluating over 64 metamodels:  23%[=====&gt;                   ]  ETA: 0:00:01Evaluating over 64 metamodels:  25%[======&gt;                  ]  ETA: 0:00:01Evaluating over 64 metamodels:  27%[======&gt;                  ]  ETA: 0:00:01Evaluating over 64 metamodels:  28%[=======&gt;                 ]  ETA: 0:00:01Evaluating over 64 metamodels:  30%[=======&gt;                 ]  ETA: 0:00:01Evaluating over 64 metamodels:  31%[=======&gt;                 ]  ETA: 0:00:01Evaluating over 64 metamodels:  33%[========&gt;                ]  ETA: 0:00:00Evaluating over 64 metamodels:  34%[========&gt;                ]  ETA: 0:00:00Evaluating over 64 metamodels:  36%[========&gt;                ]  ETA: 0:00:00Evaluating over 64 metamodels:  38%[=========&gt;               ]  ETA: 0:00:00Evaluating over 64 metamodels:  39%[=========&gt;               ]  ETA: 0:00:00Evaluating over 64 metamodels:  41%[==========&gt;              ]  ETA: 0:00:00Evaluating over 64 metamodels:  42%[==========&gt;              ]  ETA: 0:00:00Evaluating over 64 metamodels:  44%[==========&gt;              ]  ETA: 0:00:00Evaluating over 64 metamodels:  45%[===========&gt;             ]  ETA: 0:00:00Evaluating over 64 metamodels:  47%[===========&gt;             ]  ETA: 0:00:00Evaluating over 64 metamodels:  48%[============&gt;            ]  ETA: 0:00:00Evaluating over 64 metamodels:  50%[============&gt;            ]  ETA: 0:00:00Evaluating over 64 metamodels:  52%[============&gt;            ]  ETA: 0:00:00Evaluating over 64 metamodels:  53%[=============&gt;           ]  ETA: 0:00:00Evaluating over 64 metamodels:  55%[=============&gt;           ]  ETA: 0:00:00Evaluating over 64 metamodels:  56%[==============&gt;          ]  ETA: 0:00:00Evaluating over 64 metamodels:  58%[==============&gt;          ]  ETA: 0:00:00Evaluating over 64 metamodels:  59%[==============&gt;          ]  ETA: 0:00:00Evaluating over 64 metamodels:  61%[===============&gt;         ]  ETA: 0:00:00Evaluating over 64 metamodels:  62%[===============&gt;         ]  ETA: 0:00:00Evaluating over 64 metamodels:  64%[================&gt;        ]  ETA: 0:00:00Evaluating over 64 metamodels:  66%[================&gt;        ]  ETA: 0:00:00Evaluating over 64 metamodels:  67%[================&gt;        ]  ETA: 0:00:00Evaluating over 64 metamodels:  69%[=================&gt;       ]  ETA: 0:00:00Evaluating over 64 metamodels:  70%[=================&gt;       ]  ETA: 0:00:00Evaluating over 64 metamodels:  72%[=================&gt;       ]  ETA: 0:00:00Evaluating over 64 metamodels:  73%[==================&gt;      ]  ETA: 0:00:00Evaluating over 64 metamodels:  75%[==================&gt;      ]  ETA: 0:00:00Evaluating over 64 metamodels:  77%[===================&gt;     ]  ETA: 0:00:00Evaluating over 64 metamodels:  78%[===================&gt;     ]  ETA: 0:00:00Evaluating over 64 metamodels:  80%[===================&gt;     ]  ETA: 0:00:00Evaluating over 64 metamodels:  81%[====================&gt;    ]  ETA: 0:00:00Evaluating over 64 metamodels:  83%[====================&gt;    ]  ETA: 0:00:00Evaluating over 64 metamodels:  84%[=====================&gt;   ]  ETA: 0:00:00Evaluating over 64 metamodels:  86%[=====================&gt;   ]  ETA: 0:00:00Evaluating over 64 metamodels:  88%[=====================&gt;   ]  ETA: 0:00:00Evaluating over 64 metamodels:  89%[======================&gt;  ]  ETA: 0:00:00Evaluating over 64 metamodels:  91%[======================&gt;  ]  ETA: 0:00:00Evaluating over 64 metamodels:  92%[=======================&gt; ]  ETA: 0:00:00Evaluating over 64 metamodels:  94%[=======================&gt; ]  ETA: 0:00:00Evaluating over 64 metamodels:  95%[=======================&gt; ]  ETA: 0:00:00Evaluating over 64 metamodels:  97%[========================&gt;]  ETA: 0:00:00Evaluating over 64 metamodels:  98%[========================&gt;]  ETA: 0:00:00Evaluating over 64 metamodels: 100%[=========================] Time: 0:00:00
+Evaluating over 64 metamodels:   2%[&gt;                        ]  ETA: 0:13:47Evaluating over 64 metamodels:   3%[&gt;                        ]  ETA: 0:07:03Evaluating over 64 metamodels:   5%[=&gt;                       ]  ETA: 0:04:37Evaluating over 64 metamodels:   6%[=&gt;                       ]  ETA: 0:03:25Evaluating over 64 metamodels:   8%[=&gt;                       ]  ETA: 0:02:41Evaluating over 64 metamodels:   9%[==&gt;                      ]  ETA: 0:02:12Evaluating over 64 metamodels:  11%[==&gt;                      ]  ETA: 0:01:51Evaluating over 64 metamodels:  12%[===&gt;                     ]  ETA: 0:01:36Evaluating over 64 metamodels:  14%[===&gt;                     ]  ETA: 0:01:24Evaluating over 64 metamodels:  16%[===&gt;                     ]  ETA: 0:01:14Evaluating over 64 metamodels:  17%[====&gt;                    ]  ETA: 0:01:06Evaluating over 64 metamodels:  19%[====&gt;                    ]  ETA: 0:00:59Evaluating over 64 metamodels:  20%[=====&gt;                   ]  ETA: 0:00:54Evaluating over 64 metamodels:  22%[=====&gt;                   ]  ETA: 0:00:49Evaluating over 64 metamodels:  23%[=====&gt;                   ]  ETA: 0:00:45Evaluating over 64 metamodels:  25%[======&gt;                  ]  ETA: 0:00:41Evaluating over 64 metamodels:  27%[======&gt;                  ]  ETA: 0:00:38Evaluating over 64 metamodels:  28%[=======&gt;                 ]  ETA: 0:00:35Evaluating over 64 metamodels:  30%[=======&gt;                 ]  ETA: 0:00:33Evaluating over 64 metamodels:  31%[=======&gt;                 ]  ETA: 0:00:30Evaluating over 64 metamodels:  33%[========&gt;                ]  ETA: 0:00:28Evaluating over 64 metamodels:  34%[========&gt;                ]  ETA: 0:00:26Evaluating over 64 metamodels:  36%[========&gt;                ]  ETA: 0:00:25Evaluating over 64 metamodels:  38%[=========&gt;               ]  ETA: 0:00:23Evaluating over 64 metamodels:  39%[=========&gt;               ]  ETA: 0:00:22Evaluating over 64 metamodels:  41%[==========&gt;              ]  ETA: 0:00:20Evaluating over 64 metamodels:  42%[==========&gt;              ]  ETA: 0:00:19Evaluating over 64 metamodels:  44%[==========&gt;              ]  ETA: 0:00:18Evaluating over 64 metamodels:  45%[===========&gt;             ]  ETA: 0:00:17Evaluating over 64 metamodels:  47%[===========&gt;             ]  ETA: 0:00:16Evaluating over 64 metamodels:  48%[============&gt;            ]  ETA: 0:00:15Evaluating over 64 metamodels:  50%[============&gt;            ]  ETA: 0:00:14Evaluating over 64 metamodels:  52%[============&gt;            ]  ETA: 0:00:13Evaluating over 64 metamodels:  53%[=============&gt;           ]  ETA: 0:00:12Evaluating over 64 metamodels:  55%[=============&gt;           ]  ETA: 0:00:12Evaluating over 64 metamodels:  56%[==============&gt;          ]  ETA: 0:00:11Evaluating over 64 metamodels:  58%[==============&gt;          ]  ETA: 0:00:10Evaluating over 64 metamodels:  59%[==============&gt;          ]  ETA: 0:00:10Evaluating over 64 metamodels:  61%[===============&gt;         ]  ETA: 0:00:09Evaluating over 64 metamodels:  62%[===============&gt;         ]  ETA: 0:00:08Evaluating over 64 metamodels:  64%[================&gt;        ]  ETA: 0:00:08Evaluating over 64 metamodels:  66%[================&gt;        ]  ETA: 0:00:07Evaluating over 64 metamodels:  67%[================&gt;        ]  ETA: 0:00:07Evaluating over 64 metamodels:  69%[=================&gt;       ]  ETA: 0:00:06Evaluating over 64 metamodels:  70%[=================&gt;       ]  ETA: 0:00:06Evaluating over 64 metamodels:  72%[=================&gt;       ]  ETA: 0:00:05Evaluating over 64 metamodels:  73%[==================&gt;      ]  ETA: 0:00:05Evaluating over 64 metamodels:  75%[==================&gt;      ]  ETA: 0:00:05Evaluating over 64 metamodels:  77%[===================&gt;     ]  ETA: 0:00:04Evaluating over 64 metamodels:  78%[===================&gt;     ]  ETA: 0:00:04Evaluating over 64 metamodels:  80%[===================&gt;     ]  ETA: 0:00:04Evaluating over 64 metamodels:  81%[====================&gt;    ]  ETA: 0:00:03Evaluating over 64 metamodels:  83%[====================&gt;    ]  ETA: 0:00:03Evaluating over 64 metamodels:  84%[=====================&gt;   ]  ETA: 0:00:03Evaluating over 64 metamodels:  86%[=====================&gt;   ]  ETA: 0:00:02Evaluating over 64 metamodels:  88%[=====================&gt;   ]  ETA: 0:00:02Evaluating over 64 metamodels:  89%[======================&gt;  ]  ETA: 0:00:02Evaluating over 64 metamodels:  91%[======================&gt;  ]  ETA: 0:00:01Evaluating over 64 metamodels:  92%[=======================&gt; ]  ETA: 0:00:01Evaluating over 64 metamodels:  94%[=======================&gt; ]  ETA: 0:00:01Evaluating over 64 metamodels:  95%[=======================&gt; ]  ETA: 0:00:01Evaluating over 64 metamodels:  97%[========================&gt;]  ETA: 0:00:00Evaluating over 64 metamodels:  98%[========================&gt;]  ETA: 0:00:00Evaluating over 64 metamodels: 100%[=========================] Time: 0:00:14
 ┌ Warning: The number and/or types of data arguments do not match what the specified model
 │ supports. Suppress this type check by specifying `scitype_check_level=0`.
 │ 
@@ -567,7 +398,7 @@ Evaluating over 64 metamodels:   2%[&gt;                        ]  ETA: 0:00:01E
 │ 
 │ In the present case:
 │ 
-│ scitype(data) = Tuple{Table{Union{AbstractVector{Count}, AbstractVector{OrderedFactor{33}}, AbstractVector{OrderedFactor{10}}, AbstractVector{OrderedFactor{5}}, AbstractVector{OrderedFactor{53}}, AbstractVector{OrderedFactor{3}}, AbstractVector{OrderedFactor{4}}, AbstractVector{OrderedFactor{2}}}}, AbstractVector{OrderedFactor{2}}}
+│ scitype(data) = Tuple{Table{Union{AbstractVector{Continuous}, AbstractVector{OrderedFactor{33}}, AbstractVector{OrderedFactor{10}}, AbstractVector{OrderedFactor{5}}, AbstractVector{OrderedFactor{53}}, AbstractVector{OrderedFactor{3}}, AbstractVector{OrderedFactor{4}}, AbstractVector{OrderedFactor{2}}}}, AbstractVector{OrderedFactor{2}}}
 │ 
 │ fit_data_scitype(model) = Tuple{Table{&lt;:AbstractVector{&lt;:Continuous}}, AbstractVector{&lt;:Finite}}
 └ @ MLJBase ~/.julia/packages/MLJBase/fEiP2/src/machines.jl:230</code></pre>
@@ -577,12 +408,12 @@ Evaluating over 64 metamodels:   2%[&gt;                        ]  ETA: 0:00:01E
 import MLJLIBSVMInterface ✔
 import NearestNeighborModels ✔</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="39">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>trained Machine; does not cache data
   model: ProbabilisticTunedModel(model = LogisticClassifier(lambda = 2.220446049250313e-16, …), …)
   args: 
-    1:  Source @581 ⏎ Table{Union{AbstractVector{Count}, AbstractVector{OrderedFactor{33}}, AbstractVector{OrderedFactor{10}}, AbstractVector{OrderedFactor{5}}, AbstractVector{OrderedFactor{53}}, AbstractVector{OrderedFactor{3}}, AbstractVector{OrderedFactor{4}}, AbstractVector{OrderedFactor{2}}}}
-    2:  Source @414 ⏎ AbstractVector{OrderedFactor{2}}</code></pre>
+    1:  Source @693 ⏎ Table{Union{AbstractVector{Continuous}, AbstractVector{OrderedFactor{33}}, AbstractVector{OrderedFactor{10}}, AbstractVector{OrderedFactor{5}}, AbstractVector{OrderedFactor{53}}, AbstractVector{OrderedFactor{3}}, AbstractVector{OrderedFactor{4}}, AbstractVector{OrderedFactor{2}}}}
+    2:  Source @676 ⏎ AbstractVector{OrderedFactor{2}}</code></pre>
 </div>
 </div>
 </section>
