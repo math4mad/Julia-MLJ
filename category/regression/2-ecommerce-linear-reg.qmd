@@ -3,7 +3,7 @@ title: "2-ecommerce-linear-reg"
 code-fold: true
 ---
 
-:::{.callout-note,title="简介"}
+:::{.callout-note title="简介"}
   >  通过上网浏览时间预测年花费
 
 

@@ -3,7 +3,7 @@ title: "6-compare of BetalML models"
 code-fold: true
 ---
 
-:::{.callout-note,title="简介"}
+:::{.callout-note title="简介"}
 使用 `BetaMLjl` 库 on  `german-creditcard` dataset  
 
 - ref :[german-creditcard](https://online.stat.psu.edu/stat857/node/215/)

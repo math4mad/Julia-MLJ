@@ -3,7 +3,7 @@ title : "4-german-creditcard-logistics-reg"
 code-fold: true
 ---
 
-:::{.callout-note,title="简介"}
+:::{.callout-note title="简介"}
  - ref :[german-creditcard](https://online.stat.psu.edu/stat857/node/215/)
  - scitype 转换 参考:[autotype(d, :few_to_finite)方法](https://juliaai.github.io/DataScienceTutorials.jl/data/processing/)
   

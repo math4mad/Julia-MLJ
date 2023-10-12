@@ -3,7 +3,7 @@ title: "3-cricket-chirp-rate"
 code-fold: true
 ---
 
-:::{.callout-note,title="简介"}
+:::{.callout-note title="简介"}
  - [source1](http://www.probability.ca/jeff/teaching/1617/sta130/lecturenotes/notesCposthand.pdf)
 
 - [source2](https://rdrr.io/rforge/Lock5Data/man/CricketChirps.html#heading-3)
