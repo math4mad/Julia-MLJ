@@ -302,7 +302,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="{.callout-note,title=&quot;简介&quot;}">
+<div class="callout callout-style-default callout-note callout-titled" title="简介">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+简介
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
 <li><p><a href="http://www.probability.ca/jeff/teaching/1617/sta130/lecturenotes/notesCposthand.pdf">source1</a></p></li>
 <li><p><a href="https://rdrr.io/rforge/Lock5Data/man/CricketChirps.html#heading-3">source2</a></p></li>
@@ -312,6 +321,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>雪树蟋蟀的鸣叫实际是大腿摩擦发出的声音, 经过数据收集,发现鸣叫的频率和环境温度正相关.</p>
 </blockquote>
 <p>经过线性拟合得到的函数为:<code>C(t)=4.25t-157.8</code></p>
+</div>
 </div>
 <section id="load-pacakge" class="level2">
 <h2 class="anchored" data-anchor-id="load-pacakge">1. load pacakge</h2>
@@ -338,7 +348,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>test_X<span class="op">=</span>MLJ.<span class="fu">table</span>(<span class="fu">reshape</span>(test_X,<span class="fl">50</span>,<span class="fl">1</span>))</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>cols<span class="op">=</span><span class="fu">names</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="33">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>2-element Vector{String}:
  "Temperature"
  "Chirps"</code></pre>
@@ -356,9 +366,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    mach <span class="op">=</span> <span class="fu">fit!</span>(<span class="fu">machine</span>(<span class="fu">LinearRegressor</span>(), X, y))</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">report</span>(mach)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>import MLJLinearModels ✔</code></pre>
-</div>
 <div class="cell-output cell-output-stderr">
 <pre><code>[ Info: For silent loading, specify `verbosity=0`. 
 ┌ Warning: The number and/or types of data arguments do not match what the specified model
@@ -386,6 +393,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 │   iterative: Bool false
 └   max_inner: Int64 200</code></pre>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>import MLJLinearModels ✔</code></pre>
+</div>
 </div>
 </section>
 <section id="plot-fitting-curve" class="level3">
@@ -410,7 +420,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_fitting_curve</span>(df,yhat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="35">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <p><img src="3-cricket-chirp-rate_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
 </div>
 </div>
