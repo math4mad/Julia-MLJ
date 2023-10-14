@@ -106,10 +106,3 @@ tx,ty, xtest=boundary_data(Xproj)  #xtest  生成决策边界的数据
 
     plot_model()
 ```
-
-
-
-
-
-
-

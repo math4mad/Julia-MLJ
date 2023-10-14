@@ -23,6 +23,8 @@ website:
         contents:  category/regression/*.qmd
       - section: "Classfication"
         contents: category/classification/*.qmd
+      - section: "Dimension Reduction"
+        contents: category/dimension-reduction/*.qmd
       - href: category/schedule.qmd
         text: Schedule
       - href: category/materials.qmd
