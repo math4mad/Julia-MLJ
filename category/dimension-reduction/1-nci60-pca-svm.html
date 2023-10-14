@@ -108,9 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      Julia MLJ
-      </li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../category/dimension-reduction/1-nci60-pca-svm.html">Dimension Reduction</a></li><li class="breadcrumb-item"><a href="../../category/dimension-reduction/1-nci60-pca-svm.html">1-nci60-pca-clustering-svm</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -244,6 +242,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Dimension Reduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/dimension-reduction/1-nci60-pca-svm.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">1-nci60-pca-clustering-svm</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../category/schedule.html" class="sidebar-item-text sidebar-link">
@@ -260,11 +275,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../../category/dataset/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Dataset Intorduction</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../category/dataset/intro-1.html" class="sidebar-item-text sidebar-link">
@@ -339,7 +354,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span>,<span class="bu">MLJ</span>,<span class="bu">CSV</span>,<span class="bu">MLJModelInterface</span>,<span class="bu">GLMakie</span>,<span class="bu">Random</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">Random</span>.<span class="fu">seed!</span>(<span class="fl">45454</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="62">
+<div class="cell-output cell-output-stderr">
+<pre><code>WARNING: using DataFrames.transform in module Main conflicts with an existing identifier.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>TaskLocalRNG()</code></pre>
 </div>
 </div>
@@ -349,15 +367,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="2">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    df<span class="op">=</span> CSV.<span class="fu">File</span>(<span class="st">"./data/NCI60.csv"</span>) <span class="op">|&gt;</span> DataFrame <span class="op">|&gt;</span> dropmissing</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    Xtr <span class="op">=</span> df[<span class="op">:</span>,<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    Xtr_labels <span class="op">=</span> <span class="fu">Vector</span>(df[<span class="op">:</span>,<span class="fl">1</span>])</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># # split other half to testing set</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    Xte<span class="op">=</span>df[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span>,<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    Xte_labels <span class="op">=</span> <span class="fu">Vector</span>(df[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span>,<span class="fl">1</span>])</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">first</span>(df,<span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    df<span class="op">=</span> CSV.<span class="fu">File</span>(<span class="st">"./data/NCI60.csv"</span>) <span class="op">|&gt;</span> DataFrame <span class="op">|&gt;</span> dropmissing</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    Xtr <span class="op">=</span> df[<span class="op">:</span>,<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    Xtr_labels <span class="op">=</span> <span class="fu">Vector</span>(df[<span class="op">:</span>,<span class="fl">1</span>])</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># # split other half to testing set</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    Xte<span class="op">=</span>df[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span>,<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    Xte_labels <span class="op">=</span> <span class="fu">Vector</span>(df[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span>,<span class="fl">1</span>])</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">first</span>(df,<span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="63">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div><div style="float: left;"><span>10×6831 DataFrame</span></div><div style="float: right;"><span style="font-style: italic;">6731 columns omitted</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
 <table class="data-frame table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -1630,25 +1648,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="3">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a> PCA <span class="op">=</span> <span class="pp">@load</span> PCA pkg<span class="op">=</span>MultivariateStats</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> KMeans <span class="op">=</span> <span class="pp">@load</span> KMeans pkg<span class="op">=</span>Clustering</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> SVC <span class="op">=</span> <span class="pp">@load</span> SVC pkg<span class="op">=</span>LIBSVM</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a> model<span class="op">=</span><span class="fu">PCA</span>(maxoutdim<span class="op">=</span><span class="fl">2</span>) <span class="co"># pca model</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a> model2 <span class="op">=</span> <span class="fu">KMeans</span>(k<span class="op">=</span><span class="fl">3</span>)   <span class="co"># clustering model</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a> model3 <span class="op">=</span> <span class="fu">SVC</span>()        <span class="co"># svm dodel</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a> PCA <span class="op">=</span> <span class="pp">@load</span> PCA pkg<span class="op">=</span>MultivariateStats</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a> KMeans <span class="op">=</span> <span class="pp">@load</span> KMeans pkg<span class="op">=</span>Clustering</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a> SVC <span class="op">=</span> <span class="pp">@load</span> SVC pkg<span class="op">=</span>LIBSVM</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a> model<span class="op">=</span><span class="fu">PCA</span>(maxoutdim<span class="op">=</span><span class="fl">2</span>) <span class="co"># pca model</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a> model2 <span class="op">=</span> <span class="fu">KMeans</span>(k<span class="op">=</span><span class="fl">3</span>)   <span class="co"># clustering model</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a> model3 <span class="op">=</span> <span class="fu">SVC</span>()        <span class="co"># svm dodel</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>import MLJMultivariateStatsInterface ✔
-import MLJClusteringInterface ✔
-import MLJLIBSVMInterface ✔</code></pre>
-</div>
 <div class="cell-output cell-output-stderr">
 <pre><code>[ Info: For silent loading, specify `verbosity=0`. 
 [ Info: For silent loading, specify `verbosity=0`. 
 [ Info: For silent loading, specify `verbosity=0`. </code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="64">
+<div class="cell-output cell-output-stdout">
+<pre><code>import MLJMultivariateStatsInterface ✔
+import MLJClusteringInterface ✔
+import MLJLIBSVMInterface ✔</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>SVC(
   kernel = LIBSVM.Kernel.RadialBasis, 
   gamma = 0.0, 
@@ -1671,14 +1689,14 @@ import MLJLIBSVMInterface ✔</code></pre>
 <div class="cell" data-execution_count="4">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mach <span class="op">=</span> <span class="fu">machine</span>(model, Xtr) <span class="op">|&gt;</span> fit!</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Xproj <span class="op">=</span><span class="fu">transform</span>(mach, Xtr)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(Xproj,<span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mach <span class="op">=</span> <span class="fu">machine</span>(model, Xtr) <span class="op">|&gt;</span> fit!</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Xproj <span class="op">=</span><span class="fu">transform</span>(mach, Xtr)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(Xproj,<span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>[ Info: Training machine(PCA(maxoutdim = 2, …), …).</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="65">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div><div style="float: left;"><span>10×2 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
 <table class="data-frame table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -1755,19 +1773,19 @@ import MLJLIBSVMInterface ✔</code></pre>
 <div class="cell" data-execution_count="5">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">boundary_data</span>(df,;n<span class="op">=</span><span class="fl">200</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    n1<span class="op">=</span>n2<span class="op">=</span>n</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    xlow,xhigh<span class="op">=</span><span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="op">:</span>x1])</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    ylow,yhigh<span class="op">=</span><span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="op">:</span>x2])</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    tx <span class="op">=</span> <span class="fu">range</span>(xlow,xhigh; length<span class="op">=</span>n1)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    ty <span class="op">=</span> <span class="fu">range</span>(ylow,yhigh; length<span class="op">=</span>n2)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    x_test <span class="op">=</span> <span class="fu">mapreduce</span>(collect, hcat, <span class="bu">Iterators</span>.<span class="fu">product</span>(tx, ty));</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    xtest<span class="op">=</span>MLJ.<span class="fu">table</span>(x_test<span class="op">'</span>)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tx,ty, xtest</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>tx,ty, xtest<span class="op">=</span><span class="fu">boundary_data</span>(Xproj)  <span class="co">#xtest  生成决策边界的数据</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">boundary_data</span>(df,;n<span class="op">=</span><span class="fl">200</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    n1<span class="op">=</span>n2<span class="op">=</span>n</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    xlow,xhigh<span class="op">=</span><span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="op">:</span>x1])</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    ylow,yhigh<span class="op">=</span><span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="op">:</span>x2])</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    tx <span class="op">=</span> <span class="fu">range</span>(xlow,xhigh; length<span class="op">=</span>n1)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    ty <span class="op">=</span> <span class="fu">range</span>(ylow,yhigh; length<span class="op">=</span>n2)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    x_test <span class="op">=</span> <span class="fu">mapreduce</span>(collect, hcat, <span class="bu">Iterators</span>.<span class="fu">product</span>(tx, ty));</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    xtest<span class="op">=</span>MLJ.<span class="fu">table</span>(x_test<span class="op">'</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tx,ty, xtest</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>tx,ty, xtest<span class="op">=</span><span class="fu">boundary_data</span>(Xproj)  <span class="co">#xtest  生成决策边界的数据</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="66">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>(-50.21864152783379:0.5383986285981281:56.9226855631937, -51.362711708066826:0.3660101806028475:21.473314231899835, Tables.MatrixTable{LinearAlgebra.Adjoint{Float64, Matrix{Float64}}} with 40000 rows, 2 columns, and schema:
  :x1  Float64
  :x2  Float64)</code></pre>
@@ -1779,18 +1797,18 @@ import MLJLIBSVMInterface ✔</code></pre>
 <div class="cell" data-execution_count="6">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a> mach2<span class="op">=</span> <span class="fu">machine</span>(model2, Xproj) <span class="op">|&gt;</span> fit!</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a> yhat <span class="op">=</span> <span class="fu">predict</span>(mach2, Xproj)  <span class="co"># 聚类结果</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a> cat<span class="op">=</span>yhat<span class="op">|&gt;</span><span class="dt">Array</span><span class="op">|&gt;</span>levels</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a> mach3 <span class="op">=</span> <span class="fu">machine</span>(model3, Xproj, yhat)<span class="op">|&gt;</span>fit!</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a> ypred<span class="op">=</span><span class="fu">predict</span>(mach3, xtest)<span class="op">|&gt;</span><span class="dt">Array</span><span class="op">|&gt;</span><span class="fu">d-&gt;reshape</span>(d,<span class="fl">200</span>,<span class="fl">200</span>) <span class="co">#SVM 结果</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a> mach2<span class="op">=</span> <span class="fu">machine</span>(model2, Xproj) <span class="op">|&gt;</span> fit!</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a> yhat <span class="op">=</span> <span class="fu">predict</span>(mach2, Xproj)  <span class="co"># 聚类结果</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a> cat<span class="op">=</span>yhat<span class="op">|&gt;</span><span class="dt">Array</span><span class="op">|&gt;</span>levels</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a> mach3 <span class="op">=</span> <span class="fu">machine</span>(model3, Xproj, yhat)<span class="op">|&gt;</span>fit!</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a> ypred<span class="op">=</span><span class="fu">predict</span>(mach3, xtest)<span class="op">|&gt;</span><span class="dt">Array</span><span class="op">|&gt;</span><span class="fu">d-&gt;reshape</span>(d,<span class="fl">200</span>,<span class="fl">200</span>) <span class="co">#SVM 结果</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>[ Info: Training machine(KMeans(k = 3, …), …).
 [ Info: Training machine(SVC(kernel = RadialBasis, …), …).</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="67">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>200×200 Matrix{Int64}:
  1  1  1  1  1  1  1  1  1  1  1  1  1  …  1  1  1  1  1  1  1  1  1  1  1  1
  1  1  1  1  1  1  1  1  1  1  1  1  1     1  1  1  1  1  1  1  1  1  1  1  1
@@ -1826,26 +1844,26 @@ import MLJLIBSVMInterface ✔</code></pre>
 <div class="cell" data-execution_count="7">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">plot_model</span>()</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>],title<span class="op">=</span><span class="st">"NCI60 Machine Learning"</span>,subtitle<span class="op">=</span><span class="st">"pca-&gt;clustering-&gt;svm"</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        colors <span class="op">=</span> [<span class="op">:</span>red, <span class="op">:</span>orange, <span class="op">:</span>blue]</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">contourf!</span>(ax, tx,ty,ypred)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (i, c) <span class="kw">in</span> <span class="fu">enumerate</span>(<span class="fu">Array</span>(yhat))</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>            data <span class="op">=</span> Xproj[i, <span class="op">:</span>]</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scatter!</span>(ax, data.x1, data.x2;marker<span class="op">=:</span>circle,markersize<span class="op">=</span><span class="fl">12</span>,color<span class="op">=</span>(colors[c],<span class="fl">0.3</span>),strokewidth<span class="op">=</span><span class="fl">1</span>,strokecolor<span class="op">=:</span>black)</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">text!</span>(ax,data.x1, data.x2;text<span class="op">=</span><span class="st">"v</span><span class="sc">$</span>(i)<span class="st">"</span>)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        fig</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">#save("NCI60 Machine Learning:pca-&gt;clustering-&gt;svm-with-tag.png",fig)</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_model</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">plot_model</span>()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>],title<span class="op">=</span><span class="st">"NCI60 Machine Learning"</span>,subtitle<span class="op">=</span><span class="st">"pca-&gt;clustering-&gt;svm"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        colors <span class="op">=</span> [<span class="op">:</span>red, <span class="op">:</span>orange, <span class="op">:</span>blue]</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">contourf!</span>(ax, tx,ty,ypred)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (i, c) <span class="kw">in</span> <span class="fu">enumerate</span>(<span class="fu">Array</span>(yhat))</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>            data <span class="op">=</span> Xproj[i, <span class="op">:</span>]</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scatter!</span>(ax, data.x1, data.x2;marker<span class="op">=:</span>circle,markersize<span class="op">=</span><span class="fl">12</span>,color<span class="op">=</span>(colors[c],<span class="fl">0.3</span>),strokewidth<span class="op">=</span><span class="fl">1</span>,strokecolor<span class="op">=:</span>black)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">text!</span>(ax,data.x1, data.x2;text<span class="op">=</span><span class="st">"v</span><span class="sc">$</span>(i)<span class="st">"</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        fig</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">#save("NCI60 Machine Learning:pca-&gt;clustering-&gt;svm-with-tag.png",fig)</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_model</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="68">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <p><img src="1-nci60-pca-svm_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
