@@ -1,0 +1,53 @@
+---
+title: "9-poisson-reg"
+author: math4mad
+code-fold: true
+---
+
+:::{.callout-note title="简介"}
+   泊松回归(Poisson Regression) 是一类特殊的回归模型,相应变量是计数数据(离散正整数)
+   响应变量的分布遵循泊松分布
+
+   dataset [data](https://www.kaggle.com/code/gauravduttakiit/explore-the-poisson-regression/input)
+
+   数据集有两个变量, 预测变量为数学成绩(Math Score),响应变量为奖学金等级(0-6)
+
+:::
+
+
+## 1. load package
+
+```{julia}
+    include("../utils.jl")
+    import MLJ:fit!,fitted_params,coerce
+    using GLMakie,MLJ,CSV,DataFrames,ScientificTypes
+```
+## 2. load data
+```{julia}
+to_ScienceType(d)=coerce(d,:Awards=> Multiclass,:MathScore=>Continuous)
+df=CSV.File("./data/competition_awards_data.csv") |> DataFrame|>dropmissing
+ 
+ X=MLJ.table(reshape(df[:,2],200,1))
+ y=Vector(df[:,1])
+ (Xtrain, Xtest), (ytrain, ytest) = partition((X, y), 0.8, rng=123, multi=true)
+ first(df,10)
+```
+
+## 3. MLJ Workflow
+
+### 3.1 load model
+```{julia}
+    CountRegressor = @load LinearCountRegressor pkg=GLM
+    model = CountRegressor(fit_intercept=false)
+    mach = machine(model, Xtrain, ytrain)
+    fit!(mach)
+```
+
+### 3.2 predict model results
+```{julia}
+ yhat=predict_mode(mach, Xtest)|>Array
+ @info "rms"=>rms(yhat,ytest)
+
+ report(mach)
+```
+

@@ -1,5 +1,25 @@
 ---
-title: "Julia  MLJ  "
+title: "About MLJ"
+bibliography: ./references.bib
 ---
 
-Course info & details here
+
+
+>[`MLJ(Machine Learning in Julia)`](https://alan-turing-institute.github.io/MLJ.jl/dev/about_mlj/) 参见 @blaom2020mlj, 是使用`Julia`语言的机器学习集成工具箱,类似`Python` 的 [`scikit-learn`](https://scikit-learn.org/stable/),其中包括 180多种原生Julia
+语言模型, 同时也包括了大量的`scikit-learn` 模型
+
+
+## 1.  浏览MLJ Model 
+
+由于导入的模型非常多, 所以[dev版文档](https://alan-turing-institute.github.io/MLJ.jl/dev/model_browser/) 提供了快速浏览模型内容,按照机器学习的类型进行划分
+
+## 2. MLJ  workflow
+
+- import data
+- model search
+- Instantiating a model
+- Evaluating a model
+- performance evaluation
+
+基本上所有的 quarto note 都遵循这个流程
+

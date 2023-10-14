@@ -1,4 +1,4 @@
-using  CSV,DataFrames,FileIO,GLMakie,MLJ
+using  CSV,DataFrames,FileIO,GLMakie,MLJ,RCall
 
 function load_csv(str::AbstractString)::AbstractDataFrame
     df = str |> d -> CSV.File("../dataset/$str.csv") |> DataFrame |> dropmissing
@@ -32,4 +32,10 @@ end
 marker_style=(marker=:circle,markersize=10,color=(:lightgreen,0.1),strokewidth=2,strokecolor=:black)
 
 
-load_german_creditcard()
+#load_german_creditcard()
+
+
+
+
+
+
