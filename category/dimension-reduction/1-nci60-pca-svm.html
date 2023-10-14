@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Julia MLJ - 1-nci60-pca-clustering-svm</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Julia MLJ
+      </li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">Julia MLJ</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/math4mad/Julia-MLJ" rel="" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">getting-stared</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Regression</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/1-salary-linear-reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1-salary-linear-reg</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/2-ecommerce-linear-reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2-ecommerce-linear-reg</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/3-cricket-chirp-rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3-cricket-chirp-rate</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/4-german-creditcard-logistics-reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4-german-creditcard-logistics-reg</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/5-boston-housing-mixture-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5-bostonhousing-mixturemodel-regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/6-compare of BetalML method.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6-compare of BetalML models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/7-test-latexify.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7-latexify-test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/8-iris-logistics-reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8-iris-logistics-reg</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/9-poisson-reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9-poisson-reg</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Classfication</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/classification/1-catboost-claffification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1-catboost-classfication</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/classification/2-diabetes-svm-classficiation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2-svm-diabetes-classfication</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/classification/24-classfication-comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">several classfication model comparison</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/materials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Materials</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../category/dataset/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dataset Intorduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/dataset/intro-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">dataset introduction</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#load-package" id="toc-load-package" class="nav-link active" data-scroll-target="#load-package">1. load package</a></li>
+  <li><a href="#import-data" id="toc-import-data" class="nav-link" data-scroll-target="#import-data">2. import data</a></li>
+  <li><a href="#mlj-workflow" id="toc-mlj-workflow" class="nav-link" data-scroll-target="#mlj-workflow">2. MLJ WorkFlow</a>
+  <ul class="collapse">
+  <li><a href="#define-models" id="toc-define-models" class="nav-link" data-scroll-target="#define-models">2.1 define models</a></li>
+  <li><a href="#pca" id="toc-pca" class="nav-link" data-scroll-target="#pca">2.2 PCA</a></li>
+  <li><a href="#生成决策边界测试数据集" id="toc-生成决策边界测试数据集" class="nav-link" data-scroll-target="#生成决策边界测试数据集">2.3 生成决策边界测试数据集</a></li>
+  <li><a href="#clustering-and-svm-training" id="toc-clustering-and-svm-training" class="nav-link" data-scroll-target="#clustering-and-svm-training">2.5 Clustering and SVM training</a></li>
+  <li><a href="#plot-results" id="toc-plot-results" class="nav-link" data-scroll-target="#plot-results">2.6 plot results</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">1-nci60-pca-clustering-svm</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-default callout-note callout-titled" title="简介">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+简介
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>参见 [ISLR-nci60]:An Introduction to Statistical Learning.pdf page 18</p>
+<p>流程为:<code>pca-&gt;clustering-&gt;svm</code> 半监督学习方法,首先对数据降维, 然后聚类, 最后使用 SVM 进行分类学习</p>
+</div>
+</div>
+<section id="load-package" class="level2">
+<h2 class="anchored" data-anchor-id="load-package">1. load package</h2>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">MLJ</span>:transform,predict</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span>,<span class="bu">MLJ</span>,<span class="bu">CSV</span>,<span class="bu">MLJModelInterface</span>,<span class="bu">GLMakie</span>,<span class="bu">Random</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">Random</span>.<span class="fu">seed!</span>(<span class="fl">45454</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="62">
+<pre><code>TaskLocalRNG()</code></pre>
+</div>
+</div>
+</section>
+<section id="import-data" class="level2">
+<h2 class="anchored" data-anchor-id="import-data">2. import data</h2>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    df<span class="op">=</span> CSV.<span class="fu">File</span>(<span class="st">"./data/NCI60.csv"</span>) <span class="op">|&gt;</span> DataFrame <span class="op">|&gt;</span> dropmissing</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    Xtr <span class="op">=</span> df[<span class="op">:</span>,<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    Xtr_labels <span class="op">=</span> <span class="fu">Vector</span>(df[<span class="op">:</span>,<span class="fl">1</span>])</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># # split other half to testing set</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    Xte<span class="op">=</span>df[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span>,<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    Xte_labels <span class="op">=</span> <span class="fu">Vector</span>(df[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span>,<span class="fl">1</span>])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">first</span>(df,<span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="63">
+<div><div style="float: left;"><span>10×6831 DataFrame</span></div><div style="float: right;"><span style="font-style: italic;">6731 columns omitted</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
+<table class="data-frame table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header header">
+<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Column1</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">1</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">2</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">3</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">4</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">5</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">6</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">7</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">8</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">9</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">10</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">11</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">12</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">13</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">14</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">15</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">16</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">17</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">18</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">19</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">20</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">21</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">22</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">23</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">24</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">25</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">26</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">27</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">28</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">29</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">30</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">31</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">32</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">33</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">34</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">35</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">36</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">37</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">38</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">39</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">40</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">41</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">42</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">43</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">44</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">45</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">46</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">47</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">48</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">49</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">50</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">51</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">52</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">53</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">54</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">55</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">56</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">57</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">58</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">59</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">60</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">61</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">62</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">63</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">65</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">66</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">67</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">68</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">69</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">70</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">71</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">72</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">73</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">74</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">75</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">76</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">77</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">78</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">79</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">80</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">81</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">82</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">83</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">84</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">85</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">86</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">87</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">88</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">89</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">90</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">91</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">92</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">93</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">94</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">95</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">96</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">97</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">98</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">99</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">⋯</th>
+</tr>
+<tr class="odd subheader headerLastRow">
+<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="String3">String3</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th" title="Float64">⋯</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1</td>
+<td style="text-align: left;">V1</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">1.18</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">1.14</td>
+<td style="text-align: right;">-0.265</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">-0.315</td>
+<td style="text-align: right;">-0.45</td>
+<td style="text-align: right;">-0.65498</td>
+<td style="text-align: right;">-0.65</td>
+<td style="text-align: right;">-0.94</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">0.0150098</td>
+<td style="text-align: right;">-0.08</td>
+<td style="text-align: right;">-2.37</td>
+<td style="text-align: right;">-0.54</td>
+<td style="text-align: right;">-0.615</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.51999</td>
+<td style="text-align: right;">-0.37</td>
+<td style="text-align: right;">-0.29</td>
+<td style="text-align: right;">-0.17499</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">-0.74</td>
+<td style="text-align: right;">-0.47999</td>
+<td style="text-align: right;">-0.45</td>
+<td style="text-align: right;">-0.93</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">-0.55</td>
+<td style="text-align: right;">-0.55001</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">-0.37</td>
+<td style="text-align: right;">-0.165</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-2.60208e-18</td>
+<td style="text-align: right;">0.139981</td>
+<td style="text-align: right;">-0.215</td>
+<td style="text-align: right;">-0.065</td>
+<td style="text-align: right;">-0.225</td>
+<td style="text-align: right;">-0.35</td>
+<td style="text-align: right;">-1.335</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.2175</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">-0.48</td>
+<td style="text-align: right;">-0.42</td>
+<td style="text-align: right;">-0.7</td>
+<td style="text-align: right;">-0.275</td>
+<td style="text-align: right;">-0.34499</td>
+<td style="text-align: right;">-0.16</td>
+<td style="text-align: right;">-0.35</td>
+<td style="text-align: right;">0.555</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">-0.27</td>
+<td style="text-align: right;">-0.339981</td>
+<td style="text-align: right;">0.305</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">0.45002</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.0849902</td>
+<td style="text-align: right;">-0.45501</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">-0.66</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">-0.099961</td>
+<td style="text-align: right;">-0.399981</td>
+<td style="text-align: right;">-0.195</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">2.36</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">-0.64499</td>
+<td style="text-align: right;">1.3</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.48</td>
+<td style="text-align: right;">0.595</td>
+<td style="text-align: right;">-0.0599805</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">0.0975</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">1.425</td>
+<td style="text-align: right;">-0.51</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: right;">-0.21</td>
+<td style="text-align: right;">-1.19</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">⋯</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">2</td>
+<td style="text-align: left;">V2</td>
+<td style="text-align: right;">0.679961</td>
+<td style="text-align: right;">1.28996</td>
+<td style="text-align: right;">0.169961</td>
+<td style="text-align: right;">0.379961</td>
+<td style="text-align: right;">0.464961</td>
+<td style="text-align: right;">0.579961</td>
+<td style="text-align: right;">0.699961</td>
+<td style="text-align: right;">0.724961</td>
+<td style="text-align: right;">-0.040039</td>
+<td style="text-align: right;">-0.285019</td>
+<td style="text-align: right;">-0.310039</td>
+<td style="text-align: right;">-0.720039</td>
+<td style="text-align: right;">-0.010039</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.570039</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.470039</td>
+<td style="text-align: right;">-0.355039</td>
+<td style="text-align: right;">0.00498051</td>
+<td style="text-align: right;">-0.480029</td>
+<td style="text-align: right;">-0.140039</td>
+<td style="text-align: right;">-0.090039</td>
+<td style="text-align: right;">0.00497074</td>
+<td style="text-align: right;">-0.220039</td>
+<td style="text-align: right;">-0.370039</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.320039</td>
+<td style="text-align: right;">0.159971</td>
+<td style="text-align: right;">0.179961</td>
+<td style="text-align: right;">-0.320039</td>
+<td style="text-align: right;">-0.440039</td>
+<td style="text-align: right;">0.349961</td>
+<td style="text-align: right;">0.449951</td>
+<td style="text-align: right;">0.104961</td>
+<td style="text-align: right;">0.489961</td>
+<td style="text-align: right;">0.204961</td>
+<td style="text-align: right;">-0.050039</td>
+<td style="text-align: right;">-0.010039</td>
+<td style="text-align: right;">0.269961</td>
+<td style="text-align: right;">0.019961</td>
+<td style="text-align: right;">0.0499415</td>
+<td style="text-align: right;">-0.315039</td>
+<td style="text-align: right;">-0.325039</td>
+<td style="text-align: right;">-0.055039</td>
+<td style="text-align: right;">-0.280039</td>
+<td style="text-align: right;">-0.255039</td>
+<td style="text-align: right;">0.229961</td>
+<td style="text-align: right;">-0.342539</td>
+<td style="text-align: right;">-0.560039</td>
+<td style="text-align: right;">-0.900039</td>
+<td style="text-align: right;">-0.060039</td>
+<td style="text-align: right;">-0.200039</td>
+<td style="text-align: right;">-0.670039</td>
+<td style="text-align: right;">0.324961</td>
+<td style="text-align: right;">0.134971</td>
+<td style="text-align: right;">0.539961</td>
+<td style="text-align: right;">0.229961</td>
+<td style="text-align: right;">0.084961</td>
+<td style="text-align: right;">-0.080039</td>
+<td style="text-align: right;">0.949961</td>
+<td style="text-align: right;">0.93998</td>
+<td style="text-align: right;">0.194961</td>
+<td style="text-align: right;">1.90496</td>
+<td style="text-align: right;">0.499961</td>
+<td style="text-align: right;">0.349981</td>
+<td style="text-align: right;">0.899961</td>
+<td style="text-align: right;">1.21996</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.374951</td>
+<td style="text-align: right;">0.279961</td>
+<td style="text-align: right;">-3.89862e-5</td>
+<td style="text-align: right;">-0.090039</td>
+<td style="text-align: right;">-0.050039</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.90998</td>
+<td style="text-align: right;">0.274961</td>
+<td style="text-align: right;">-0.040039</td>
+<td style="text-align: right;">0.869961</td>
+<td style="text-align: right;">-0.100039</td>
+<td style="text-align: right;">1.40996</td>
+<td style="text-align: right;">1.00497</td>
+<td style="text-align: right;">0.779961</td>
+<td style="text-align: right;">-0.110039</td>
+<td style="text-align: right;">-0.350039</td>
+<td style="text-align: right;">-0.215039</td>
+<td style="text-align: right;">-0.0600195</td>
+<td style="text-align: right;">0.324961</td>
+<td style="text-align: right;">0.267461</td>
+<td style="text-align: right;">0.129961</td>
+<td style="text-align: right;">0.229961</td>
+<td style="text-align: right;">0.079961</td>
+<td style="text-align: right;">0.514961</td>
+<td style="text-align: right;">-0.420039</td>
+<td style="text-align: right;">-0.350039</td>
+<td style="text-align: right;">-0.790039</td>
+<td style="text-align: right;">-0.290039</td>
+<td style="text-align: right;">-0.010039</td>
+<td style="text-align: right;">-1.05004</td>
+<td style="text-align: right;">-2.04004</td>
+<td style="text-align: right;">⋯</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">3</td>
+<td style="text-align: left;">V3</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">-0.17</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">-0.605</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.645</td>
+<td style="text-align: right;">0.43</td>
+<td style="text-align: right;">0.475019</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">-0.35</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.8</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.00498051</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.14</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">-0.0649903</td>
+<td style="text-align: right;">-0.06</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.715</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">-0.0899903</td>
+<td style="text-align: right;">-0.31</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">-0.48</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">-0.0400098</td>
+<td style="text-align: right;">-0.935</td>
+<td style="text-align: right;">-0.75</td>
+<td style="text-align: right;">-0.385</td>
+<td style="text-align: right;">-0.34</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">-0.47</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">-0.86002</td>
+<td style="text-align: right;">-0.175</td>
+<td style="text-align: right;">-0.715</td>
+<td style="text-align: right;">-0.965</td>
+<td style="text-align: right;">-0.54</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">-0.06</td>
+<td style="text-align: right;">-0.7225</td>
+<td style="text-align: right;">-0.92</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">-0.9</td>
+<td style="text-align: right;">-0.265</td>
+<td style="text-align: right;">-0.42499</td>
+<td style="text-align: right;">-0.24</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">0.215</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.12002</td>
+<td style="text-align: right;">0.515</td>
+<td style="text-align: right;">0.545</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">0.19002</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.0950098</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.319961</td>
+<td style="text-align: right;">0.0900195</td>
+<td style="text-align: right;">0.105</td>
+<td style="text-align: right;">-0.28</td>
+<td style="text-align: right;">1.99</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.87</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-1.2</td>
+<td style="text-align: right;">-0.335</td>
+<td style="text-align: right;">0.630019</td>
+<td style="text-align: right;">0.345</td>
+<td style="text-align: right;">0.6975</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.115</td>
+<td style="text-align: right;">-0.44</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">⋯</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">4</td>
+<td style="text-align: left;">V4</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">-0.31</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: right;">-0.81</td>
+<td style="text-align: right;">0.625</td>
+<td style="text-align: right;">-1.38778e-17</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">0.245</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.0950195</td>
+<td style="text-align: right;">-0.01</td>
+<td style="text-align: right;">-0.12</td>
+<td style="text-align: right;">-0.21</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">-1.02</td>
+<td style="text-align: right;">-0.47</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.76498</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.31</td>
+<td style="text-align: right;">-0.62</td>
+<td style="text-align: right;">-0.28499</td>
+<td style="text-align: right;">-0.54</td>
+<td style="text-align: right;">-0.52</td>
+<td style="text-align: right;">-0.135</td>
+<td style="text-align: right;">-0.89</td>
+<td style="text-align: right;">-0.26999</td>
+<td style="text-align: right;">-0.84</td>
+<td style="text-align: right;">-0.23</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.10999</td>
+<td style="text-align: right;">0.455</td>
+<td style="text-align: right;">-0.34</td>
+<td style="text-align: right;">-0.895</td>
+<td style="text-align: right;">-1.08</td>
+<td style="text-align: right;">-0.43</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">-0.13</td>
+<td style="text-align: right;">-0.540019</td>
+<td style="text-align: right;">-1.225</td>
+<td style="text-align: right;">-1.265</td>
+<td style="text-align: right;">-1.415</td>
+<td style="text-align: right;">-0.27</td>
+<td style="text-align: right;">-0.705</td>
+<td style="text-align: right;">-0.22</td>
+<td style="text-align: right;">-0.5025</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">-0.15</td>
+<td style="text-align: right;">-0.16</td>
+<td style="text-align: right;">-0.29</td>
+<td style="text-align: right;">-0.18</td>
+<td style="text-align: right;">-0.665</td>
+<td style="text-align: right;">-0.77499</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">-0.77</td>
+<td style="text-align: right;">-0.605</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">-0.20998</td>
+<td style="text-align: right;">-0.615</td>
+<td style="text-align: right;">0.165</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.06</td>
+<td style="text-align: right;">-0.01</td>
+<td style="text-align: right;">-0.50501</td>
+<td style="text-align: right;">-0.77501</td>
+<td style="text-align: right;">-0.29</td>
+<td style="text-align: right;">-0.71</td>
+<td style="text-align: right;">-0.45</td>
+<td style="text-align: right;">-0.61</td>
+<td style="text-align: right;">-0.809961</td>
+<td style="text-align: right;">-1.53998</td>
+<td style="text-align: right;">-1.035</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">3.6</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: right;">-0.19499</td>
+<td style="text-align: right;">-1.21</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">0.775</td>
+<td style="text-align: right;">-0.279981</td>
+<td style="text-align: right;">-0.245</td>
+<td style="text-align: right;">-0.5025</td>
+<td style="text-align: right;">-0.8</td>
+<td style="text-align: right;">-0.75</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">-1.075</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">-0.74</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-2.5</td>
+<td style="text-align: right;">⋯</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">5</td>
+<td style="text-align: left;">V5</td>
+<td style="text-align: right;">0.485</td>
+<td style="text-align: right;">-0.465</td>
+<td style="text-align: right;">0.395</td>
+<td style="text-align: right;">0.905</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">0.085</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">0.235</td>
+<td style="text-align: right;">1.49002</td>
+<td style="text-align: right;">0.685</td>
+<td style="text-align: right;">0.605</td>
+<td style="text-align: right;">0.355</td>
+<td style="text-align: right;">1.22001</td>
+<td style="text-align: right;">2.425</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.315</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">-0.519981</td>
+<td style="text-align: right;">-0.0749902</td>
+<td style="text-align: right;">-0.865</td>
+<td style="text-align: right;">-0.455</td>
+<td style="text-align: right;">-0.49999</td>
+<td style="text-align: right;">-0.245</td>
+<td style="text-align: right;">-0.235</td>
+<td style="text-align: right;">-0.33</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0150097</td>
+<td style="text-align: right;">-0.105</td>
+<td style="text-align: right;">-0.225</td>
+<td style="text-align: right;">-0.105</td>
+<td style="text-align: right;">-0.275</td>
+<td style="text-align: right;">-0.57501</td>
+<td style="text-align: right;">-0.45</td>
+<td style="text-align: right;">-0.465</td>
+<td style="text-align: right;">-0.39</td>
+<td style="text-align: right;">-0.995</td>
+<td style="text-align: right;">-0.355</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.475</td>
+<td style="text-align: right;">-0.38502</td>
+<td style="text-align: right;">-0.77</td>
+<td style="text-align: right;">-0.96</td>
+<td style="text-align: right;">-0.97</td>
+<td style="text-align: right;">-0.895</td>
+<td style="text-align: right;">-0.63</td>
+<td style="text-align: right;">-0.535</td>
+<td style="text-align: right;">-0.8875</td>
+<td style="text-align: right;">-0.945</td>
+<td style="text-align: right;">-0.535</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">0.185</td>
+<td style="text-align: right;">-0.105</td>
+<td style="text-align: right;">-0.34</td>
+<td style="text-align: right;">-0.19999</td>
+<td style="text-align: right;">-0.665</td>
+<td style="text-align: right;">-0.225</td>
+<td style="text-align: right;">-0.41</td>
+<td style="text-align: right;">-0.215</td>
+<td style="text-align: right;">-0.175</td>
+<td style="text-align: right;">-0.784981</td>
+<td style="text-align: right;">-0.33</td>
+<td style="text-align: right;">-0.39</td>
+<td style="text-align: right;">-0.075</td>
+<td style="text-align: right;">-0.20498</td>
+<td style="text-align: right;">-0.325</td>
+<td style="text-align: right;">-0.485</td>
+<td style="text-align: right;">-0.35001</td>
+<td style="text-align: right;">-0.23001</td>
+<td style="text-align: right;">-0.155</td>
+<td style="text-align: right;">-0.575</td>
+<td style="text-align: right;">-0.615</td>
+<td style="text-align: right;">-0.695</td>
+<td style="text-align: right;">-0.634961</td>
+<td style="text-align: right;">-1.09498</td>
+<td style="text-align: right;">-1.0</td>
+<td style="text-align: right;">-0.335</td>
+<td style="text-align: right;">-1.385</td>
+<td style="text-align: right;">0.345</td>
+<td style="text-align: right;">0.815</td>
+<td style="text-align: right;">0.56001</td>
+<td style="text-align: right;">-0.155</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-1.195</td>
+<td style="text-align: right;">-0.16</td>
+<td style="text-align: right;">-0.10498</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.0075</td>
+<td style="text-align: right;">-0.945</td>
+<td style="text-align: right;">-0.965</td>
+<td style="text-align: right;">-0.225</td>
+<td style="text-align: right;">-0.46</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">0.795</td>
+<td style="text-align: right;">1.305</td>
+<td style="text-align: right;">0.705</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">0.715</td>
+<td style="text-align: right;">0.925</td>
+<td style="text-align: right;">⋯</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">6</td>
+<td style="text-align: left;">V6</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">-0.1</td>
+<td style="text-align: right;">-0.46</td>
+<td style="text-align: right;">-0.205</td>
+<td style="text-align: right;">-0.54</td>
+<td style="text-align: right;">-0.64</td>
+<td style="text-align: right;">-0.585</td>
+<td style="text-align: right;">-0.77</td>
+<td style="text-align: right;">-0.24498</td>
+<td style="text-align: right;">-0.12</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.69</td>
+<td style="text-align: right;">-0.73499</td>
+<td style="text-align: right;">-0.67</td>
+<td style="text-align: right;">-0.05</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">-0.805</td>
+<td style="text-align: right;">0.59502</td>
+<td style="text-align: right;">-0.42999</td>
+<td style="text-align: right;">-0.85</td>
+<td style="text-align: right;">-0.09</td>
+<td style="text-align: right;">-0.0149903</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">0.805</td>
+<td style="text-align: right;">-0.7</td>
+<td style="text-align: right;">0.36001</td>
+<td style="text-align: right;">-0.16</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">-0.17</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.0599902</td>
+<td style="text-align: right;">-0.635</td>
+<td style="text-align: right;">-0.51</td>
+<td style="text-align: right;">-0.585</td>
+<td style="text-align: right;">0.72</td>
+<td style="text-align: right;">-0.17</td>
+<td style="text-align: right;">-0.55</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">-0.13002</td>
+<td style="text-align: right;">0.125</td>
+<td style="text-align: right;">-0.415</td>
+<td style="text-align: right;">-0.475</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">-0.405</td>
+<td style="text-align: right;">-0.4</td>
+<td style="text-align: right;">0.0475</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">-1.4</td>
+<td style="text-align: right;">-0.65</td>
+<td style="text-align: right;">-0.65</td>
+<td style="text-align: right;">-0.15</td>
+<td style="text-align: right;">-0.475</td>
+<td style="text-align: right;">-0.51499</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.35</td>
+<td style="text-align: right;">-0.755</td>
+<td style="text-align: right;">-0.54</td>
+<td style="text-align: right;">-1.16</td>
+<td style="text-align: right;">-1.70998</td>
+<td style="text-align: right;">-0.415</td>
+<td style="text-align: right;">-1.275</td>
+<td style="text-align: right;">-0.89</td>
+<td style="text-align: right;">-0.269981</td>
+<td style="text-align: right;">-1.18</td>
+<td style="text-align: right;">-1.89</td>
+<td style="text-align: right;">-1.93501</td>
+<td style="text-align: right;">-2.56501</td>
+<td style="text-align: right;">-2.5</td>
+<td style="text-align: right;">-1.01</td>
+<td style="text-align: right;">-0.75</td>
+<td style="text-align: right;">-0.85</td>
+<td style="text-align: right;">-0.589961</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.085</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: right;">-0.15</td>
+<td style="text-align: right;">-2.84</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-1.74</td>
+<td style="text-align: right;">-1.38</td>
+<td style="text-align: right;">-2.62</td>
+<td style="text-align: right;">-0.715</td>
+<td style="text-align: right;">-0.819981</td>
+<td style="text-align: right;">-0.545</td>
+<td style="text-align: right;">-0.5525</td>
+<td style="text-align: right;">-0.76</td>
+<td style="text-align: right;">-1.02</td>
+<td style="text-align: right;">-1.71</td>
+<td style="text-align: right;">-0.495</td>
+<td style="text-align: right;">-0.76</td>
+<td style="text-align: right;">-0.28</td>
+<td style="text-align: right;">-0.39</td>
+<td style="text-align: right;">-0.5</td>
+<td style="text-align: right;">-0.53</td>
+<td style="text-align: right;">-0.85</td>
+<td style="text-align: right;">-0.38</td>
+<td style="text-align: right;">⋯</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">7</td>
+<td style="text-align: left;">V7</td>
+<td style="text-align: right;">-0.83</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">-1.63</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">-0.36</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.155</td>
+<td style="text-align: right;">-0.29</td>
+<td style="text-align: right;">-0.0849805</td>
+<td style="text-align: right;">-0.01</td>
+<td style="text-align: right;">-0.24</td>
+<td style="text-align: right;">-0.44</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.38</td>
+<td style="text-align: right;">0.495</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.43001</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">-0.30499</td>
+<td style="text-align: right;">-0.24</td>
+<td style="text-align: right;">-0.58</td>
+<td style="text-align: right;">0.445</td>
+<td style="text-align: right;">-0.28</td>
+<td style="text-align: right;">0.37001</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.27</td>
+<td style="text-align: right;">-0.12</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.00999023</td>
+<td style="text-align: right;">-0.195</td>
+<td style="text-align: right;">-0.86</td>
+<td style="text-align: right;">-0.405</td>
+<td style="text-align: right;">-0.6</td>
+<td style="text-align: right;">-0.27</td>
+<td style="text-align: right;">-0.54</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">-0.0100195</td>
+<td style="text-align: right;">-0.465</td>
+<td style="text-align: right;">-1.375</td>
+<td style="text-align: right;">-0.945</td>
+<td style="text-align: right;">-0.31</td>
+<td style="text-align: right;">-0.435</td>
+<td style="text-align: right;">-0.1</td>
+<td style="text-align: right;">-0.8725</td>
+<td style="text-align: right;">-0.74</td>
+<td style="text-align: right;">-2.66</td>
+<td style="text-align: right;">-2.02</td>
+<td style="text-align: right;">-1.52</td>
+<td style="text-align: right;">-1.33</td>
+<td style="text-align: right;">-0.555</td>
+<td style="text-align: right;">-0.84499</td>
+<td style="text-align: right;">-0.76</td>
+<td style="text-align: right;">-0.84</td>
+<td style="text-align: right;">-0.735</td>
+<td style="text-align: right;">-0.37</td>
+<td style="text-align: right;">-0.95</td>
+<td style="text-align: right;">-1.14998</td>
+<td style="text-align: right;">-1.185</td>
+<td style="text-align: right;">-1.485</td>
+<td style="text-align: right;">-0.58</td>
+<td style="text-align: right;">-0.0299805</td>
+<td style="text-align: right;">-1.26</td>
+<td style="text-align: right;">-1.25</td>
+<td style="text-align: right;">-0.0450098</td>
+<td style="text-align: right;">-1.08501</td>
+<td style="text-align: right;">-0.08</td>
+<td style="text-align: right;">-0.44</td>
+<td style="text-align: right;">-0.1</td>
+<td style="text-align: right;">-0.28</td>
+<td style="text-align: right;">-0.269961</td>
+<td style="text-align: right;">0.0900195</td>
+<td style="text-align: right;">-0.335</td>
+<td style="text-align: right;">-0.17</td>
+<td style="text-align: right;">-0.48</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">-1.12</td>
+<td style="text-align: right;">-0.58499</td>
+<td style="text-align: right;">-1.93</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-1.29</td>
+<td style="text-align: right;">-0.875</td>
+<td style="text-align: right;">-1.62998</td>
+<td style="text-align: right;">-0.755</td>
+<td style="text-align: right;">-0.8325</td>
+<td style="text-align: right;">-0.73</td>
+<td style="text-align: right;">-0.47</td>
+<td style="text-align: right;">-0.69</td>
+<td style="text-align: right;">-1.145</td>
+<td style="text-align: right;">-1.6</td>
+<td style="text-align: right;">-0.58</td>
+<td style="text-align: right;">-1.39</td>
+<td style="text-align: right;">-0.62</td>
+<td style="text-align: right;">-0.15</td>
+<td style="text-align: right;">-0.79</td>
+<td style="text-align: right;">-0.83</td>
+<td style="text-align: right;">⋯</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">8</td>
+<td style="text-align: left;">V8</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">-0.87</td>
+<td style="text-align: right;">-0.45</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">-0.265</td>
+<td style="text-align: right;">-0.31</td>
+<td style="text-align: right;">-0.24498</td>
+<td style="text-align: right;">-0.91</td>
+<td style="text-align: right;">-1.23</td>
+<td style="text-align: right;">-0.52</td>
+<td style="text-align: right;">-0.26499</td>
+<td style="text-align: right;">-0.48</td>
+<td style="text-align: right;">-1.4</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">0.125</td>
+<td style="text-align: right;">-0.51498</td>
+<td style="text-align: right;">-0.83999</td>
+<td style="text-align: right;">-0.72</td>
+<td style="text-align: right;">-0.32</td>
+<td style="text-align: right;">-0.59499</td>
+<td style="text-align: right;">-0.34</td>
+<td style="text-align: right;">-0.82</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-1.18</td>
+<td style="text-align: right;">-0.32999</td>
+<td style="text-align: right;">-0.69</td>
+<td style="text-align: right;">-1.67</td>
+<td style="text-align: right;">1.3</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.43001</td>
+<td style="text-align: right;">-0.685</td>
+<td style="text-align: right;">-1.55</td>
+<td style="text-align: right;">-0.955</td>
+<td style="text-align: right;">-0.74</td>
+<td style="text-align: right;">-0.2</td>
+<td style="text-align: right;">-0.58</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">-0.44002</td>
+<td style="text-align: right;">-0.055</td>
+<td style="text-align: right;">-0.565</td>
+<td style="text-align: right;">-0.795</td>
+<td style="text-align: right;">-0.8</td>
+<td style="text-align: right;">-0.345</td>
+<td style="text-align: right;">-0.37</td>
+<td style="text-align: right;">-0.2725</td>
+<td style="text-align: right;">-0.71</td>
+<td style="text-align: right;">-0.21</td>
+<td style="text-align: right;">-0.32</td>
+<td style="text-align: right;">-0.3</td>
+<td style="text-align: right;">-0.92</td>
+<td style="text-align: right;">-0.115</td>
+<td style="text-align: right;">0.0150098</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.475</td>
+<td style="text-align: right;">-0.57</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">-0.389981</td>
+<td style="text-align: right;">-0.185</td>
+<td style="text-align: right;">-1.055</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">-0.18998</td>
+<td style="text-align: right;">0.84</td>
+<td style="text-align: right;">0.84</td>
+<td style="text-align: right;">0.73499</td>
+<td style="text-align: right;">0.18499</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">-0.48</td>
+<td style="text-align: right;">-0.28</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">0.100039</td>
+<td style="text-align: right;">-0.389981</td>
+<td style="text-align: right;">-0.715</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">-0.82</td>
+<td style="text-align: right;">-0.47</td>
+<td style="text-align: right;">-1.64</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.4</td>
+<td style="text-align: right;">-0.335</td>
+<td style="text-align: right;">0.11002</td>
+<td style="text-align: right;">-0.125</td>
+<td style="text-align: right;">0.0675</td>
+<td style="text-align: right;">-0.77</td>
+<td style="text-align: right;">-0.65</td>
+<td style="text-align: right;">-0.43</td>
+<td style="text-align: right;">1.215</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">-0.7</td>
+<td style="text-align: right;">-1.79</td>
+<td style="text-align: right;">-1.13</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">⋯</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">9</td>
+<td style="text-align: left;">V9</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.15</td>
+<td style="text-align: right;">-1.4</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">-0.7</td>
+<td style="text-align: right;">-0.92</td>
+<td style="text-align: right;">-0.515</td>
+<td style="text-align: right;">-0.28</td>
+<td style="text-align: right;">-0.11498</td>
+<td style="text-align: right;">-0.17</td>
+<td style="text-align: right;">-0.4</td>
+<td style="text-align: right;">-0.52</td>
+<td style="text-align: right;">-0.23499</td>
+<td style="text-align: right;">2.21</td>
+<td style="text-align: right;">-2.44</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">0.155</td>
+<td style="text-align: right;">0.135019</td>
+<td style="text-align: right;">-0.90999</td>
+<td style="text-align: right;">-0.13</td>
+<td style="text-align: right;">-0.4</td>
+<td style="text-align: right;">-0.29499</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">-0.23</td>
+<td style="text-align: right;">-0.315</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.20001</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">-0.85</td>
+<td style="text-align: right;">-0.78</td>
+<td style="text-align: right;">-1.05001</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">-1.06</td>
+<td style="text-align: right;">-0.425</td>
+<td style="text-align: right;">-0.76</td>
+<td style="text-align: right;">-0.27</td>
+<td style="text-align: right;">-0.96</td>
+<td style="text-align: right;">-1.26</td>
+<td style="text-align: right;">-1.05002</td>
+<td style="text-align: right;">-0.835</td>
+<td style="text-align: right;">-1.705</td>
+<td style="text-align: right;">-1.195</td>
+<td style="text-align: right;">-1.24</td>
+<td style="text-align: right;">-1.065</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">-0.0225</td>
+<td style="text-align: right;">-0.48</td>
+<td style="text-align: right;">-0.46</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">0.335</td>
+<td style="text-align: right;">0.35501</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">-0.055</td>
+<td style="text-align: right;">-0.11</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.46002</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">0.445</td>
+<td style="text-align: right;">-0.52</td>
+<td style="text-align: right;">-0.339981</td>
+<td style="text-align: right;">-0.01</td>
+<td style="text-align: right;">-0.55</td>
+<td style="text-align: right;">0.17499</td>
+<td style="text-align: right;">-0.41501</td>
+<td style="text-align: right;">-0.18</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">3.44234e-18</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.249961</td>
+<td style="text-align: right;">0.360019</td>
+<td style="text-align: right;">0.195</td>
+<td style="text-align: right;">-0.3</td>
+<td style="text-align: right;">-0.77</td>
+<td style="text-align: right;">-0.37</td>
+<td style="text-align: right;">-0.34</td>
+<td style="text-align: right;">-0.45499</td>
+<td style="text-align: right;">-0.82</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.7</td>
+<td style="text-align: right;">0.145</td>
+<td style="text-align: right;">0.0200195</td>
+<td style="text-align: right;">-0.155</td>
+<td style="text-align: right;">-0.1825</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">-0.105</td>
+<td style="text-align: right;">-0.54</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.36</td>
+<td style="text-align: right;">⋯</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">10</td>
+<td style="text-align: left;">V10</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">1.49</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">-0.525</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">0.6</td>
+<td style="text-align: right;">0.175</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">1.14502</td>
+<td style="text-align: right;">1.75</td>
+<td style="text-align: right;">1.71</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.66501</td>
+<td style="text-align: right;">-0.1</td>
+<td style="text-align: right;">-0.24</td>
+<td style="text-align: right;">-0.69</td>
+<td style="text-align: right;">-0.115</td>
+<td style="text-align: right;">0.235019</td>
+<td style="text-align: right;">0.89001</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">0.12501</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">1.28</td>
+<td style="text-align: right;">0.895</td>
+<td style="text-align: right;">1.35</td>
+<td style="text-align: right;">0.42001</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">-0.25</td>
+<td style="text-align: right;">-0.01</td>
+<td style="text-align: right;">-0.27001</td>
+<td style="text-align: right;">-0.455</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">0.615</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">-0.12002</td>
+<td style="text-align: right;">-0.135</td>
+<td style="text-align: right;">-0.235</td>
+<td style="text-align: right;">0.475</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">-0.295</td>
+<td style="text-align: right;">1.05</td>
+<td style="text-align: right;">1.1275</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">-0.26</td>
+<td style="text-align: right;">-0.09</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">-0.09</td>
+<td style="text-align: right;">-0.265</td>
+<td style="text-align: right;">0.15501</td>
+<td style="text-align: right;">-0.23</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.095</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">-0.08</td>
+<td style="text-align: right;">-0.12998</td>
+<td style="text-align: right;">0.205</td>
+<td style="text-align: right;">0.985</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">0.32002</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.21499</td>
+<td style="text-align: right;">0.0449902</td>
+<td style="text-align: right;">-0.2</td>
+<td style="text-align: right;">-0.31</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">-0.41</td>
+<td style="text-align: right;">-0.00996101</td>
+<td style="text-align: right;">0.19002</td>
+<td style="text-align: right;">0.095</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.94</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">-0.18</td>
+<td style="text-align: right;">-0.58499</td>
+<td style="text-align: right;">-0.42</td>
+<td style="text-align: right;">-0.38</td>
+<td style="text-align: right;">-1.52</td>
+<td style="text-align: right;">-0.745</td>
+<td style="text-align: right;">-0.55998</td>
+<td style="text-align: right;">-0.285</td>
+<td style="text-align: right;">-0.2025</td>
+<td style="text-align: right;">-0.05</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.755</td>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">1.52</td>
+<td style="text-align: right;">2.11</td>
+<td style="text-align: right;">0.91</td>
+<td style="text-align: right;">-0.25</td>
+<td style="text-align: right;">-0.56</td>
+<td style="text-align: right;">-0.77</td>
+<td style="text-align: right;">⋯</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="mlj-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="mlj-workflow">2. MLJ WorkFlow</h2>
+<section id="define-models" class="level3">
+<h3 class="anchored" data-anchor-id="define-models">2.1 define models</h3>
+<p>需要定义三个模型:</p>
+<ol type="1">
+<li>pca model</li>
+<li>clustering model</li>
+<li>classficiation model</li>
+</ol>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a> PCA <span class="op">=</span> <span class="pp">@load</span> PCA pkg<span class="op">=</span>MultivariateStats</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> KMeans <span class="op">=</span> <span class="pp">@load</span> KMeans pkg<span class="op">=</span>Clustering</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> SVC <span class="op">=</span> <span class="pp">@load</span> SVC pkg<span class="op">=</span>LIBSVM</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a> model<span class="op">=</span><span class="fu">PCA</span>(maxoutdim<span class="op">=</span><span class="fl">2</span>) <span class="co"># pca model</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a> model2 <span class="op">=</span> <span class="fu">KMeans</span>(k<span class="op">=</span><span class="fl">3</span>)   <span class="co"># clustering model</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a> model3 <span class="op">=</span> <span class="fu">SVC</span>()        <span class="co"># svm dodel</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>import MLJMultivariateStatsInterface ✔
+import MLJClusteringInterface ✔
+import MLJLIBSVMInterface ✔</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[ Info: For silent loading, specify `verbosity=0`. 
+[ Info: For silent loading, specify `verbosity=0`. 
+[ Info: For silent loading, specify `verbosity=0`. </code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="64">
+<pre><code>SVC(
+  kernel = LIBSVM.Kernel.RadialBasis, 
+  gamma = 0.0, 
+  cost = 1.0, 
+  cachesize = 200.0, 
+  degree = 3, 
+  coef0 = 0.0, 
+  tolerance = 0.001, 
+  shrinking = true)</code></pre>
+</div>
+</div>
+</section>
+<section id="pca" class="level3">
+<h3 class="anchored" data-anchor-id="pca">2.2 PCA</h3>
+<p>在 PCA 流程中要完成两步:</p>
+<ol type="1">
+<li>PCA 模型训练(如果为了便于可视化, 维度为 2或者 3)</li>
+<li>将原始数据映射到降维的空间上</li>
+</ol>
+<div class="cell" data-execution_count="4">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mach <span class="op">=</span> <span class="fu">machine</span>(model, Xtr) <span class="op">|&gt;</span> fit!</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Xproj <span class="op">=</span><span class="fu">transform</span>(mach, Xtr)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(Xproj,<span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>[ Info: Training machine(PCA(maxoutdim = 2, …), …).</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="65">
+<div><div style="float: left;"><span>10×2 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
+<table class="data-frame table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header header">
+<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">x1</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">x2</th>
+</tr>
+<tr class="odd subheader headerLastRow">
+<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1</td>
+<td style="text-align: right;">-19.7958</td>
+<td style="text-align: right;">0.115269</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">2</td>
+<td style="text-align: right;">-21.5461</td>
+<td style="text-align: right;">-1.45735</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">3</td>
+<td style="text-align: right;">-25.0566</td>
+<td style="text-align: right;">1.52609</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">4</td>
+<td style="text-align: right;">-37.4095</td>
+<td style="text-align: right;">-11.3895</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">5</td>
+<td style="text-align: right;">-50.2186</td>
+<td style="text-align: right;">-1.34617</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">6</td>
+<td style="text-align: right;">-26.4352</td>
+<td style="text-align: right;">0.462982</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">7</td>
+<td style="text-align: right;">-27.3393</td>
+<td style="text-align: right;">2.65031</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">8</td>
+<td style="text-align: right;">-21.4897</td>
+<td style="text-align: right;">4.95414</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">9</td>
+<td style="text-align: right;">-20.8525</td>
+<td style="text-align: right;">10.1631</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">10</td>
+<td style="text-align: right;">-26.9529</td>
+<td style="text-align: right;">21.4733</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="生成决策边界测试数据集" class="level3">
+<h3 class="anchored" data-anchor-id="生成决策边界测试数据集">2.3 生成决策边界测试数据集</h3>
+<div class="cell" data-execution_count="5">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">boundary_data</span>(df,;n<span class="op">=</span><span class="fl">200</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    n1<span class="op">=</span>n2<span class="op">=</span>n</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    xlow,xhigh<span class="op">=</span><span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="op">:</span>x1])</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    ylow,yhigh<span class="op">=</span><span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="op">:</span>x2])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    tx <span class="op">=</span> <span class="fu">range</span>(xlow,xhigh; length<span class="op">=</span>n1)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    ty <span class="op">=</span> <span class="fu">range</span>(ylow,yhigh; length<span class="op">=</span>n2)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    x_test <span class="op">=</span> <span class="fu">mapreduce</span>(collect, hcat, <span class="bu">Iterators</span>.<span class="fu">product</span>(tx, ty));</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    xtest<span class="op">=</span>MLJ.<span class="fu">table</span>(x_test<span class="op">'</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tx,ty, xtest</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>tx,ty, xtest<span class="op">=</span><span class="fu">boundary_data</span>(Xproj)  <span class="co">#xtest  生成决策边界的数据</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="66">
+<pre><code>(-50.21864152783379:0.5383986285981281:56.9226855631937, -51.362711708066826:0.3660101806028475:21.473314231899835, Tables.MatrixTable{LinearAlgebra.Adjoint{Float64, Matrix{Float64}}} with 40000 rows, 2 columns, and schema:
+ :x1  Float64
+ :x2  Float64)</code></pre>
+</div>
+</div>
+</section>
+<section id="clustering-and-svm-training" class="level3">
+<h3 class="anchored" data-anchor-id="clustering-and-svm-training">2.5 Clustering and SVM training</h3>
+<div class="cell" data-execution_count="6">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a> mach2<span class="op">=</span> <span class="fu">machine</span>(model2, Xproj) <span class="op">|&gt;</span> fit!</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a> yhat <span class="op">=</span> <span class="fu">predict</span>(mach2, Xproj)  <span class="co"># 聚类结果</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a> cat<span class="op">=</span>yhat<span class="op">|&gt;</span><span class="dt">Array</span><span class="op">|&gt;</span>levels</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a> mach3 <span class="op">=</span> <span class="fu">machine</span>(model3, Xproj, yhat)<span class="op">|&gt;</span>fit!</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a> ypred<span class="op">=</span><span class="fu">predict</span>(mach3, xtest)<span class="op">|&gt;</span><span class="dt">Array</span><span class="op">|&gt;</span><span class="fu">d-&gt;reshape</span>(d,<span class="fl">200</span>,<span class="fl">200</span>) <span class="co">#SVM 结果</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>[ Info: Training machine(KMeans(k = 3, …), …).
+[ Info: Training machine(SVC(kernel = RadialBasis, …), …).</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="67">
+<pre><code>200×200 Matrix{Int64}:
+ 1  1  1  1  1  1  1  1  1  1  1  1  1  …  1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1     1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1     1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1     1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1     1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1  …  1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1     1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1     1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1     1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1     1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1  …  1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1     1  1  1  1  1  1  1  1  1  1  1  1
+ 1  1  1  1  1  1  1  1  1  1  1  1  1     1  1  1  1  1  1  1  1  1  1  1  1
+ ⋮              ⋮              ⋮        ⋱        ⋮              ⋮           
+ 3  3  3  3  3  3  3  3  3  3  3  3  3     3  3  3  3  3  3  3  3  3  3  3  3
+ 3  3  3  3  3  3  3  3  3  3  3  3  3     3  3  3  3  3  3  3  3  3  3  3  3
+ 3  3  3  3  3  3  3  3  3  3  3  3  3  …  3  3  3  3  3  3  3  3  3  3  3  3
+ 3  3  3  3  3  3  3  3  3  3  3  3  3     3  3  3  3  3  3  3  3  3  3  3  3
+ 3  3  3  3  3  3  3  3  3  3  3  3  3     3  3  3  3  3  3  3  3  3  3  3  3
+ 3  3  3  3  3  3  3  3  3  3  3  3  3     3  3  3  3  3  3  3  3  3  3  3  3
+ 3  3  3  3  3  3  3  3  3  3  3  3  3     3  3  3  3  3  3  3  3  3  3  3  3
+ 3  3  3  3  3  3  3  3  3  3  3  3  3  …  3  3  3  3  3  3  3  3  3  3  3  3
+ 3  3  3  3  3  3  3  3  3  3  3  3  3     3  3  3  3  3  3  3  3  3  3  3  3
+ 3  3  3  3  3  3  3  3  3  3  3  3  3     3  3  3  3  3  3  3  3  3  3  3  3
+ 3  3  3  3  3  3  3  3  3  3  3  3  3     3  3  3  3  3  3  3  3  3  3  3  3
+ 3  3  3  3  3  3  3  3  3  3  3  3  3     3  3  3  3  3  3  3  3  3  3  3  3</code></pre>
+</div>
+</div>
+</section>
+<section id="plot-results" class="level3">
+<h3 class="anchored" data-anchor-id="plot-results">2.6 plot results</h3>
+<div class="cell" data-execution_count="7">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">plot_model</span>()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>],title<span class="op">=</span><span class="st">"NCI60 Machine Learning"</span>,subtitle<span class="op">=</span><span class="st">"pca-&gt;clustering-&gt;svm"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        colors <span class="op">=</span> [<span class="op">:</span>red, <span class="op">:</span>orange, <span class="op">:</span>blue]</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">contourf!</span>(ax, tx,ty,ypred)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (i, c) <span class="kw">in</span> <span class="fu">enumerate</span>(<span class="fu">Array</span>(yhat))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>            data <span class="op">=</span> Xproj[i, <span class="op">:</span>]</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scatter!</span>(ax, data.x1, data.x2;marker<span class="op">=:</span>circle,markersize<span class="op">=</span><span class="fl">12</span>,color<span class="op">=</span>(colors[c],<span class="fl">0.3</span>),strokewidth<span class="op">=</span><span class="fl">1</span>,strokecolor<span class="op">=:</span>black)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">text!</span>(ax,data.x1, data.x2;text<span class="op">=</span><span class="st">"v</span><span class="sc">$</span>(i)<span class="st">"</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        fig</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">#save("NCI60 Machine Learning:pca-&gt;clustering-&gt;svm-with-tag.png",fig)</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_model</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="68">
+<p><img src="1-nci60-pca-svm_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
