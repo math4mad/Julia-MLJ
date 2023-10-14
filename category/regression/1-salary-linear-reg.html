@@ -205,6 +205,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">8-iris-logistics-reg</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../category/regression/9-poisson-reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9-poisson-reg</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -306,7 +312,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="{.callout-note,title=&quot;简介&quot;}">
+<div class="callout callout-style-default callout-note callout-titled" title="简介">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+简介
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <blockquote class="blockquote">
 <p>explore <code>YearsExperience</code> and <code>Salary</code> relationship</p>
 </blockquote>
@@ -315,6 +330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>数据类型需要做转换: <code>to_ScienceType(d)=coerce(d,:YearsExperience=&gt;Continuous,:Salary=&gt;Continuous)</code></p></li>
 <li><p>using <code>MLJLinearModels.jl</code> <a href="https://github.com/alan-turing-institute/MLJLinearModels.jl">🔗</a></p></li>
 </ol>
+</div>
 </div>
 <section id="load-package" class="level2">
 <h2 class="anchored" data-anchor-id="load-package">1. load package</h2>

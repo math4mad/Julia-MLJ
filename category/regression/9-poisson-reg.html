@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="math4mad">
 
-<title>Julia MLJ - 2-ecommerce-linear-reg</title>
+<title>Julia MLJ - 9-poisson-reg</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../category/regression/1-salary-linear-reg.html">Regression</a></li><li class="breadcrumb-item"><a href="../../category/regression/2-ecommerce-linear-reg.html">2-ecommerce-linear-reg</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../category/regression/1-salary-linear-reg.html">Regression</a></li><li class="breadcrumb-item"><a href="../../category/regression/9-poisson-reg.html">9-poisson-reg</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -165,7 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../category/regression/2-ecommerce-linear-reg.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../category/regression/2-ecommerce-linear-reg.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2-ecommerce-linear-reg</span></a>
   </div>
 </li>
@@ -207,7 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../category/regression/9-poisson-reg.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/regression/9-poisson-reg.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">9-poisson-reg</span></a>
   </div>
 </li>
@@ -282,14 +283,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#load-package" id="toc-load-package" class="nav-link active" data-scroll-target="#load-package">1. load package</a></li>
-  <li><a href="#process-data" id="toc-process-data" class="nav-link" data-scroll-target="#process-data">2. process data</a></li>
-  <li><a href="#plot-corrleation-of-variables" id="toc-plot-corrleation-of-variables" class="nav-link" data-scroll-target="#plot-corrleation-of-variables">3. plot corrleation of variables</a></li>
-  <li><a href="#plot-pair-variabless-cov-and-cor-matrix" id="toc-plot-pair-variabless-cov-and-cor-matrix" class="nav-link" data-scroll-target="#plot-pair-variabless-cov-and-cor-matrix">4. plot pair variables’s cov and cor matrix</a></li>
-  <li><a href="#mlj-workflow" id="toc-mlj-workflow" class="nav-link" data-scroll-target="#mlj-workflow">5. MLJ workflow</a>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">2. load data</a></li>
+  <li><a href="#mlj-workflow" id="toc-mlj-workflow" class="nav-link" data-scroll-target="#mlj-workflow">3. MLJ Workflow</a>
   <ul class="collapse">
-  <li><a href="#load-model" id="toc-load-model" class="nav-link" data-scroll-target="#load-model">5.1 load model</a></li>
-  <li><a href="#predict" id="toc-predict" class="nav-link" data-scroll-target="#predict">5.2 predict</a></li>
-  <li><a href="#plot-residuals" id="toc-plot-residuals" class="nav-link" data-scroll-target="#plot-residuals">5.3 plot residuals</a></li>
+  <li><a href="#load-model" id="toc-load-model" class="nav-link" data-scroll-target="#load-model">3.1 load model</a></li>
+  <li><a href="#predict-model-results" id="toc-predict-model-results" class="nav-link" data-scroll-target="#predict-model-results">3.2 predict model results</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -299,13 +297,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">2-ecommerce-linear-reg</h1>
+<h1 class="title">9-poisson-reg</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>math4mad </p>
+          </div>
+  </div>
     
   
     
@@ -324,14 +328,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<blockquote class="blockquote">
-<p>通过上网浏览时间预测年花费</p>
-</blockquote>
-<ol type="1">
-<li><p>dataset: <a href="https://www.kaggle.com/datasets/kolawale/focusing-on-mobile-app-or-website"><code>kaggle ecommerce dataset</code></a></p></li>
-<li><p><a href="https://www.kaggle.com/code/mohammedibrahim784/e-commerce-dataset-linear-regression-model">model</a></p></li>
-<li><p>using <code>MLJLinearModels.jl</code> <a href="https://github.com/alan-turing-institute/MLJLinearModels.jl">🔗</a></p></li>
-</ol>
+<p>泊松回归(Poisson Regression) 是一类特殊的回归模型,相应变量是计数数据(离散正整数) 响应变量的分布遵循泊松分布</p>
+<p>dataset <a href="https://www.kaggle.com/code/gauravduttakiit/explore-the-poisson-regression/input">data</a></p>
+<p>数据集有两个变量, 预测变量为数学成绩(Math Score),响应变量为奖学金等级(0-6)</p>
 </div>
 </div>
 <section id="load-package" class="level2">
@@ -339,87 +338,90 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="1">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">MLJ</span>:predict</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GLMakie</span>, <span class="bu">MLJ</span>,<span class="bu">CSV</span>,<span class="bu">DataFrames</span>,<span class="bu">StatsBase</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">include</span>(<span class="st">"../utils.jl"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> <span class="bu">MLJ</span>:fit!,fitted_params,coerce</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">GLMakie</span>,<span class="bu">MLJ</span>,<span class="bu">CSV</span>,<span class="bu">DataFrames</span>,<span class="bu">ScientificTypes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>WARNING: using StatsBase.predict in module Main conflicts with an existing identifier.</code></pre>
-</div>
 </div>
 </section>
-<section id="process-data" class="level2">
-<h2 class="anchored" data-anchor-id="process-data">2. process data</h2>
+<section id="load-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-data">2. load data</h2>
 <div class="cell" data-execution_count="2">
-<details open="">
+<details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>str<span class="op">=</span><span class="st">"Ecommerce-Customers"</span>   </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span>CSV.<span class="fu">File</span>(<span class="st">"./data/Ecommerce-Customers.csv"</span>) <span class="op">|&gt;</span> DataFrame <span class="op">|&gt;</span> dropmissing;</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">select!</span>(df,<span class="fl">4</span><span class="op">:</span><span class="fl">8</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>X<span class="op">=</span>df[<span class="op">:</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>]<span class="op">|&gt;</span><span class="dt">Matrix</span><span class="op">|&gt;</span>MLJ.table</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span><span class="fu">Vector</span>(df[<span class="op">:</span>,<span class="fl">5</span>])</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(df,<span class="fl">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">to_ScienceType</span>(d)<span class="op">=</span><span class="fu">coerce</span>(d,<span class="op">:</span>Awards<span class="op">=&gt;</span> Multiclass,<span class="op">:</span>MathScore<span class="op">=&gt;</span>Continuous)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span>CSV.<span class="fu">File</span>(<span class="st">"./data/competition_awards_data.csv"</span>) <span class="op">|&gt;</span> DataFrame<span class="op">|&gt;</span>dropmissing</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> X<span class="op">=</span>MLJ.<span class="fu">table</span>(<span class="fu">reshape</span>(df[<span class="op">:</span>,<span class="fl">2</span>],<span class="fl">200</span>,<span class="fl">1</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> y<span class="op">=</span><span class="fu">Vector</span>(df[<span class="op">:</span>,<span class="fl">1</span>])</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a> (Xtrain, Xtest), (ytrain, ytest) <span class="op">=</span> <span class="fu">partition</span>((X, y), <span class="fl">0.8</span>, rng<span class="op">=</span><span class="fl">123</span>, multi<span class="op">=</span><span class="cn">true</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a> <span class="fu">first</span>(df,<span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<div><div style="float: left;"><span>5×5 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
+<div class="cell-output cell-output-display" data-execution_count="84">
+<div><div style="float: left;"><span>10×2 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
 <table class="data-frame table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header header">
 <th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Avg. Session Length</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Time on App</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Time on Website</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Length of Membership</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Yearly Amount Spent</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Awards</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">MathScore</th>
 </tr>
 <tr class="odd subheader headerLastRow">
 <th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">1</td>
-<td style="text-align: right;">34.4973</td>
-<td style="text-align: right;">12.6557</td>
-<td style="text-align: right;">39.5777</td>
-<td style="text-align: right;">4.08262</td>
-<td style="text-align: right;">587.951</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">43</td>
 </tr>
 <tr class="even">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">2</td>
-<td style="text-align: right;">31.9263</td>
-<td style="text-align: right;">11.1095</td>
-<td style="text-align: right;">37.269</td>
-<td style="text-align: right;">2.66403</td>
-<td style="text-align: right;">392.205</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">38</td>
 </tr>
 <tr class="odd">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">3</td>
-<td style="text-align: right;">33.0009</td>
-<td style="text-align: right;">11.3303</td>
-<td style="text-align: right;">37.1106</td>
-<td style="text-align: right;">4.10454</td>
-<td style="text-align: right;">487.548</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">41</td>
 </tr>
 <tr class="even">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">4</td>
-<td style="text-align: right;">34.3056</td>
-<td style="text-align: right;">13.7175</td>
-<td style="text-align: right;">36.7213</td>
-<td style="text-align: right;">3.12018</td>
-<td style="text-align: right;">581.852</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">33</td>
 </tr>
 <tr class="odd">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">5</td>
-<td style="text-align: right;">33.3307</td>
-<td style="text-align: right;">12.7952</td>
-<td style="text-align: right;">37.5367</td>
-<td style="text-align: right;">4.44631</td>
-<td style="text-align: right;">599.406</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">39</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">43</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">7</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">8</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">41</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">36</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">10</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">38</td>
 </tr>
 </tbody>
 </table>
@@ -427,140 +429,77 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="plot-corrleation-of-variables" class="level2">
-<h2 class="anchored" data-anchor-id="plot-corrleation-of-variables">3. plot corrleation of variables</h2>
+<section id="mlj-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="mlj-workflow">3. MLJ Workflow</h2>
+<section id="load-model" class="level3">
+<h3 class="anchored" data-anchor-id="load-model">3.1 load model</h3>
 <div class="cell" data-execution_count="3">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>axs <span class="op">=</span> []</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>label<span class="op">=</span><span class="fu">names</span>(df)<span class="op">|&gt;</span><span class="dt">Array</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="op">:</span>orange, <span class="op">:</span>lightgreen, <span class="op">:</span>purple,<span class="op">:</span>lightblue,<span class="op">:</span>red,<span class="op">:</span>green]</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>(resolution<span class="op">=</span>(<span class="fl">1400</span>, <span class="fl">1400</span>))</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>ax<span class="op">=</span><span class="fu">Axis</span>(fig[<span class="fl">1</span>,<span class="fl">1</span>])</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_diag</span>(i)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> <span class="fu">Axis</span>(fig[i, i])</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">push!</span>(axs, ax)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">density!</span>(ax, df[<span class="op">:</span>, i]; color<span class="op">=</span>(colors[i], <span class="fl">0.5</span>),</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            strokewidth<span class="op">=</span><span class="fl">1.25</span>, strokecolor<span class="op">=</span>colors[i])</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_cor</span>(i, j)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> <span class="fu">Axis</span>(fig[i, j])</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scatter!</span>(ax, df[<span class="op">:</span>, i], df[<span class="op">:</span>, j]; color<span class="op">=</span>colors[j])</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_pair</span>()</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    [(i <span class="op">==</span> j ? <span class="fu">plot_diag</span>(i) <span class="op">:</span> <span class="fu">plot_cor</span>(i, j)) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, j <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>]</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">add_xy_label</span>()</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Axis</span>(fig[<span class="fl">5</span>, i], xlabel<span class="op">=</span>label[i],)</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Axis</span>(fig[i, <span class="fl">1</span>], ylabel<span class="op">=</span>label[i],)</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">main</span>()</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_pair</span>()</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_xy_label</span>()</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="fu">main</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    CountRegressor <span class="op">=</span> <span class="pp">@load</span> LinearCountRegressor pkg<span class="op">=</span>GLM</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="fu">CountRegressor</span>(fit_intercept<span class="op">=</span><span class="cn">false</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    mach <span class="op">=</span> <span class="fu">machine</span>(model, Xtrain, ytrain)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fit!</span>(mach)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<p><img src="2-ecommerce-linear-reg_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+<div class="cell-output cell-output-stdout">
+<pre><code>import MLJGLMInterface ✔</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[ Info: For silent loading, specify `verbosity=0`. 
+┌ Warning: The number and/or types of data arguments do not match what the specified model
+│ supports. Suppress this type check by specifying `scitype_check_level=0`.
+│ 
+│ Run `@doc GLM.LinearCountRegressor` to learn more about your model's requirements.
+│ 
+│ Commonly, but non exclusively, supervised models are constructed using the syntax
+│ `machine(model, X, y)` or `machine(model, X, y, w)` while most other models are
+│ constructed with `machine(model, X)`.  Here `X` are features, `y` a target, and `w`
+│ sample or class weights.
+│ 
+│ In general, data in `machine(model, data...)` is expected to satisfy
+│ 
+│     scitype(data) &lt;: MLJ.fit_data_scitype(model)
+│ 
+│ In the present case:
+│ 
+│ scitype(data) = Tuple{Table{AbstractVector{Count}}, AbstractVector{Count}}
+│ 
+│ fit_data_scitype(model) = Union{Tuple{Table{&lt;:AbstractVector{&lt;:Continuous}}, AbstractVector{Count}}, Tuple{Table{&lt;:AbstractVector{&lt;:Continuous}}, AbstractVector{Count}, AbstractVector{&lt;:Union{Continuous, Count}}}}
+└ @ MLJBase ~/.julia/packages/MLJBase/fEiP2/src/machines.jl:230
+[ Info: Training machine(LinearCountRegressor(fit_intercept = false, …), …).</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="85">
+<pre><code>trained Machine; caches model-specific representations of data
+  model: LinearCountRegressor(fit_intercept = false, …)
+  args: 
+    1:  Source @955 ⏎ Table{AbstractVector{Count}}
+    2:  Source @555 ⏎ AbstractVector{Count}</code></pre>
 </div>
 </div>
 </section>
-<section id="plot-pair-variabless-cov-and-cor-matrix" class="level2">
-<h2 class="anchored" data-anchor-id="plot-pair-variabless-cov-and-cor-matrix">4. plot pair variables’s cov and cor matrix</h2>
+<section id="predict-model-results" class="level3">
+<h3 class="anchored" data-anchor-id="predict-model-results">3.2 predict model results</h3>
 <div class="cell" data-execution_count="4">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_cov <span class="op">=</span> df<span class="op">|&gt;</span><span class="dt">Matrix</span><span class="op">|&gt;</span>cov<span class="op">.|&gt;</span> d <span class="op">-&gt;</span> <span class="fu">round</span>(d, digits<span class="op">=</span><span class="fl">3</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df_cor <span class="op">=</span> df<span class="op">|&gt;</span><span class="dt">Matrix</span><span class="op">|&gt;</span>cor<span class="op">.|&gt;</span> d <span class="op">-&gt;</span> <span class="fu">round</span>(d, digits<span class="op">=</span><span class="fl">3</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_cov_cor</span>()</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> <span class="fu">Figure</span>(resolution<span class="op">=</span>(<span class="fl">2200</span>, <span class="fl">800</span>))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    ax1 <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>]; xticks<span class="op">=</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, label), yticks<span class="op">=</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, label), title<span class="op">=</span><span class="st">"ecommerce cov matrix"</span>,yreversed<span class="op">=</span><span class="cn">true</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    ax3 <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">3</span>], xticks<span class="op">=</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, label), yticks<span class="op">=</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, label), title<span class="op">=</span><span class="st">"ecommerce cor matrix"</span>,yreversed<span class="op">=</span><span class="cn">true</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    hm <span class="op">=</span> <span class="fu">heatmap!</span>(ax1, df_cov)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Colorbar</span>(fig[<span class="fl">1</span>, <span class="fl">2</span>], hm)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    [<span class="fu">text!</span>(ax1, x, y; text<span class="op">=</span><span class="fu">string</span>(df_cov[x, y]), color<span class="op">=:</span>white, fontsize<span class="op">=</span><span class="fl">18</span>, align<span class="op">=</span>(<span class="op">:</span>center, <span class="op">:</span>center)) for x <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, y <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>]</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    hm2 <span class="op">=</span> <span class="fu">heatmap!</span>(ax3, df_cor)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Colorbar</span>(fig[<span class="fl">1</span>, <span class="fl">4</span>], hm2)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    [<span class="fu">text!</span>(ax3, x, y; text<span class="op">=</span><span class="fu">string</span>(df_cor[x, y]), color<span class="op">=:</span>white, fontsize<span class="op">=</span><span class="fl">18</span>, align<span class="op">=</span>(<span class="op">:</span>center, <span class="op">:</span>center)) for x <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, y <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>]</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    fig</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_cov_cor</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<p><img src="2-ecommerce-linear-reg_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-</section>
-<section id="mlj-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="mlj-workflow">5. MLJ workflow</h2>
-<section id="load-model" class="level3">
-<h3 class="anchored" data-anchor-id="load-model">5.1 load model</h3>
-<div class="cell" data-execution_count="5">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  LinearRegressor <span class="op">=</span> <span class="pp">@load</span> LinearRegressor pkg<span class="op">=</span>MLJLinearModels</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">=</span><span class="fu">LinearRegressor</span>()</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  mach <span class="op">=</span> MLJ.<span class="fu">fit!</span>(<span class="fu">machine</span>(model,X,y))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fitted_params</span>(mach)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a> yhat<span class="op">=</span><span class="fu">predict_mode</span>(mach, Xtest)<span class="op">|&gt;</span><span class="dt">Array</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a> <span class="pp">@info</span> <span class="st">"rms"</span><span class="op">=&gt;</span><span class="fu">rms</span>(yhat,ytest)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">report</span>(mach)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>[ Info: For silent loading, specify `verbosity=0`. 
-[ Info: Training machine(LinearRegressor(fit_intercept = true, …), …).
-┌ Info: Solver: MLJLinearModels.Analytical
-│   iterative: Bool false
-└   max_inner: Int64 200</code></pre>
+<pre><code>[ Info: "rms" =&gt; 0.9486832980505138</code></pre>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>import MLJLinearModels ✔</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>(coefs = [:x1 =&gt; 25.734271084705085, :x2 =&gt; 38.709153810834366, :x3 =&gt; 0.43673883559434407, :x4 =&gt; 61.57732375487839],
- intercept = -1051.5942553006273,)</code></pre>
-</div>
-</div>
-</section>
-<section id="predict" class="level3">
-<h3 class="anchored" data-anchor-id="predict">5.2 predict</h3>
-<div class="cell" data-execution_count="6">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  y_hat <span class="op">=</span><span class="fu">predict</span>(mach, X)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"rmsd"</span><span class="op">=&gt;</span><span class="fu">rmsd</span>(y,y_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>"rmsd" =&gt; 9.923256785022247</code></pre>
-</div>
-</div>
-</section>
-<section id="plot-residuals" class="level3">
-<h3 class="anchored" data-anchor-id="plot-residuals">5.3 plot residuals</h3>
-<div class="cell" data-execution_count="7">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>resid<span class="op">=</span>y_hat<span class="op">.=</span>y</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stem</span>(resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="8">
-<p><img src="2-ecommerce-linear-reg_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+<div class="cell-output cell-output-display" data-execution_count="86">
+<pre><code>(stderror = [0.0013746169531615926],
+ dof_residual = 160.0,
+ vcov = [1.88957176791926e-6;;],
+ deviance = 254.53389416397937,
+ coef_table = ───────────────────────────────────────────────────────────────────
+         Coef.  Std. Error     z  Pr(&gt;|z|)    Lower 95%   Upper 95%
+───────────────────────────────────────────────────────────────────
+x1  0.00104856  0.00137462  0.76    0.4456  -0.00164564  0.00374276
+───────────────────────────────────────────────────────────────────,)</code></pre>
 </div>
 </div>
 
