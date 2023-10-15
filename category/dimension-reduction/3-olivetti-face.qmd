@@ -1,0 +1,93 @@
+---
+title: "3-olivetti-face"
+author: math4mad
+code-fold: true
+---
+
+## 1. load package
+```{julia}
+include("./olivetti-face-code/1-dataprocessing.jl")
+
+import MLJ: transform, inverse_transform
+using MLJ,DataFrames,CSV,Random,JLSO,GLMakie
+Random.seed!(4545343)
+
+```
+
+## 2. import data
+```{julia}
+(Xtrain, Xtest), (ytrain, ytest)=load_olivetti_faces()
+```
+
+## 3. train&save model
+```{julia}
+    PCA = @load PCA pkg=MultivariateStats
+    function  make_model(Xtr)
+    return (dim)->begin
+        model = PCA(maxoutdim=dim)
+        mach = machine(model, Xtr) |> fit!
+        try
+            JLSO.save("./olivetti-face-code/models/of-model-$(dim)pcs.jlso",:pca=>mach)
+            @info "$(dim) dimension pca model saved"
+        catch e
+            @warn "$(e) has problem"
+        end
+    end
+end
+make_ol_model=make_model(Xtrain)
+make_ol_model.([1,2,3,100])
+
+```
+
+## 4. imgs project to  low dimension feature space
+第三行是降维到 100的图片, 最后一行是原始图片
+```{julia}
+include("./olivetti-face-code/3-transform-reconstruct-methods.jl")
+cat=ytrain|>Array|>levels
+rows,cols=size(Xtrain)
+
+pick20=rand(1:rows,20)
+pickXtrain=Xtrain[pick20,:]
+pickytrain=ytrain[pick20]
+
+pcaData=transform_to_2d(pickXtrain)
+reconstructImgs=reconstruct_data(pcaData)
+
+pcaData3=transform_to_3d(pickXtrain)
+reconstructImgs3=reconstruct_data(pcaData3)
+
+transform_to_100d=transform_to_pcadata1(100)
+pcaData100=transform_to_100d(pickXtrain)
+reconstructImgs100=reconstruct_data(pcaData100)
+
+df=vcat(reconstructImgs,reconstructImgs3,reconstructImgs100,pickXtrain)
+```
+plot reconstruct imgs
+```{julia}
+function  plot_img(df)
+    
+    fig=Figure(resolution=(130*20,130*4))
+    
+    for i in 0:3
+        for j in 1:20
+            idx=i*20+j
+            ax=Axis(fig[i+1,j],yreversed=true)
+            img=df[idx,:]|>Array|>d->reshape(d,w,h)
+            image!(ax,img)
+            hidespines!(ax)
+            hidedecorations!(ax)
+        end
+    end
+
+    fig
+    #save("./imgs/reconstruct-of-face.png",fig)
+end
+
+
+plot_img(df)
+```
+
+
+
+
+
