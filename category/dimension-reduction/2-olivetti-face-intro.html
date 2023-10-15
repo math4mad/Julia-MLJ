@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Julia MLJ - 2-svm-diabetes-classfication</title>
+<title>Julia MLJ - 2-olivetti-face-project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -92,9 +92,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -108,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../category/classification/1-catboost-claffification.html">Classfication</a></li><li class="breadcrumb-item"><a href="../../category/classification/2-diabetes-svm-classficiation.html">2-svm-diabetes-classfication</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../category/dimension-reduction/1-nci60-pca-svm.html">Dimension Reduction</a></li><li class="breadcrumb-item"><a href="../../category/dimension-reduction/2-olivetti-face-intro.html">2-olivetti-face-project</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -230,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../category/classification/2-diabetes-svm-classficiation.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../category/classification/2-diabetes-svm-classficiation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2-svm-diabetes-classfication</span></a>
   </div>
 </li>
@@ -259,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../category/dimension-reduction/2-olivetti-face-intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/dimension-reduction/2-olivetti-face-intro.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">2-olivetti-face-project</span></a>
   </div>
 </li>
@@ -310,13 +307,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#load-package" id="toc-load-package" class="nav-link active" data-scroll-target="#load-package">1. load package</a></li>
-  <li><a href="#process-data" id="toc-process-data" class="nav-link" data-scroll-target="#process-data">2. process data</a></li>
-  <li><a href="#mlj-workflow" id="toc-mlj-workflow" class="nav-link" data-scroll-target="#mlj-workflow">3. MLJ workflow</a>
+  <li><a href="#olivetti-face-recognition-的项目" id="toc-olivetti-face-recognition-的项目" class="nav-link active" data-scroll-target="#olivetti-face-recognition-的项目">olivetti face recognition 的项目</a></li>
+  <li><a href="#dataprocessing.jl" id="toc-dataprocessing.jl" class="nav-link" data-scroll-target="#dataprocessing.jl">1. dataprocessing.jl</a></li>
+  <li><a href="#trainsave-model.jl" id="toc-trainsave-model.jl" class="nav-link" data-scroll-target="#trainsave-model.jl">2. train&amp;save-model.jl</a></li>
+  <li><a href="#transform-reconstruct-methods" id="toc-transform-reconstruct-methods" class="nav-link" data-scroll-target="#transform-reconstruct-methods">3-transform-reconstruct-methods</a>
   <ul class="collapse">
-  <li><a href="#defin-model" id="toc-defin-model" class="nav-link" data-scroll-target="#defin-model">3.1 defin model</a></li>
-  <li><a href="#predict-test" id="toc-predict-test" class="nav-link" data-scroll-target="#predict-test">3.2 predict test</a></li>
+  <li><a href="#重建数据方法" id="toc-重建数据方法" class="nav-link" data-scroll-target="#重建数据方法">重建数据方法</a></li>
   </ul></li>
+  <li><a href="#维度缩减到-1d-的数据" id="toc-维度缩减到-1d-的数据" class="nav-link" data-scroll-target="#维度缩减到-1d-的数据">维度缩减到 1d 的数据</a></li>
   </ul>
 </nav>
     </div>
@@ -325,7 +323,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">2-svm-diabetes-classfication</h1>
+<h1 class="title">2-olivetti-face-project</h1>
 </div>
 
 
@@ -340,227 +338,81 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="callout callout-style-default callout-note callout-titled" title="介绍">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-介绍
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><p>参考博客文章:<a href="https://www.section.io/engineering-education/diagnose-diabetes-with-svm/"><code>diagnose-diabetes-with-svm</code></a></p></li>
-<li><p>SVM(支持向量机)通过引入 <code>kernelfunction</code>,使得模型的分类灵活性大大增强,可以解决更多问题.在<code>julia</code>中可以通过在<a href="https://docs.juliahub.com/LIBSVM/3eWAI/0.5.0/"><code>LIBSVM.jl</code></a> 引入 <code>kernel function</code> 实现, 参见 文档: <a href="https://juliagaussianprocesses.github.io/KernelFunctions.jl/stable/examples/support-vector-machine/"><code>Support Vector Machine</code></a></p></li>
-<li><p><code>MLJ.jl</code> 通过包装接口也提供相似功能</p></li>
-<li><p>响应变量需要转换类型 <code>to_ScienceType(d)=coerce(d,:Outcome=&gt; Multiclass)</code></p></li>
-</ul>
-</div>
-</div>
-<section id="load-package" class="level2">
-<h2 class="anchored" data-anchor-id="load-package">1. load package</h2>
-<div class="cell" data-execution_count="1">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">include</span>(<span class="st">"../utils.jl"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">MLJ</span>: fit!, predict</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span>,<span class="bu">DataFrames</span>,<span class="bu">Random</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">MLJ</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">KernelFunctions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
+<section id="olivetti-face-recognition-的项目" class="level2">
+<h2 class="anchored" data-anchor-id="olivetti-face-recognition-的项目">olivetti face recognition 的项目</h2>
 </section>
-<section id="process-data" class="level2">
-<h2 class="anchored" data-anchor-id="process-data">2. process data</h2>
-<div class="cell" data-execution_count="2">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> df<span class="op">=</span><span class="fu">load_csv</span>(<span class="st">"diabetes"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">to_ScienceType</span>(d)<span class="op">=</span><span class="fu">coerce</span>(d,<span class="op">:</span>Outcome<span class="op">=&gt;</span> Multiclass)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> df<span class="op">=</span><span class="fu">to_ScienceType</span>(df)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">first</span>(df,<span class="fl">5</span>)<span class="op">|&gt;</span>display</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> y, X <span class="op">=</span>  <span class="fu">unpack</span>(df, <span class="op">==</span>(<span class="op">:</span>Outcome), rng<span class="op">=</span><span class="fl">123</span>);</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a> (Xtrain, Xtest), (ytrain, ytest)  <span class="op">=</span> <span class="fu">partition</span>((X, y), <span class="fl">0.7</span>, multi<span class="op">=</span><span class="cn">true</span>,  rng<span class="op">=</span><span class="fl">123</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>(<span class="fu">schema</span>(X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div><div style="float: left;"><span>5×9 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
-<table class="data-frame table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header header">
-<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Pregnancies</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Glucose</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">BloodPressure</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">SkinThickness</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Insulin</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">BMI</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">DiabetesPedigreeFunction</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Age</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Outcome</th>
-</tr>
-<tr class="odd subheader headerLastRow">
-<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">1</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">148</td>
-<td style="text-align: right;">72</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">33.6</td>
-<td style="text-align: right;">0.627</td>
-<td style="text-align: right;">50</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">2</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">85</td>
-<td style="text-align: right;">66</td>
-<td style="text-align: right;">29</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">26.6</td>
-<td style="text-align: right;">0.351</td>
-<td style="text-align: right;">31</td>
-<td style="text-align: left;">0</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">3</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">183</td>
-<td style="text-align: right;">64</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">23.3</td>
-<td style="text-align: right;">0.672</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">4</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">89</td>
-<td style="text-align: right;">66</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: right;">94</td>
-<td style="text-align: right;">28.1</td>
-<td style="text-align: right;">0.167</td>
-<td style="text-align: right;">21</td>
-<td style="text-align: left;">0</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">5</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">137</td>
-<td style="text-align: right;">40</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">168</td>
-<td style="text-align: right;">43.1</td>
-<td style="text-align: right;">2.288</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: left;">1</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div class="ansi-escaped-output">
-<pre>┌──────────────────────────┬────────────┬─────────┐
-│ names                    │ scitypes   │ types   │
-├──────────────────────────┼────────────┼─────────┤
-│ Pregnancies              │ Count      │ Int64   │
-│ Glucose                  │ Count      │ Int64   │
-│ BloodPressure            │ Count      │ Int64   │
-│ SkinThickness            │ Count      │ Int64   │
-│ Insulin                  │ Count      │ Int64   │
-│ BMI                      │ Continuous │ Float64 │
-│ DiabetesPedigreeFunction │ Continuous │ Float64 │
-│ Age                      │ Count      │ Int64   │
-└──────────────────────────┴────────────┴─────────┘
-</pre>
-</div>
-</div>
-</div>
+<section id="dataprocessing.jl" class="level2">
+<h2 class="anchored" data-anchor-id="dataprocessing.jl">1. dataprocessing.jl</h2>
+<p>读取 csv 文件, 返回 返回 olivetti face 训练数据,测试数据和标签 <code>load_olivetti_faces</code> 函数返回训练,测试数据集和对应标签</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(Xtrain, Xtest), (ytrain, ytest)<span class="op">=</span><span class="fu">load_olivetti_faces</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="mlj-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="mlj-workflow">3. MLJ workflow</h2>
-<section id="defin-model" class="level3">
-<h3 class="anchored" data-anchor-id="defin-model">3.1 defin model</h3>
-<div class="cell" data-execution_count="3">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SVC <span class="op">=</span> <span class="pp">@load</span> SVC pkg<span class="op">=</span>LIBSVM</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#define kernel function,evaulate  kernelfunctions methods</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>kernels<span class="op">=</span>[<span class="fu">PolynomialKernel</span>(; degree<span class="op">=</span><span class="fl">2</span>, c<span class="op">=</span><span class="fl">1</span>), </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">SqExponentialKernel</span>(),</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">NeuralNetworkKernel</span>(),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">LinearKernel</span>(;c<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>svc_mdls <span class="op">=</span> [<span class="fu">SVC</span>(;kernel<span class="op">=</span>k) for  k <span class="kw">in</span> kernels]</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>svcs <span class="op">=</span> [<span class="fu">machine</span>(model, Xtrain, ytrain;scitype_check_level<span class="op">=</span><span class="fl">0</span>) for model <span class="kw">in</span> svc_mdls]</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>[<span class="fu">fit!</span>(svc) for svc <span class="kw">in</span> svcs]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>[ Info: For silent loading, specify `verbosity=0`. 
-[ Info: Training machine(SVC(kernel = Polynomial Kernel (c = 1, degree = 2), …), …).
-
-WARNING: reaching max number of iterations
-[ Info: Training machine(SVC(kernel = Squared Exponential Kernel (metric = Distances.Euclidean(0.0)), …), …).
-[ Info: Training machine(SVC(kernel = Neural Network Kernel, …), …).
-[ Info: Training machine(SVC(kernel = Linear Kernel (c = 1.0), …), …).
-
-WARNING: reaching max number of iterations</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>import MLJLIBSVMInterface ✔</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>4-element Vector{Machine{MLJLIBSVMInterface.SVC, true}}:
- machine(SVC(kernel = Polynomial Kernel (c = 1, degree = 2), …), …)
- machine(SVC(kernel = Squared Exponential Kernel (metric = Distances.Euclidean(0.0)), …), …)
- machine(SVC(kernel = Neural Network Kernel, …), …)
- machine(SVC(kernel = Linear Kernel (c = 1.0), …), …)</code></pre>
-</div>
-</div>
+<section id="trainsave-model.jl" class="level2">
+<h2 class="anchored" data-anchor-id="trainsave-model.jl">2. train&amp;save-model.jl</h2>
+<p>导入数据,返回一个高阶函数<code>make_model</code> <code>make_model</code> 函数首先接受训练数据集, 然后等待 <code>dim</code> 需要缩减到的维度参数</p>
+<p>最终训练的模型保存的对应的 jlso 文件中:<code>JLSO.save("$(pwd())/models/of-model-$(dim)pcs.jlso",:pca=&gt;mach)</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span>  <span class="fu">make_model</span>(Xtr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (dim)<span class="op">-&gt;</span><span class="cf">begin</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> <span class="fu">PCA</span>(maxoutdim<span class="op">=</span>dim)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        mach <span class="op">=</span> <span class="fu">machine</span>(model, Xtr) <span class="op">|&gt;</span> fit!</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            JLSO.<span class="fu">save</span>(<span class="st">"</span><span class="sc">$</span>(<span class="fu">pwd</span>())<span class="st">/models/of-model-</span><span class="sc">$</span>(dim)<span class="st">pcs.jlso"</span>,<span class="op">:</span>pca<span class="op">=&gt;</span>mach)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            <span class="pp">@info</span> <span class="st">"</span><span class="sc">$</span>(dim)<span class="st"> dimension pca model saved"</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">catch</span> <span class="cn">e</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="pp">@warn</span> <span class="st">"</span><span class="sc">$</span>(<span class="cn">e</span>)<span class="st"> has problem"</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>make_ol_model<span class="op">=</span><span class="fu">make_model</span>(Xtrain)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#make_ol_model.([10,20,150])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="predict-test" class="level3">
-<h3 class="anchored" data-anchor-id="predict-test">3.2 predict test</h3>
-<div class="cell" data-execution_count="4">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (idx, str) <span class="kw">in</span> <span class="fu">enumerate</span>([<span class="st">"Polynomial "</span>,<span class="st">"Gaussian"</span>,<span class="st">"NeuralNetwork"</span>,<span class="st">"Linear"</span>])</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> yhat<span class="op">=</span><span class="fu">predict</span>(svcs[idx],Xtest)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> acc<span class="op">=</span><span class="fu">accuracy</span>(yhat,ytest) </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@info</span> <span class="st">"</span><span class="sc">$</span>(str)<span class="st"> kernel predict accuracy"</span><span class="op">=&gt;</span>acc   </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>[ Info: "Polynomial  kernel predict accuracy" =&gt; 0.47391304347826085
-[ Info: "Gaussian kernel predict accuracy" =&gt; 0.6434782608695652
-[ Info: "NeuralNetwork kernel predict accuracy" =&gt; 0.6478260869565218
-[ Info: "Linear kernel predict accuracy" =&gt; 0.7782608695652173</code></pre>
-</div>
-</div>
+<section id="transform-reconstruct-methods" class="level2">
+<h2 class="anchored" data-anchor-id="transform-reconstruct-methods">3-transform-reconstruct-methods</h2>
+<p>在 <code>MLJ.jl</code>的 pca 方法和 <code>MultiVariate.jl</code> 的方法稍有不同, 使用的是 <code>transform</code>函数,而不是<code>project</code>方法</p>
+<p>主要函数为<code>transform_to_pcadata1</code>,为高阶函数 输入参数<code>dim</code> 为需要缩减到的维度 函数内部调用第2 步获得的模型 返回一个函数 等待 df 参数 内部调用<code>transform</code>函数对数据做降维处理 返回数据</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">transform_to_pcadata</span>(dim<span class="op">::</span><span class="dt">Int</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    mach <span class="op">=</span> JLSO.<span class="fu">load</span>(<span class="st">"</span><span class="sc">$</span>(<span class="fu">pwd</span>())<span class="st">/models/of-model-</span><span class="sc">$</span>(dim)<span class="st">pcs.jlso"</span>)[<span class="op">:</span>pca]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (imgs<span class="op">::</span><span class="dt">DataFrame</span>)<span class="op">-&gt;</span><span class="cf">begin</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="pp">@info</span> <span class="st">"</span><span class="sc">$</span>dim<span class="st"> pca proceeding..."</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        pcaX <span class="op">=</span> <span class="fu">transform</span>(mach, imgs)     <span class="co"># 降维数据</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 返回降维数据</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pcaX</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>transform_to_pcadata2</code> 与<code>transform_to_pcadata1</code> 一样是高阶函数 但是参数输入的顺序不同, <code>transform_to_pcadata2</code>中先输入dataframe, 然后等待维度参数</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">transform_to_pcadata2</span>(imgs<span class="op">::</span><span class="dt">DataFrame</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (dim<span class="op">::</span><span class="dt">Int</span>)<span class="op">-&gt;</span><span class="cf">begin</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>            <span class="pp">@info</span> <span class="st">"</span><span class="sc">$</span>dim<span class="st"> pca proceeding..."</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            mach <span class="op">=</span> JLSO.<span class="fu">load</span>(<span class="st">"</span><span class="sc">$</span>(<span class="fu">pwd</span>())<span class="st">/models/of-model-</span><span class="sc">$</span>(dim)<span class="st">pcs.jlso"</span>)[<span class="op">:</span>pca]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>            pcaX <span class="op">=</span> <span class="fu">transform</span>(mach, imgs)     <span class="co"># 降维数据</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>            <span class="co"># 返回降维数据</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> pcaX</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="重建数据方法" class="level3">
+<h3 class="anchored" data-anchor-id="重建数据方法">重建数据方法</h3>
+<p>从低维度数据恢复原始维度数据, 在<code>MLJ</code>中使用的方法是<code>inverse_transform</code> <code>reconstruct_data</code> 方法首先从数据 dataframe 中获取维度<code>column</code>数据 从存储模型中调用训练模型 执行重建变换</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">        reconstruct_data(imgs::DataFrame)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">    从降维数据重建图片</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">    TBW</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">reconstruct_data</span>(imgs<span class="op">::</span><span class="dt">DataFrame</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            _,cols<span class="op">=</span><span class="fu">size</span>(imgs)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>            <span class="pp">@info</span> <span class="st">"imgs  reconstructing from </span><span class="sc">$</span>(cols)<span class="st"> dimension"</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            mach <span class="op">=</span> JLSO.<span class="fu">load</span>(<span class="st">"</span><span class="sc">$</span>(<span class="fu">pwd</span>())<span class="st">/models/of-model-</span><span class="sc">$</span>(cols)<span class="st">pcs.jlso"</span>)[<span class="op">:</span>pca]</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            Xr <span class="op">=</span> <span class="fu">inverse_transform</span>(mach, imgs)  <span class="co"># 重建近似数据</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> Xr</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="维度缩减到-1d-的数据" class="level2">
+<h2 class="anchored" data-anchor-id="维度缩减到-1d-的数据">维度缩减到 1d 的数据</h2>
+<p>以 faces 为例,如果缩减到一个维度, 获得的数据是所有图片共用的最大元素,也就是所有人面部共用的特征</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

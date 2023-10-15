@@ -2,82 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/index.html</loc>
-    <lastmod>2023-10-14T21:52:03.171Z</lastmod>
+    <lastmod>2023-10-15T08:05:11.097Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/dataset/intro-1.html</loc>
-    <lastmod>2023-10-14T21:52:02.403Z</lastmod>
+    <lastmod>2023-10-15T08:05:10.425Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/mlj-cheatsheet.html</loc>
-    <lastmod>2023-10-14T21:52:01.227Z</lastmod>
+    <lastmod>2023-10-15T08:05:09.457Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/math4mad/Julia-MLJ/category/dimension-reduction/3-olivetti-face.html</loc>
+    <lastmod>2023-10-15T08:05:06.445Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/classification/2-diabetes-svm-classficiation.html</loc>
-    <lastmod>2023-10-14T21:51:57.651Z</lastmod>
+    <lastmod>2023-10-15T08:05:01.289Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/classification/1-catboost-claffification.html</loc>
-    <lastmod>2023-10-14T21:51:56.150Z</lastmod>
+    <lastmod>2023-10-15T08:05:00.029Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/getting-started.html</loc>
-    <lastmod>2023-10-14T21:51:51.742Z</lastmod>
+    <lastmod>2023-10-15T08:04:55.992Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/regression/4-german-creditcard-logistics-reg.html</loc>
-    <lastmod>2023-10-14T21:51:50.518Z</lastmod>
+    <lastmod>2023-10-15T08:04:55.024Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/regression/8-iris-logistics-reg.html</loc>
-    <lastmod>2023-10-14T21:51:49.374Z</lastmod>
+    <lastmod>2023-10-15T08:04:54.036Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/regression/6-compare of BetalML method.html</loc>
-    <lastmod>2023-10-14T21:51:47.874Z</lastmod>
+    <lastmod>2023-10-15T08:04:52.768Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/regression/7-test-latexify.html</loc>
-    <lastmod>2023-10-14T21:51:46.774Z</lastmod>
+    <lastmod>2023-10-15T08:04:51.836Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/regression/1-salary-linear-reg.html</loc>
-    <lastmod>2023-10-14T21:51:45.906Z</lastmod>
+    <lastmod>2023-10-15T08:04:51.104Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/regression/5-boston-housing-mixture-regression.html</loc>
-    <lastmod>2023-10-14T21:51:47.266Z</lastmod>
+    <lastmod>2023-10-15T08:04:52.264Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/regression/2-ecommerce-linear-reg.html</loc>
-    <lastmod>2023-10-14T21:51:48.674Z</lastmod>
+    <lastmod>2023-10-15T08:04:53.444Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/regression/9-poisson-reg.html</loc>
-    <lastmod>2023-10-14T21:51:49.970Z</lastmod>
+    <lastmod>2023-10-15T08:04:54.556Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/regression/3-cricket-chirp-rate.html</loc>
-    <lastmod>2023-10-14T21:51:51.090Z</lastmod>
+    <lastmod>2023-10-15T08:04:55.492Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/materials.html</loc>
-    <lastmod>2023-10-14T21:51:52.110Z</lastmod>
+    <lastmod>2023-10-15T08:04:56.300Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/classification/24-classfication-comparison.html</loc>
-    <lastmod>2023-10-14T21:51:56.967Z</lastmod>
+    <lastmod>2023-10-15T08:05:00.721Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/math4mad/Julia-MLJ/category/dimension-reduction/2-olivetti-face-intro.html</loc>
+    <lastmod>2023-10-15T08:05:01.685Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/dimension-reduction/1-nci60-pca-svm.html</loc>
-    <lastmod>2023-10-14T21:52:00.467Z</lastmod>
+    <lastmod>2023-10-15T08:05:08.821Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/schedule.html</loc>
-    <lastmod>2023-10-14T21:52:02.019Z</lastmod>
+    <lastmod>2023-10-15T08:05:10.133Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/math4mad/Julia-MLJ/category/dataset/index.html</loc>
-    <lastmod>2023-10-14T21:52:02.783Z</lastmod>
+    <lastmod>2023-10-15T08:05:10.769Z</lastmod>
   </url>
 </urlset>
