@@ -18,6 +18,19 @@ function boundary_data(df::AbstractDataFrame;n=200)
 end
 
 
+function boundary_data2(df::AbstractDataFrame;n=200)
+    n1=n2=n
+    xlow,xhigh=extrema(df[:,:x1])
+    ylow,yhigh=extrema(df[:,:x2])
+    tx = range(xlow,xhigh; length=n1)
+    ty = range(ylow,yhigh; length=n2)
+    x_test = mapreduce(collect, hcat, Iterators.product(tx, ty));
+    xtest=MLJ.table(x_test',names=[:x1,:x2])
+    return tx,ty,xtest
+end
+
+
+
 function load_german_creditcard()
     to_ScienceType(d)=coerce(d,autotype(d, (:few_to_finite, :discrete_to_continuous)))
     df=CSV.File("../dataset/german_creditcard.csv") |> DataFrame|>to_ScienceType

@@ -1,0 +1,105 @@
+---
+title: "4-NIR-Spectra-Milk"
+author: math4mad
+code-fold: true
+---
+
+:::{.callout-note title="简介"}
+利用 PCA 对不同品种牛奶的近红外光谱数据进行降维处理
+
+在这里从 602d降维到2d,3d,然后利用[SVC · MLJ](https://alan-turing-institute.github.io/MLJ.jl/dev/models/SVC_LIBSVM/#SVC_LIBSVM) 进行分类,绘制决策边界
+
+参考 :[Classification of NIR spectra using Principal Component Analysis in Python](https://nirpyresearch.com/classification-nir-spectra-principal-component-analysis-python/)
+
+:::
+
+## 1. load package
+```{julia}
+include("../utils.jl")
+import MLJ:transform,predict
+using DataFrames,MLJ,CSV,MLJModelInterface,GLMakie
+```
+
+## 2. data digest
+### 2.1  load csv=>dataframe
+```{julia}
+df=load_csv("NIR-spectra-milk")
+first(df,10)
+```
+
+### 2.2  corece and split data
+```{julia}
+ to_ScienceType(d)=coerce(d,:labels=>Multiclass)
+ df=to_ScienceType(df)
+ ytrain, Xtrain=  unpack(df, ==(:labels),!=(:Column1), rng=123);
+ cat=ytrain|>levels
+ rows,cols=size(Xtrain)
+```
+
+## 3  workflow
+### 3.1 instantate model and train model
+```{julia}
+    SVC = @load SVC pkg=LIBSVM 
+    PCA = @load PCA pkg=MultivariateStats
+    maxdim=2;nums=200
+    model1=PCA(;maxoutdim=maxdim)
+    model2 = SVC()
+    mach1 = machine(model1, Xtrain) |> fit!
+    Ytr =transform(mach1, Xtrain)
+    mach2 = machine(model2, Ytr, ytrain)|>fit!
+    Yte=transform(mach1, Xtrain)
+    tx,ty,x_test=boundary_data2(Yte)
+    yhat = predict(mach2, x_test)|>Array|>d->reshape(d,nums,nums)
+```
+
+### 3.2 plot 2d  results
+```{julia}
+function plot_data()
+    
+    fig=Figure(resolution=(800,800))
+    ax= maxdim==3 ? Axis3(fig[1,1]) : Axis(fig[1,1])
+    colors=[:red, :yellow,:purple,:lightblue,:black,:orange,:pink,:blue,:tomato]
+    contourf!(ax,tx,ty,yhat,levels=length(cat),colormap=:redsblues)
+    for (c,color) in zip(cat,colors)
+        data=Ytr[ytrain.==c,:]
+        if maxdim==3
+            scatter!(ax,data[:,1], data[:,2],data[:,3],color=(color,0.8),markersize=14)
+        elseif maxdim==2
+            scatter!(ax,data[:,1], data[:,2],color=(color,0.8),markersize=14)
+        else
+            return nothing
+        end
+    end
+    fig
+end
+plot_data()
+```
+
+### 3.3 to 3d dimension
+```{julia}
+  let
+    maxdim=3;nums=200
+    model1=PCA(;maxoutdim=maxdim)
+    model2 = SVC()
+    mach1 = machine(model1, Xtrain) |> fit!
+    Ytr =transform(mach1, Xtrain)
+    mach2 = machine(model2, Ytr, ytrain)|>fit!
+    Yte=transform(mach1, Xtrain)
+    fig=Figure(resolution=(800,800))
+    ax= maxdim==3 ? Axis3(fig[1,1]) : Axis(fig[1,1])
+    colors=[:red, :yellow,:purple,:lightblue,:black,:orange,:pink,:blue,:tomato]
+    
+    for (c,color) in zip(cat,colors)
+        data=Ytr[ytrain.==c,:]
+        if maxdim==3
+            scatter!(ax,data[:,1], data[:,2],data[:,3],color=(color,0.8),markersize=14;label=c)
+        elseif maxdim==2
+            scatter!(ax,data[:,1], data[:,2],color=(color,0.8),markersize=14;label=c)
+        else
+            return nothing
+        end
+    end
+    
+    fig
+end
+```
