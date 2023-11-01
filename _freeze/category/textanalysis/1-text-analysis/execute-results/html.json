@@ -1,0 +1,11 @@
+{
+  "hash": "d41cd0b55e16578aa27784e4e5b0135f",
+  "result": {
+    "markdown": "---\ntitle: \"1-text-analysis\"\nauthor: math4mad\ncode-fold: true\n---\n\n::: {.cell execution_count=1}\n``` {.julia .cell-code}\nusing MLJ\nimport TextAnalysis\nTfidfTransformer = @load TfidfTransformer pkg=MLJText\ndocs=[\"Romeo and Juliet\",\n          \"Juliet: O happy dagger!\",\n          \"Romeo died by dagger\",\n          \"“Live free or die”, that’s the New-Hampshire’s motto.\",\n          \"Did you know, New-Hampshire is in New-England\"]\ntfidf_transformer = TfidfTransformer()\ntokenized_docs = TextAnalysis.tokenize.(docs)\nmach = machine(tfidf_transformer, tokenized_docs)\nfit!(mach)\n\nfitted_params(mach)\n\ntfidf_mat = transform(mach, tokenized_docs)|>Matrix\nvcat(tokenized_docs...)|>Set\n```\n\n::: {.cell-output .cell-output-stdout}\n```\nimport MLJText ✔\n```\n:::\n\n::: {.cell-output .cell-output-stderr}\n```\n[ Info: For silent loading, specify `verbosity=0`. \n[ Info: Training machine(TfidfTransformer(max_doc_freq = 1.0, …), …).\n```\n:::\n\n::: {.cell-output .cell-output-display execution_count=22}\n```\nSet{String} with 30 elements:\n  \"dagger\"\n  \"!\"\n  \"is\"\n  \"Juliet\"\n  \"and\"\n  \"O\"\n  \"happy\"\n  \"by\"\n  \"Live\"\n  \"free\"\n  \",\"\n  \"or\"\n  \"that\"\n  \"Romeo\"\n  \"’\"\n  \"motto\"\n  \"New-England\"\n  \"in\"\n  \"s\"\n  \".\"\n  \"died\"\n  \":\"\n  \"you\"\n  \"the\"\n  \"Did\"\n  ⋮ \n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "1-text-analysis_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

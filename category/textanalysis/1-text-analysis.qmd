@@ -1,0 +1,25 @@
+---
+title: "1-text-analysis"
+author: math4mad
+code-fold: true
+---
+
+```{julia}
+using MLJ
+import TextAnalysis
+TfidfTransformer = @load TfidfTransformer pkg=MLJText
+docs=["Romeo and Juliet",
+          "Juliet: O happy dagger!",
+          "Romeo died by dagger",
+          "“Live free or die”, that’s the New-Hampshire’s motto.",
+          "Did you know, New-Hampshire is in New-England"]
+tfidf_transformer = TfidfTransformer()
+tokenized_docs = TextAnalysis.tokenize.(docs)
+mach = machine(tfidf_transformer, tokenized_docs)
+fit!(mach)
+
+fitted_params(mach)
+
+tfidf_mat = transform(mach, tokenized_docs)|>Matrix
+vcat(tokenized_docs...)|>Set
+```

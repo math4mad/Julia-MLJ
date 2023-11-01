@@ -1,0 +1,127 @@
+---
+title: "2-Latent Semantic Analysis"
+author: math4mad
+code-fold: true
+---
+
+
+:::{.callout-note title="简介"}
+  参考 [Latent Semantic Analysis](https://www.engr.uvic.ca/~seng474/svd.pdf)
+  在本教程里, 有多个文本,但是实际只有两个来源, 一个来源是莎士比亚的罗密欧与朱丽叶, 一个是关于
+  地理位置的介绍文档.  所以要解决的问题就是能不能通过数学方法知道这两个不同的群.
+  查询文档通过距离度量划分到对应的群中
+:::
+
+## 1. Eigenvalues and Eigenvectors
+
+
+$$\begin{bmatrix}
+  4&0  &0 \\
+  0&3  &0 \\
+  0&0  &2
+\end{bmatrix}$$
+
+## 2. workflow
+
+### 2.1 load package
+```{julia}
+  import Plots: text
+  using DataFrames
+  using LinearAlgebra
+  using Plots
+  using PrettyTables
+```
+
+### 2.2 documents
+```{julia}
+docments=(:d1=>"Romeo and Juliet",
+          :d2=>"Juliet: O happy dagger!",
+          :d3=>"Romeo died by dagger",
+          :d4=>"“Live free or die”, that’s the New-Hampshire’s motto.",
+          :d5=> "Did you know, New-Hampshire is in New-England")
+querystring=["dies", "dagger"]
+```
+### 2.3 tokenize
+对文本分词, 获得文档矩阵, 参考上面连接
+```{julia}
+   terms=marker=["romeo ", "juliet", "happy ", "dagger" ,"live", "die", "free", "new-hampshire "]
+  Mat=[1 0 1 0 0 ; 1 1 0 0 0 ; 0 1 0 0 0  ; 0 1 1 0 0 ;0 0 0 1 0;0 0 1 1 0 ; 0 0 0 1 0 ; 0 0 0 1 1 ]
+  df=DataFrame(terms=terms,d1=Mat[:,1],d2=Mat[:,2],d3=Mat[:,3],d4=Mat[:,4],d5=Mat[:,5])
+  @pt df
+```
+
+### 2.4 SVD 
+`svd(matrix)->get first 2 components`
+```{julia}
+  U,Σ,V=svd(Mat)
+  show(:Σ=>Σ)
+  k=2  
+  U₂=U[:,1:k]
+  Σ₂=diagm(Σ[1:k])
+  tV₂=V[:,1:k]'
+
+  terms= U₂*Σ₂  # 每一行是词条的向量
+
+  display(terms)
+  doc=Σ₂*tV₂    # 每列是文本的向量
+
+```
+
+### 2.5 定义注释文本方法
+```{julia}
+offset=0.2  #添加文本的偏移量
+
+"""
+    anno(str;x,y,xoffset=0,yoffset=0.1)
+
+anno(str;x,y,xoffset=0,yoffset=0.1)
+用于文本注释
+params:
+- str: 文本内容
+- x,y 文本坐标
+- xoffset,yoffset 偏移,避免与数据点重合,定位在 y轴
+"""
+function anno(str;x,y,xoffset=0,yoffset=0.1)
+  return   (x+xoffset,y+yoffset,
+            text(str, pointsize=6, color=:blue, halign=:center, valign=:center, rotation=0))
+end
+```
+
+
+### 2.6  plot res
+```{julia}
+text_arr=[]
+doc_arr=[]
+
+for i in 1:8
+   txt=anno(marker[i];x=terms[i,1],y=terms[i,2])
+   push!(text_arr,txt)
+end
+scatter(terms[:,1],terms[:,2],ann=text_arr,label="terms",frame=:box,size=(600,400))
+
+for i in 1:5
+  t=doc[:,i]
+  txt=anno("d-$i";x=t[1],y=t[2])
+  push!(doc_arr,txt)
+end
+scatter!(doc[1,:],doc[2,:],ann=doc_arr,label="docs")
+scatter!([0],[0],label="origin")
+```
+
+### 2.6  querystring res
+查询文本单词为 对应为`terms` 中的第 5和第 7 行, 查询文本为两个坐标的均值
+```{julia}
+query_coord=(terms[4,:]+terms[6,:])/2
+query_ann=anno("$querystring";x=query_coord[1],y=query_coord[2])
+scatter!([query_coord[1]],[query_coord[2]], ann=query_ann,label="query doc")
+
+```
+
+
+
+
+
+
+
+
+ 
