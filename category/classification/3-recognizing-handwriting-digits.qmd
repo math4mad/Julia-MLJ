@@ -1,5 +1,5 @@
 ---
-title: "2-recognizing-handwriting-digits"
+title: "3-recognizing-handwriting-digits"
 code-fold: false
 ---
 
