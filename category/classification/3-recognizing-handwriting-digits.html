@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Julia MLJ - 3-cricket-chirp-rate</title>
+<title>Julia MLJ - 2-recognizing-handwriting-digits</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../category/regression/1-salary-linear-reg.html">Regression</a></li><li class="breadcrumb-item"><a href="../../category/regression/3-cricket-chirp-rate.html">3-cricket-chirp-rate</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../category/classification/1-catboost-claffification.html">Classfication</a></li><li class="breadcrumb-item"><a href="../../category/classification/3-recognizing-handwriting-digits.html">2-recognizing-handwriting-digits</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -168,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../category/regression/3-cricket-chirp-rate.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../category/regression/3-cricket-chirp-rate.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3-cricket-chirp-rate</span></a>
   </div>
 </li>
@@ -239,7 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../category/classification/3-recognizing-handwriting-digits.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/classification/3-recognizing-handwriting-digits.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">2-recognizing-handwriting-digits</span></a>
   </div>
 </li>
@@ -336,13 +336,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#load-pacakge" id="toc-load-pacakge" class="nav-link active" data-scroll-target="#load-pacakge">1. load pacakge</a></li>
-  <li><a href="#process-data" id="toc-process-data" class="nav-link" data-scroll-target="#process-data">2. process data</a></li>
-  <li><a href="#mlj-workflow" id="toc-mlj-workflow" class="nav-link" data-scroll-target="#mlj-workflow">3. MLJ workflow</a>
-  <ul class="collapse">
-  <li><a href="#fitting-model" id="toc-fitting-model" class="nav-link" data-scroll-target="#fitting-model">3.1 fitting model</a></li>
-  <li><a href="#plot-fitting-curve" id="toc-plot-fitting-curve" class="nav-link" data-scroll-target="#plot-fitting-curve">3.2 plot fitting curve</a></li>
-  </ul></li>
+  <li><a href="#load-package" id="toc-load-package" class="nav-link active" data-scroll-target="#load-package">1. load package</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">2. load data</a></li>
+  <li><a href="#mlj-workflow" id="toc-mlj-workflow" class="nav-link" data-scroll-target="#mlj-workflow">3. MLJ workflow</a></li>
+  <li><a href="#plot-results" id="toc-plot-results" class="nav-link" data-scroll-target="#plot-results">4. plot results</a></li>
   </ul>
 </nav>
     </div>
@@ -351,7 +348,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">3-cricket-chirp-rate</h1>
+<h1 class="title">2-recognizing-handwriting-digits</h1>
 </div>
 
 
@@ -366,131 +363,162 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="callout callout-style-default callout-note callout-titled" title="简介">
+<div class="callout callout-style-default callout-note callout-titled" title="info">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-简介
+info
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<ul>
-<li><p><a href="http://www.probability.ca/jeff/teaching/1617/sta130/lecturenotes/notesCposthand.pdf">source1</a></p></li>
-<li><p><a href="https://rdrr.io/rforge/Lock5Data/man/CricketChirps.html#heading-3">source2</a></p></li>
-<li><p><a href="https://www.britannica.com/animal/snowy-tree-cricket">sourc3</a></p></li>
-</ul>
-<blockquote class="blockquote">
-<p>雪树蟋蟀的鸣叫实际是大腿摩擦发出的声音, 经过数据收集,发现鸣叫的频率和环境温度正相关.</p>
-</blockquote>
-<p>经过线性拟合得到的函数为:<code>C(t)=4.25t-157.8</code></p>
+<ol type="1">
+<li>ref:scikit-learn-docs/auto_examples/classification/plot_digits_classification.html#sphx-glr-auto-examples-classification-plot-digits-classification-py</li>
+<li>data-processing:load-scikit-digits.jl -&gt;csv</li>
+</ol>
 </div>
 </div>
-<section id="load-pacakge" class="level2">
-<h2 class="anchored" data-anchor-id="load-pacakge">1. load pacakge</h2>
+<section id="load-package" class="level2">
+<h2 class="anchored" data-anchor-id="load-package">1. load package</h2>
 <div class="cell" data-execution_count="1">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">FileIO</span>:load</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">MLJ</span>:fit!,match,predict,table,fitted_params</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GLMakie</span>, <span class="bu">CSV</span>,<span class="bu">DataFrames</span>,<span class="bu">MLJ</span>,<span class="bu">FileIO</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>img<span class="op">=</span><span class="fu">load</span>(<span class="st">"./data/snowy-cricket.jpg"</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> <span class="bu">MLJ</span>:fit!,predict</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">CSV</span>,<span class="bu">DataFrames</span>,<span class="bu">GLMakie</span>,<span class="bu">Random</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">MLJ</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Random</span>.<span class="fu">seed!</span>(<span class="fl">34343</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>TaskLocalRNG()</code></pre>
+</div>
 </div>
 </section>
-<section id="process-data" class="level2">
-<h2 class="anchored" data-anchor-id="process-data">2. process data</h2>
+<section id="load-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-data">2. load data</h2>
 <div class="cell" data-execution_count="2">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span>CSV.<span class="fu">File</span>(<span class="st">"./data/CricketChirps.csv"</span>) <span class="op">|&gt;</span> DataFrame <span class="op">|&gt;</span> dropmissing;</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X<span class="op">=</span>MLJ.<span class="fu">table</span>(<span class="fu">reshape</span>(df[<span class="op">:</span>,<span class="fl">1</span>],<span class="fl">7</span>,<span class="fl">1</span>))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span><span class="fu">Vector</span>(df[<span class="op">:</span>,<span class="fl">2</span>])</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>test_X<span class="op">=</span><span class="fu">range</span>(<span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="fl">1</span>])<span class="op">...</span>,<span class="fl">50</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>test_X<span class="op">=</span>MLJ.<span class="fu">table</span>(<span class="fu">reshape</span>(test_X,<span class="fl">50</span>,<span class="fl">1</span>))</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>cols<span class="op">=</span><span class="fu">names</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">load_csv</span>(str<span class="op">::</span><span class="dt">AbstractString</span>) <span class="op">=</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    str <span class="op">|&gt;</span> d <span class="op">-&gt;</span> CSV.<span class="fu">File</span>(<span class="st">"./data/</span><span class="sc">$</span>str<span class="st">.csv"</span>) <span class="op">|&gt;</span> DataFrame <span class="op">|&gt;</span> dropmissing</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  digits <span class="op">=</span> <span class="fu">load_csv</span>(<span class="st">"scikit_digits"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  digits <span class="op">=</span> <span class="fu">coerce</span>(digits, <span class="op">:</span>target <span class="op">=&gt;</span> Multiclass)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  y, X <span class="op">=</span> <span class="fu">unpack</span>(digits, <span class="op">==</span>(<span class="op">:</span>target); rng <span class="op">=</span> <span class="fl">123</span>);</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  (Xtrain, Xtest), (ytrain, ytest)  <span class="op">=</span> <span class="fu">partition</span>((X, y), <span class="fl">0.6</span>, multi<span class="op">=</span><span class="cn">true</span>,  rng<span class="op">=</span><span class="fl">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>2-element Vector{String}:
- "Temperature"
- "Chirps"</code></pre>
+<div class="ansi-escaped-output">
+<pre>((<span class="ansi-bold">1078×64 DataFrame</span>
+<span class="ansi-bold">  Row </span>│<span class="ansi-bold"> x1      </span><span class="ansi-bold"> x2      </span><span class="ansi-bold"> x3      </span><span class="ansi-bold"> x4      </span><span class="ansi-bold"> x5      </span><span class="ansi-bold"> x6      </span><span class="ansi-bold"> x7      </span><span class="ansi-bold"> x8     </span> ⋯
+      │<span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64</span> ⋯
+──────┼─────────────────────────────────────────────────────────────────────────
+    1 │     0.0      0.0     10.0     15.0      1.0      0.0      0.0      0.0 ⋯
+    2 │     0.0      0.0      4.0     12.0     16.0     14.0      7.0      0.0
+    3 │     0.0      0.0      2.0     10.0     15.0      1.0      0.0      0.0
+    4 │     0.0      0.0     11.0     16.0     16.0     12.0      0.0      0.0
+    5 │     0.0      0.0      5.0     15.0     12.0      4.0      0.0      0.0 ⋯
+    6 │     0.0      1.0     11.0     15.0     16.0      9.0      0.0      0.0
+    7 │     0.0      1.0     10.0     15.0     15.0      3.0      0.0      0.0
+    8 │     0.0      0.0      8.0     14.0      1.0      0.0      0.0      0.0
+    9 │     0.0      3.0     15.0     16.0     14.0      1.0      0.0      0.0 ⋯
+   10 │     0.0      0.0      2.0     12.0     14.0      4.0      0.0      0.0
+   11 │     0.0      0.0      3.0     14.0      9.0      3.0      0.0      0.0
+  ⋮   │    ⋮        ⋮        ⋮        ⋮        ⋮        ⋮        ⋮        ⋮    ⋱
+ 1069 │     0.0      0.0      7.0     16.0     15.0      4.0      0.0      0.0
+ 1070 │     0.0      0.0      0.0      9.0     16.0      9.0      0.0      0.0 ⋯
+ 1071 │     0.0      0.0      0.0      3.0     16.0      3.0      0.0      0.0
+ 1072 │     0.0      0.0      5.0      8.0     11.0      5.0      0.0      0.0
+ 1073 │     0.0      2.0      9.0     15.0     14.0      9.0      3.0      0.0
+ 1074 │     0.0      1.0     12.0     16.0     13.0      7.0      0.0      0.0 ⋯
+ 1075 │     0.0      0.0      0.0      2.0     16.0      3.0      0.0      0.0
+ 1076 │     0.0      0.0     14.0     16.0     15.0      3.0      0.0      0.0
+ 1077 │     0.0      0.0      2.0     11.0     15.0      2.0      0.0      0.0
+ 1078 │     0.0      0.0      0.0      4.0     15.0      6.0      0.0      0.0 ⋯
+<span class="ansi-cyan-fg">                                                56 columns and 1057 rows omitted</span>, <span class="ansi-bold">719×64 DataFrame</span>
+<span class="ansi-bold"> Row </span>│<span class="ansi-bold"> x1      </span><span class="ansi-bold"> x2      </span><span class="ansi-bold"> x3      </span><span class="ansi-bold"> x4      </span><span class="ansi-bold"> x5      </span><span class="ansi-bold"> x6      </span><span class="ansi-bold"> x7      </span><span class="ansi-bold"> x8      </span> ⋯
+     │<span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span><span class="ansi-bright-black-fg"> Float64 </span> ⋯
+─────┼──────────────────────────────────────────────────────────────────────────
+   1 │     0.0      0.0      3.0     12.0      3.0      0.0      0.0      0.0  ⋯
+   2 │     0.0      0.0      1.0     12.0     14.0      3.0      0.0      0.0
+   3 │     0.0      0.0      8.0     13.0     11.0      1.0      0.0      0.0
+   4 │     0.0      0.0      2.0     13.0      0.0      0.0      0.0      0.0
+   5 │     0.0      1.0     13.0     16.0     16.0     12.0      1.0      0.0  ⋯
+   6 │     0.0      0.0      7.0     16.0     13.0      2.0      0.0      0.0
+   7 │     0.0      0.0     11.0     16.0      9.0      8.0      0.0      0.0
+   8 │     0.0      0.0      0.0      1.0      9.0     14.0      7.0      0.0
+   9 │     0.0      0.0      7.0     15.0     16.0     16.0      1.0      0.0  ⋯
+  10 │     0.0      0.0      5.0     10.0     14.0     16.0     11.0      0.0
+  11 │     0.0      0.0      7.0     16.0     16.0     16.0      6.0      0.0
+  ⋮  │    ⋮        ⋮        ⋮        ⋮        ⋮        ⋮        ⋮        ⋮     ⋱
+ 710 │     0.0      1.0      9.0     16.0     16.0     15.0      3.0      0.0
+ 711 │     0.0      0.0      1.0     15.0      7.0      0.0      0.0      0.0  ⋯
+ 712 │     0.0      0.0      6.0     14.0     13.0      4.0      0.0      0.0
+ 713 │     0.0      0.0      2.0     13.0     14.0      6.0      0.0      0.0
+ 714 │     0.0      0.0      2.0     12.0     10.0      0.0      0.0      0.0
+ 715 │     0.0      0.0      2.0     14.0     15.0      4.0      0.0      0.0  ⋯
+ 716 │     0.0      0.0      3.0     10.0     14.0      3.0      0.0      0.0
+ 717 │     0.0      0.0      7.0     16.0     15.0      4.0      0.0      0.0
+ 718 │     0.0      0.0      6.0     15.0     14.0      2.0      0.0      0.0
+ 719 │     0.0      0.0      5.0     16.0     12.0      2.0      0.0      0.0  ⋯
+<span class="ansi-cyan-fg">                                                 56 columns and 698 rows omitted</span>), (CategoricalArrays.CategoricalValue{Int64, UInt32}[1, 3, 0, 9, 0, 3, 9, 1, 2, 0  …  5, 8, 4, 0, 3, 3, 4, 3, 0, 4], CategoricalArrays.CategoricalValue{Int64, UInt32}[6, 0, 3, 6, 3, 2, 8, 9, 5, 5  …  5, 4, 8, 8, 2, 1, 9, 0, 3, 0]))</pre>
+</div>
 </div>
 </div>
 </section>
 <section id="mlj-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="mlj-workflow">3. MLJ workflow</h2>
-<section id="fitting-model" class="level3">
-<h3 class="anchored" data-anchor-id="fitting-model">3.1 fitting model</h3>
 <div class="cell" data-execution_count="3">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    LinearRegressor <span class="op">=</span> <span class="pp">@load</span> LinearRegressor pkg<span class="op">=</span>MLJLinearModels</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    mach <span class="op">=</span> <span class="fu">fit!</span>(<span class="fu">machine</span>(<span class="fu">LinearRegressor</span>(), X, y))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">report</span>(mach)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>SVC <span class="op">=</span> <span class="pp">@load</span> SVC pkg<span class="op">=</span>LIBSVM</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="fu">SVC</span>()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    mach <span class="op">=</span> <span class="fu">machine</span>(model, Xtrain, ytrain)<span class="op">|&gt;</span>fit!</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    yhat <span class="op">=</span> <span class="fu">predict</span>(mach, Xtest)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@info</span> <span class="st">"accuracy"</span><span class="op">=&gt;</span><span class="fu">accuracy</span>(ytest,yhat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>[ Info: For silent loading, specify `verbosity=0`. 
-┌ Warning: The number and/or types of data arguments do not match what the specified model
-│ supports. Suppress this type check by specifying `scitype_check_level=0`.
-│ 
-│ Run `@doc MLJLinearModels.LinearRegressor` to learn more about your model's requirements.
-│ 
-│ Commonly, but non exclusively, supervised models are constructed using the syntax
-│ `machine(model, X, y)` or `machine(model, X, y, w)` while most other models are
-│ constructed with `machine(model, X)`.  Here `X` are features, `y` a target, and `w`
-│ sample or class weights.
-│ 
-│ In general, data in `machine(model, data...)` is expected to satisfy
-│ 
-│     scitype(data) &lt;: MLJ.fit_data_scitype(model)
-│ 
-│ In the present case:
-│ 
-│ scitype(data) = Tuple{Table{AbstractVector{Continuous}}, AbstractVector{Count}}
-│ 
-│ fit_data_scitype(model) = Tuple{Table{&lt;:AbstractVector{&lt;:Continuous}}, AbstractVector{Continuous}}
-└ @ MLJBase ~/.julia/packages/MLJBase/fEiP2/src/machines.jl:230
-[ Info: Training machine(LinearRegressor(fit_intercept = true, …), …).
-┌ Info: Solver: MLJLinearModels.Analytical
-│   iterative: Bool false
-└   max_inner: Int64 200</code></pre>
+[ Info: Training machine(SVC(kernel = RadialBasis, …), …).
+[ Info: "accuracy" =&gt; 0.9860917941585535</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>import MLJLinearModels ✔</code></pre>
+<pre><code>import MLJLIBSVMInterface ✔</code></pre>
 </div>
 </div>
 </section>
-<section id="plot-fitting-curve" class="level3">
-<h3 class="anchored" data-anchor-id="plot-fitting-curve">3.2 plot fitting curve</h3>
+<section id="plot-results" class="level2">
+<h2 class="anchored" data-anchor-id="plot-results">4. plot results</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="makie plot image">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+makie plot image
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>reshape to image matrix <code>img=Xtest[pick,:]|&gt;Vector|&gt;d-&gt;reshape(d,8,8)</code></li>
+<li>sometimes need rotl <code>load(patharr[num])|&gt;rotl90</code></li>
+<li>sometimes need reverse y axis <code>local ax = Axis(fig[i, j],yreversed=true)</code></li>
+</ol>
+</div>
+</div>
 <div class="cell" data-execution_count="4">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>yhat<span class="op">=</span><span class="fu">predict</span>(mach,test_X)<span class="op">.|&gt;</span>(<span class="fu">d-&gt;round</span>(d,digits<span class="op">=</span><span class="fl">2</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_fitting_curve</span>(df,yhat)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>df[<span class="op">:</span>,<span class="fl">1</span>]</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    test_X<span class="op">=</span><span class="fu">range</span>(<span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="fl">1</span>])<span class="op">...</span>,<span class="fl">50</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    cols<span class="op">=</span><span class="fu">names</span>(df)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    fig<span class="op">=</span><span class="fu">Figure</span>()</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span><span class="fu">Axis</span>(fig[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>];xlabel<span class="op">=</span><span class="st">"</span><span class="sc">$</span>(cols[<span class="fl">1</span>])<span class="st">"</span>,ylabel<span class="op">=</span><span class="st">"</span><span class="sc">$</span>(cols[<span class="fl">2</span>])<span class="st">"</span>,title<span class="op">=</span><span class="st">"cricket-chirp"</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    ax2 <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">2</span>,<span class="fl">4</span>],title<span class="op">=</span><span class="st">"snowy-tree-cricket"</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scatter!</span>(ax, X,y,markersize<span class="op">=</span><span class="fl">16</span>,color<span class="op">=</span>(<span class="op">:</span>red,<span class="fl">0.8</span>))</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(ax, test_X,yhat,color<span class="op">=:</span>blue)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">image!</span>(ax2,img)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hidespines!</span>(ax2)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hidedecorations!</span>(ax2)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    fig</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_fitting_curve</span>(df,yhat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>        <span class="kw">function</span> <span class="fu">plot_res</span>()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>            fig<span class="op">=</span><span class="fu">Figure</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>            <span class="co">#rand pick 15 origin picture of  digits</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>            picks<span class="op">=</span><span class="fu">rand</span>(<span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(<span class="fu">Vector</span>(ytest)),<span class="fl">15</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> (idx,pick) <span class="kw">in</span> <span class="fu">enumerate</span>(picks)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                ax<span class="op">=</span><span class="fu">Axis</span>(fig[<span class="fu">fldmod1</span>(idx,<span class="fl">5</span>)<span class="op">...</span>];title<span class="op">=</span><span class="st">"pred:</span><span class="sc">$</span>(yhat[pick])<span class="st">"</span>,yreversed<span class="op">=</span><span class="cn">true</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                img<span class="op">=</span>Xtest[pick,<span class="op">:</span>]<span class="op">|&gt;</span><span class="dt">Vector</span><span class="op">|&gt;</span><span class="fu">d-&gt;reshape</span>(d,<span class="fl">8</span>,<span class="fl">8</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                <span class="fu">image!</span>(ax,img)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                <span class="fu">hidedecorations!</span>(ax)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        fig</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>     <span class="kw">end</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    fig<span class="op">=</span><span class="fu">plot_res</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<p><img src="3-cricket-chirp-rate_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
+<p><img src="3-recognizing-handwriting-digits_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
