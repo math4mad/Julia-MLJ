@@ -1,0 +1,87 @@
+---
+title: "1-kmeans-on-digits"
+author: math4mad
+code-fold: false
+---
+
+:::{.callout-note title="简介"}
+  **routine: project data to 2d space then  proceed  kmeans methods**
+
+  1. ref: [K-Means clustering on the handwritten digits data](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html)
+  2. [kmeans in mlj](https://alan-turing-institute.github.io/MLJ.jl/dev/models/KMeans_Clustering/#KMeans_Clustering)
+  3. decision boundary:[Prediction](https://juliagaussianprocesses.github.io/KernelFunctions.jl/stable/examples/support-vector-machine/#Prediction)
+  
+:::
+
+## 1. load package
+```{julia}
+  include("../utils.jl")
+  import MLJ: fit!, predict, transform,fitted_params
+  using CSV, DataFrames, GLMakie, Random
+  using MLJ
+  Random.seed!(34343)
+```
+
+## 2. load data 
+```{julia}
+  load_csv(str::AbstractString) =
+    str |> d -> CSV.File("./data/$str.csv") |> DataFrame |> dropmissing
+
+  digits = load_csv("scikit_digits")
+  digits = coerce(digits, :target => Multiclass)
+  y, X = unpack(digits, ==(:target); rng = 123);
+```
+
+## 3. MLJ workflow
+
+### 3.1 load model
+
+```{julia}
+  PCA = @load PCA pkg = MultivariateStats
+  KMeans = @load KMeans pkg = Clustering
+  pca_model = PCA(; maxoutdim = 2)
+  kmeans_model = KMeans(; k =9)
+  
+```
+### 3.2  usa pca model   project data to 2d space
+```{julia}
+  pca_mach = machine(pca_model, X) |> fit!
+  Xproj = transform(pca_mach, X)
+```
+### 3.3  project decision data to 2d space
+```{julia}
+function boundary_data(df::AbstractDataFrame,;n=200)
+    n1=n2=n
+    xlow,xhigh=extrema(df[:,:x1])
+    ylow,yhigh=extrema(df[:,:x2])
+    tx = range(xlow,xhigh; length=n1)
+    ty = range(ylow,yhigh; length=n2)
+    x_test = mapreduce(collect, hcat, Iterators.product(tx, ty));
+    xtest=MLJ.table(x_test')
+    return tx,ty, xtest
+end
+
+ tx,ty, xtest=boundary_data(Xproj)
+```
+### 3.4  kmean flow
+
+```{julia}
+  kmeans_mach= machine(kmeans_model, Xproj) |> fit!
+
+  ypred= predict(kmeans_mach, xtest)|>Array|>d->reshape(d,200,200)
+
+  cen=fitted_params(kmeans_mach)  #获取各聚类中心坐标
+```
+
+## 4. plot results
+```{julia}
+function plot_res()
+    fig = Figure(resolution=(600,600))
+    ax = Axis(fig[1, 1],title="digits pca kmeans",subtitle="pca->clustering")
+    contourf!(ax, tx,ty,ypred)
+    scatter!(ax,eachrow(cen.centers)...;marker=:xcross,markersize = 24,color=(:red,0.8))
+    scatter!(ax,eachcol(Xproj)...;markersize = 8,color=(:lightgreen,0.1),strokecolor = :black, strokewidth =1)
+    fig
+end
+plot_res()
+```
