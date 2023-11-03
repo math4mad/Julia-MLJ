@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="math4mad">
 
-<title>Julia MLJ - 2-svm-diabetes-classfication</title>
+<title>Julia MLJ - 1-kmeans-on-digits</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../category/classification/1-catboost-claffification.html">Classfication</a></li><li class="breadcrumb-item"><a href="../../category/classification/2-diabetes-svm-classficiation.html">2-svm-diabetes-classfication</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../category/clustering/1-kmeans-on-digits.html">Clustering</a></li><li class="breadcrumb-item"><a href="../../category/clustering/1-kmeans-on-digits.html">1-kmeans-on-digits</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -230,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../category/classification/2-diabetes-svm-classficiation.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../category/classification/2-diabetes-svm-classficiation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2-svm-diabetes-classfication</span></a>
   </div>
 </li>
@@ -253,7 +254,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../category/clustering/1-kmeans-on-digits.html" class="sidebar-item-text sidebar-link">
+  <a href="../../category/clustering/1-kmeans-on-digits.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">1-kmeans-on-digits</span></a>
   </div>
 </li>
@@ -334,12 +335,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#load-package" id="toc-load-package" class="nav-link active" data-scroll-target="#load-package">1. load package</a></li>
-  <li><a href="#process-data" id="toc-process-data" class="nav-link" data-scroll-target="#process-data">2. process data</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">2. load data</a></li>
   <li><a href="#mlj-workflow" id="toc-mlj-workflow" class="nav-link" data-scroll-target="#mlj-workflow">3. MLJ workflow</a>
   <ul class="collapse">
-  <li><a href="#defin-model" id="toc-defin-model" class="nav-link" data-scroll-target="#defin-model">3.1 defin model</a></li>
-  <li><a href="#predict-test" id="toc-predict-test" class="nav-link" data-scroll-target="#predict-test">3.2 predict test</a></li>
+  <li><a href="#load-model" id="toc-load-model" class="nav-link" data-scroll-target="#load-model">3.1 load model</a></li>
+  <li><a href="#usa-pca-model-project-data-to-2d-space" id="toc-usa-pca-model-project-data-to-2d-space" class="nav-link" data-scroll-target="#usa-pca-model-project-data-to-2d-space">3.2 usa pca model project data to 2d space</a></li>
+  <li><a href="#project-decision-data-to-2d-space" id="toc-project-decision-data-to-2d-space" class="nav-link" data-scroll-target="#project-decision-data-to-2d-space">3.3 project decision data to 2d space</a></li>
+  <li><a href="#kmean-flow" id="toc-kmean-flow" class="nav-link" data-scroll-target="#kmean-flow">3.4 kmean flow</a></li>
   </ul></li>
+  <li><a href="#plot-results" id="toc-plot-results" class="nav-link" data-scroll-target="#plot-results">4. plot results</a></li>
   </ul>
 </nav>
     </div>
@@ -348,13 +352,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">2-svm-diabetes-classfication</h1>
+<h1 class="title">1-kmeans-on-digits</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>math4mad </p>
+          </div>
+  </div>
     
   
     
@@ -363,227 +373,290 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="callout callout-style-default callout-note callout-titled" title="介绍">
+<div class="callout callout-style-default callout-note callout-titled" title="简介">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-介绍
+简介
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<ul>
-<li><p>参考博客文章:<a href="https://www.section.io/engineering-education/diagnose-diabetes-with-svm/"><code>diagnose-diabetes-with-svm</code></a></p></li>
-<li><p>SVM(支持向量机)通过引入 <code>kernelfunction</code>,使得模型的分类灵活性大大增强,可以解决更多问题.在<code>julia</code>中可以通过在<a href="https://docs.juliahub.com/LIBSVM/3eWAI/0.5.0/"><code>LIBSVM.jl</code></a> 引入 <code>kernel function</code> 实现, 参见 文档: <a href="https://juliagaussianprocesses.github.io/KernelFunctions.jl/stable/examples/support-vector-machine/"><code>Support Vector Machine</code></a></p></li>
-<li><p><code>MLJ.jl</code> 通过包装接口也提供相似功能</p></li>
-<li><p>响应变量需要转换类型 <code>to_ScienceType(d)=coerce(d,:Outcome=&gt; Multiclass)</code></p></li>
-</ul>
+<p><strong>routine: project data to 2d space then proceed kmeans methods</strong></p>
+<ol type="1">
+<li>ref: <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html">K-Means clustering on the handwritten digits data</a></li>
+<li><a href="https://alan-turing-institute.github.io/MLJ.jl/dev/models/KMeans_Clustering/#KMeans_Clustering">kmeans in mlj</a></li>
+<li>decision boundary:<a href="https://juliagaussianprocesses.github.io/KernelFunctions.jl/stable/examples/support-vector-machine/#Prediction">Prediction</a></li>
+</ol>
 </div>
 </div>
 <section id="load-package" class="level2">
 <h2 class="anchored" data-anchor-id="load-package">1. load package</h2>
 <div class="cell" data-execution_count="1">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">include</span>(<span class="st">"../utils.jl"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">MLJ</span>: fit!, predict</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CSV</span>,<span class="bu">DataFrames</span>,<span class="bu">Random</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">MLJ</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">KernelFunctions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">include</span>(<span class="st">"../utils.jl"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> <span class="bu">MLJ</span>: fit!, predict, transform,fitted_params</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="im">using</span> <span class="bu">CSV</span>, <span class="bu">DataFrames</span>, <span class="bu">GLMakie</span>, <span class="bu">Random</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="im">using</span> <span class="bu">MLJ</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="bu">Random</span>.<span class="fu">seed!</span>(<span class="fl">34343</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<pre><code>TaskLocalRNG()</code></pre>
+</div>
 </div>
 </section>
-<section id="process-data" class="level2">
-<h2 class="anchored" data-anchor-id="process-data">2. process data</h2>
+<section id="load-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-data">2. load data</h2>
 <div class="cell" data-execution_count="2">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> df<span class="op">=</span><span class="fu">load_csv</span>(<span class="st">"diabetes"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">to_ScienceType</span>(d)<span class="op">=</span><span class="fu">coerce</span>(d,<span class="op">:</span>Outcome<span class="op">=&gt;</span> Multiclass)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> df<span class="op">=</span><span class="fu">to_ScienceType</span>(df)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">first</span>(df,<span class="fl">5</span>)<span class="op">|&gt;</span>display</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> y, X <span class="op">=</span>  <span class="fu">unpack</span>(df, <span class="op">==</span>(<span class="op">:</span>Outcome), rng<span class="op">=</span><span class="fl">123</span>);</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a> (Xtrain, Xtest), (ytrain, ytest)  <span class="op">=</span> <span class="fu">partition</span>((X, y), <span class="fl">0.7</span>, multi<span class="op">=</span><span class="cn">true</span>,  rng<span class="op">=</span><span class="fl">123</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>(<span class="fu">schema</span>(X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div><div style="float: left;"><span>5×9 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">load_csv</span>(str<span class="op">::</span><span class="dt">AbstractString</span>) <span class="op">=</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    str <span class="op">|&gt;</span> d <span class="op">-&gt;</span> CSV.<span class="fu">File</span>(<span class="st">"./data/</span><span class="sc">$</span>str<span class="st">.csv"</span>) <span class="op">|&gt;</span> DataFrame <span class="op">|&gt;</span> dropmissing</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  digits <span class="op">=</span> <span class="fu">load_csv</span>(<span class="st">"scikit_digits"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  digits <span class="op">=</span> <span class="fu">coerce</span>(digits, <span class="op">:</span>target <span class="op">=&gt;</span> Multiclass)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  y, X <span class="op">=</span> <span class="fu">unpack</span>(digits, <span class="op">==</span>(<span class="op">:</span>target); rng <span class="op">=</span> <span class="fl">123</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mlj-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="mlj-workflow">3. MLJ workflow</h2>
+<section id="load-model" class="level3">
+<h3 class="anchored" data-anchor-id="load-model">3.1 load model</h3>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  PCA <span class="op">=</span> <span class="pp">@load</span> PCA pkg <span class="op">=</span> MultivariateStats</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  KMeans <span class="op">=</span> <span class="pp">@load</span> KMeans pkg <span class="op">=</span> Clustering</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  pca_model <span class="op">=</span> <span class="fu">PCA</span>(; maxoutdim <span class="op">=</span> <span class="fl">2</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  kmeans_model <span class="op">=</span> <span class="fu">KMeans</span>(; k <span class="op">=</span><span class="fl">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>import MLJMultivariateStatsInterface ✔
+import MLJClusteringInterface ✔</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[ Info: For silent loading, specify `verbosity=0`. 
+[ Info: For silent loading, specify `verbosity=0`. </code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<pre><code>KMeans(
+  k = 9, 
+  metric = Distances.SqEuclidean(0.0), 
+  init = :kmpp)</code></pre>
+</div>
+</div>
+</section>
+<section id="usa-pca-model-project-data-to-2d-space" class="level3">
+<h3 class="anchored" data-anchor-id="usa-pca-model-project-data-to-2d-space">3.2 usa pca model project data to 2d space</h3>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  pca_mach <span class="op">=</span> <span class="fu">machine</span>(pca_model, X) <span class="op">|&gt;</span> fit!</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  Xproj <span class="op">=</span> <span class="fu">transform</span>(pca_mach, X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[ Info: Training machine(PCA(maxoutdim = 2, …), …).</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="51">
+<div><div style="float: left;"><span>1797×2 DataFrame</span></div><div style="float: right;"><span style="font-style: italic;">1772 rows omitted</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
 <table class="data-frame table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header header">
 <th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Pregnancies</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Glucose</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">BloodPressure</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">SkinThickness</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Insulin</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">BMI</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">DiabetesPedigreeFunction</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Age</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Outcome</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">x1</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">x2</th>
 </tr>
 <tr class="odd subheader headerLastRow">
 <th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="CategoricalArrays.CategoricalValue{Int64, UInt32}">Cat…</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">1</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">148</td>
-<td style="text-align: right;">72</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">33.6</td>
-<td style="text-align: right;">0.627</td>
-<td style="text-align: right;">50</td>
-<td style="text-align: left;">1</td>
+<td style="text-align: right;">2.53068</td>
+<td style="text-align: right;">7.10818</td>
 </tr>
 <tr class="even">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">2</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">85</td>
-<td style="text-align: right;">66</td>
-<td style="text-align: right;">29</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">26.6</td>
-<td style="text-align: right;">0.351</td>
-<td style="text-align: right;">31</td>
-<td style="text-align: left;">0</td>
+<td style="text-align: right;">-7.06737</td>
+<td style="text-align: right;">2.69455</td>
 </tr>
 <tr class="odd">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">3</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">183</td>
-<td style="text-align: right;">64</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">23.3</td>
-<td style="text-align: right;">0.672</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: left;">1</td>
+<td style="text-align: right;">9.71838</td>
+<td style="text-align: right;">16.8406</td>
 </tr>
 <tr class="even">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">4</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">89</td>
-<td style="text-align: right;">66</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: right;">94</td>
-<td style="text-align: right;">28.1</td>
-<td style="text-align: right;">0.167</td>
-<td style="text-align: right;">21</td>
-<td style="text-align: left;">0</td>
+<td style="text-align: right;">2.73069</td>
+<td style="text-align: right;">10.0099</td>
 </tr>
 <tr class="odd">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">5</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">137</td>
-<td style="text-align: right;">40</td>
-<td style="text-align: right;">35</td>
-<td style="text-align: right;">168</td>
-<td style="text-align: right;">43.1</td>
-<td style="text-align: right;">2.288</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: left;">1</td>
+<td style="text-align: right;">-13.1702</td>
+<td style="text-align: right;">-13.6058</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">6</td>
+<td style="text-align: right;">-13.2824</td>
+<td style="text-align: right;">8.86115</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">7</td>
+<td style="text-align: right;">15.9065</td>
+<td style="text-align: right;">-16.5451</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">8</td>
+<td style="text-align: right;">-17.972</td>
+<td style="text-align: right;">-7.82244</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">9</td>
+<td style="text-align: right;">-5.2641</td>
+<td style="text-align: right;">9.30009</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">10</td>
+<td style="text-align: right;">-11.3988</td>
+<td style="text-align: right;">-5.1612</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">11</td>
+<td style="text-align: right;">-0.171222</td>
+<td style="text-align: right;">-5.94507</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">12</td>
+<td style="text-align: right;">6.49767</td>
+<td style="text-align: right;">-25.2878</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">13</td>
+<td style="text-align: right;">-27.8753</td>
+<td style="text-align: right;">-5.61827</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">⋮</td>
+<td style="text-align: right;">⋮</td>
+<td style="text-align: right;">⋮</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1786</td>
+<td style="text-align: right;">18.7481</td>
+<td style="text-align: right;">-2.69052</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1787</td>
+<td style="text-align: right;">18.0899</td>
+<td style="text-align: right;">2.95523</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1788</td>
+<td style="text-align: right;">-16.321</td>
+<td style="text-align: right;">7.03648</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1789</td>
+<td style="text-align: right;">-19.6796</td>
+<td style="text-align: right;">0.109262</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1790</td>
+<td style="text-align: right;">19.5261</td>
+<td style="text-align: right;">5.59811</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1791</td>
+<td style="text-align: right;">1.32969</td>
+<td style="text-align: right;">-4.05499</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1792</td>
+<td style="text-align: right;">1.38873</td>
+<td style="text-align: right;">2.25902</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1793</td>
+<td style="text-align: right;">2.15727</td>
+<td style="text-align: right;">-4.79302</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1794</td>
+<td style="text-align: right;">-10.5746</td>
+<td style="text-align: right;">2.93352</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1795</td>
+<td style="text-align: right;">-11.7413</td>
+<td style="text-align: right;">-11.0562</td>
+</tr>
+<tr class="odd">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1796</td>
+<td style="text-align: right;">5.0894</td>
+<td style="text-align: right;">-6.87343</td>
+</tr>
+<tr class="even">
+<td class="rowNumber" style="text-align: right; font-weight: bold;">1797</td>
+<td style="text-align: right;">20.9178</td>
+<td style="text-align: right;">1.59327</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="cell-output cell-output-display">
-<div class="ansi-escaped-output">
-<pre>┌──────────────────────────┬────────────┬─────────┐
-│ names                    │ scitypes   │ types   │
-├──────────────────────────┼────────────┼─────────┤
-│ Pregnancies              │ Count      │ Int64   │
-│ Glucose                  │ Count      │ Int64   │
-│ BloodPressure            │ Count      │ Int64   │
-│ SkinThickness            │ Count      │ Int64   │
-│ Insulin                  │ Count      │ Int64   │
-│ BMI                      │ Continuous │ Float64 │
-│ DiabetesPedigreeFunction │ Continuous │ Float64 │
-│ Age                      │ Count      │ Int64   │
-└──────────────────────────┴────────────┴─────────┘
-</pre>
 </div>
+</section>
+<section id="project-decision-data-to-2d-space" class="level3">
+<h3 class="anchored" data-anchor-id="project-decision-data-to-2d-space">3.3 project decision data to 2d space</h3>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">boundary_data</span>(df<span class="op">::</span><span class="dt">AbstractDataFrame</span>,;n<span class="op">=</span><span class="fl">200</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    n1<span class="op">=</span>n2<span class="op">=</span>n</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    xlow,xhigh<span class="op">=</span><span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="op">:</span>x1])</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    ylow,yhigh<span class="op">=</span><span class="fu">extrema</span>(df[<span class="op">:</span>,<span class="op">:</span>x2])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    tx <span class="op">=</span> <span class="fu">range</span>(xlow,xhigh; length<span class="op">=</span>n1)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    ty <span class="op">=</span> <span class="fu">range</span>(ylow,yhigh; length<span class="op">=</span>n2)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    x_test <span class="op">=</span> <span class="fu">mapreduce</span>(collect, hcat, <span class="bu">Iterators</span>.<span class="fu">product</span>(tx, ty));</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    xtest<span class="op">=</span>MLJ.<span class="fu">table</span>(x_test<span class="op">'</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tx,ty, xtest</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a> tx,ty, xtest<span class="op">=</span><span class="fu">boundary_data</span>(Xproj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>(-31.16990412454417:0.3159297962408993:31.70012532739479, -30.0922050904867:0.2893801640107357:27.494447547649695, Tables.MatrixTable{LinearAlgebra.Adjoint{Float64, Matrix{Float64}}} with 40000 rows, 2 columns, and schema:
+ :x1  Float64
+ :x2  Float64)</code></pre>
 </div>
 </div>
 </section>
-<section id="mlj-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="mlj-workflow">3. MLJ workflow</h2>
-<section id="defin-model" class="level3">
-<h3 class="anchored" data-anchor-id="defin-model">3.1 defin model</h3>
-<div class="cell" data-execution_count="3">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SVC <span class="op">=</span> <span class="pp">@load</span> SVC pkg<span class="op">=</span>LIBSVM</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#define kernel function,evaulate  kernelfunctions methods</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>kernels<span class="op">=</span>[<span class="fu">PolynomialKernel</span>(; degree<span class="op">=</span><span class="fl">2</span>, c<span class="op">=</span><span class="fl">1</span>), </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">SqExponentialKernel</span>(),</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">NeuralNetworkKernel</span>(),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">LinearKernel</span>(;c<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>svc_mdls <span class="op">=</span> [<span class="fu">SVC</span>(;kernel<span class="op">=</span>k) for  k <span class="kw">in</span> kernels]</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>svcs <span class="op">=</span> [<span class="fu">machine</span>(model, Xtrain, ytrain;scitype_check_level<span class="op">=</span><span class="fl">0</span>) for model <span class="kw">in</span> svc_mdls]</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>[<span class="fu">fit!</span>(svc) for svc <span class="kw">in</span> svcs]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<section id="kmean-flow" class="level3">
+<h3 class="anchored" data-anchor-id="kmean-flow">3.4 kmean flow</h3>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>  kmeans_mach<span class="op">=</span> <span class="fu">machine</span>(kmeans_model, Xproj) <span class="op">|&gt;</span> fit!</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  ypred<span class="op">=</span> <span class="fu">predict</span>(kmeans_mach, xtest)<span class="op">|&gt;</span><span class="dt">Array</span><span class="op">|&gt;</span><span class="fu">d-&gt;reshape</span>(d,<span class="fl">200</span>,<span class="fl">200</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  cen<span class="op">=</span><span class="fu">fitted_params</span>(kmeans_mach)  <span class="co">#获取各聚类中心坐标</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>[ Info: For silent loading, specify `verbosity=0`. 
-[ Info: Training machine(SVC(kernel = Polynomial Kernel (c = 1, degree = 2), …), …).
-
-WARNING: reaching max number of iterations
-[ Info: Training machine(SVC(kernel = Squared Exponential Kernel (metric = Distances.Euclidean(0.0)), …), …).
-[ Info: Training machine(SVC(kernel = Neural Network Kernel, …), …).
-[ Info: Training machine(SVC(kernel = Linear Kernel (c = 1.0), …), …).
-
-WARNING: reaching max number of iterations</code></pre>
+<pre><code>[ Info: Training machine(KMeans(k = 9, …), …).</code></pre>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>import MLJLIBSVMInterface ✔</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>4-element Vector{Machine{MLJLIBSVMInterface.SVC, true}}:
- machine(SVC(kernel = Polynomial Kernel (c = 1, degree = 2), …), …)
- machine(SVC(kernel = Squared Exponential Kernel (metric = Distances.Euclidean(0.0)), …), …)
- machine(SVC(kernel = Neural Network Kernel, …), …)
- machine(SVC(kernel = Linear Kernel (c = 1.0), …), …)</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="53">
+<pre><code>(centers = [-14.940039081327807 -4.21080988089939 … 3.623938350681804 16.636412339611788; 6.0940188803548185 -1.9858645156958448 … 7.9454732936643895 -12.507323610991511],)</code></pre>
 </div>
 </div>
 </section>
-<section id="predict-test" class="level3">
-<h3 class="anchored" data-anchor-id="predict-test">3.2 predict test</h3>
-<div class="cell" data-execution_count="4">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (idx, str) <span class="kw">in</span> <span class="fu">enumerate</span>([<span class="st">"Polynomial "</span>,<span class="st">"Gaussian"</span>,<span class="st">"NeuralNetwork"</span>,<span class="st">"Linear"</span>])</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> yhat<span class="op">=</span><span class="fu">predict</span>(svcs[idx],Xtest)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> acc<span class="op">=</span><span class="fu">accuracy</span>(yhat,ytest) </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@info</span> <span class="st">"</span><span class="sc">$</span>(str)<span class="st"> kernel predict accuracy"</span><span class="op">=&gt;</span>acc   </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>[ Info: "Polynomial  kernel predict accuracy" =&gt; 0.47391304347826085
-[ Info: "Gaussian kernel predict accuracy" =&gt; 0.6434782608695652
-[ Info: "NeuralNetwork kernel predict accuracy" =&gt; 0.6478260869565218
-[ Info: "Linear kernel predict accuracy" =&gt; 0.7782608695652173</code></pre>
-</div>
-</div>
-
-
 </section>
+<section id="plot-results" class="level2">
+<h2 class="anchored" data-anchor-id="plot-results">4. plot results</h2>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_res</span>()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> <span class="fu">Figure</span>(resolution<span class="op">=</span>(<span class="fl">600</span>,<span class="fl">600</span>))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>],title<span class="op">=</span><span class="st">"digits pca kmeans"</span>,subtitle<span class="op">=</span><span class="st">"pca-&gt;clustering"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contourf!</span>(ax, tx,ty,ypred)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scatter!</span>(ax,<span class="fu">eachrow</span>(cen.centers)<span class="op">...</span>;marker<span class="op">=:</span>xcross,markersize <span class="op">=</span> <span class="fl">24</span>,color<span class="op">=</span>(<span class="op">:</span>red,<span class="fl">0.8</span>))</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scatter!</span>(ax,<span class="fu">eachcol</span>(Xproj)<span class="op">...</span>;markersize <span class="op">=</span> <span class="fl">8</span>,color<span class="op">=</span>(<span class="op">:</span>lightgreen,<span class="fl">0.1</span>),strokecolor <span class="op">=</span> <span class="op">:</span>black, strokewidth <span class="op">=</span><span class="fl">1</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    fig</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_res</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="54">
+<p><img src="1-kmeans-on-digits_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
