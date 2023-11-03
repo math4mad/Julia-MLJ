@@ -1,0 +1,66 @@
+---
+title: "2-recognizing-handwriting-digits"
+code-fold: false
+---
+
+:::{.callout-note title="info"}
+1.   ref:scikit-learn-docs/auto_examples/classification/plot_digits_classification.html#sphx-glr-auto-examples-classification-plot-digits-classification-py
+2.   data-processing:load-scikit-digits.jl ->csv
+:::
+
+
+## 1. load package
+```{julia}
+    import MLJ:fit!,predict
+    using CSV,DataFrames,GLMakie,Random
+    using MLJ
+    Random.seed!(34343)
+```
+
+## 2. load data
+
+```{julia}
+  load_csv(str::AbstractString) =
+    str |> d -> CSV.File("./data/$str.csv") |> DataFrame |> dropmissing
+
+  digits = load_csv("scikit_digits")
+  digits = coerce(digits, :target => Multiclass)
+  y, X = unpack(digits, ==(:target); rng = 123);
+  (Xtrain, Xtest), (ytrain, ytest)  = partition((X, y), 0.6, multi=true,  rng=123)
+```
+
+## 3. MLJ workflow
+```{julia}
+SVC = @load SVC pkg=LIBSVM
+    model=SVC()
+    mach = machine(model, Xtrain, ytrain)|>fit!
+    yhat = predict(mach, Xtest)
+    @info "accuracy"=>accuracy(ytest,yhat)
+```
+
+## 4. plot results
+
+:::{.callout-tip title="makie plot image"}
+ 1. reshape to image  matrix `img=Xtest[pick,:]|>Vector|>d->reshape(d,8,8)`
+ 2. sometimes need rotl `load(patharr[num])|>rotl90`
+ 3. sometimes need reverse y axis `local ax = Axis(fig[i, j],yreversed=true)`
+            
+:::
+
+```{julia}
+        function plot_res()
+            fig=Figure()
+            #rand pick 15 origin picture of  digits
+            picks=rand(1:length(Vector(ytest)),15)
+            for (idx,pick) in enumerate(picks)
+                
+                ax=Axis(fig[fldmod1(idx,5)...];title="pred:$(yhat[pick])",yreversed=true)
+                img=Xtest[pick,:]|>Vector|>d->reshape(d,8,8)
+                image!(ax,img)
+                hidedecorations!(ax)
+            end
+        fig
+     end
+
+    fig=plot_res()
+```
